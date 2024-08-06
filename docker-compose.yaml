@@ -1,0 +1,43 @@
+services:
+  
+  db:
+    image: postgres
+    container_name: db
+    restart: always
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      PGUSER: ${DB_USER}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: "pg_isready -q -h db"
+      interval: 10s
+      retries: 5
+      timeout: 10s
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PGADMIN_DEFAULT_EMAIL: user@localhost.com
+      PGADMIN_DEFAULT_PASSWORD: senha
+    ports:
+      - 8085:80
+    
+  flex360-api:
+    
+    depends_on:
+      db:
+        condition: service_healthy
+  
+    build: .
+    container_name: flex360-api  
+    restart: always
+    command: >
+      java -jar app.jar
