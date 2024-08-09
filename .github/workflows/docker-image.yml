@@ -1,37 +1,52 @@
-name: Build and Dockerize Java Spring Application
+  name: build and deploy spring-api
+  on:
+    push:
+      branches:
+        - main
+    pull_request:
+      branches:
+        - main
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+  jobs:
+    build-deploy:
+      name: build and deploy spring-api
+      runs-on: ubuntu-20.04
+      steps:
+        - name: checkout code
+          uses: actions/checkout@v3
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+        - name: setup jdk 17
+          uses: actions/setup-java@v3
+          with:
+            distribution: 'corretto'
+            java-version: 17
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+        - name: unit tests
+          run: mvn -B test --file pom.xml
+          
+        - name: build the app
+          run: |
+            mvn clean
+            mvn -B package --file pom.xml
 
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
+        - name: build the docker image
+          uses: docker/build-push-action@v4
+          with:
+            context: .
+            dockerfile: Dockerfile
+            push: false
+            tags: ${{ secrets.DOCKER_HUB_USERNAME }}/flex360-api:latest
 
-      - name: Build with Maven
-        run: mvn clean package -DskipTests
+        - name: login to docker hub
+          uses: docker/login-action@v1
+          with:
+            username: ${{ secrets.DOCKER_HUB_USERNAME }}
+            password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
 
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: Build Docker image
-        run: docker build -t joaopedrot1912/flex360-backend:latest .
-
-      - name: Push Docker image
-        run: docker push joaopedrot1912/flex360-backend:latest
+        - name: push the docker image to docker hub
+          uses: docker/build-push-action@v4
+          with:
+            context: .
+            dockerfile: Dockerfile
+            push: true
+            tags: ${{ secrets.DOCKER_HUB_USERNAME }}/flex360-api:latest
