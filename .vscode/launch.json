@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ApiFlex360Application<api-flex360>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.flex360.api_flex360.ApiFlex360Application",
+            "projectName": "api-flex360",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
