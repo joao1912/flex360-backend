@@ -5,12 +5,12 @@ services:
     container_name: db
     restart: always
     ports:
-      - "${DB_PORT}:5432"
+      - "5432:5432"
     environment:
-      POSTGRES_DB: ${DB_NAME}
-      PGUSER: ${DB_USER}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: devFlex360
+      PGUSER: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: databasePassword
     healthcheck:
       test: "pg_isready -q -h db"
       interval: 10s
