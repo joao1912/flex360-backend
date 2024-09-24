@@ -21,6 +21,9 @@
             distribution: 'corretto'
             java-version: 22
 
+        - name: setup maven
+          run: sudo apt-get install -y maven
+
         - name: unit tests
           run: mvn -B test --file pom.xml
           
