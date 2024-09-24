@@ -1,5 +1,5 @@
 # Use uma imagem do Maven para construir a aplicação
-FROM maven:3.9.9 AS build
+FROM maven:3.9.9-sapmachine-22 AS build
 
 # Defina o diretório de trabalho
 WORKDIR /app

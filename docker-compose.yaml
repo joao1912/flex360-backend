@@ -37,6 +37,8 @@ services:
         condition: service_healthy
   
     build: .
+    ports:
+      - "8080:8080"
     container_name: flex360-api  
     restart: always
     command: >
