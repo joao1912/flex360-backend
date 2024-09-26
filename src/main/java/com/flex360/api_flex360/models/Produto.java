@@ -16,7 +16,7 @@ import com.flex360.api_flex360.models.enums.Tipo;
 @Data
 public class Produto {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Enumerated(EnumType.STRING)

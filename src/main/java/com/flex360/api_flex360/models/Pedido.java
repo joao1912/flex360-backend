@@ -13,7 +13,7 @@ import java.util.UUID;
 
 public class Pedido {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.UUID)
      private UUID id;
 
      private int quantidade;
