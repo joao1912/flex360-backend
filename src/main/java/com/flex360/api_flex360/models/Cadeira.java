@@ -2,17 +2,21 @@ package com.flex360.api_flex360.models;
 
 import java.util.UUID;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
-public class Cadeira {
+@DiscriminatorValue("CADEIRA")
+public class Cadeira extends Item {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
