@@ -29,8 +29,5 @@ public class Usuario {
 
     @Column(nullable = false, length = 30)
     private String email;
-
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private Carrinho carrinho;
     
 }

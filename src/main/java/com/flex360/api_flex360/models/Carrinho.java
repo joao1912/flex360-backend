@@ -19,10 +19,6 @@ public class Carrinho {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "fk_usuario_id", referencedColumnName = "id")
-    private Usuario usuario;
-
-    @OneToOne
     @JoinColumn(name = "fk_pedido_id", referencedColumnName = "id")
     private Pedido pedido;
   
