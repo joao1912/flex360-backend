@@ -1,5 +1,5 @@
 # Use uma imagem do Maven para construir a aplicação
-FROM maven:3.9.9-sapmachine-22 AS build
+FROM jelastic/maven:3.9.4-openjdk-22.ea-b17 AS build
 
 # Defina o diretório de trabalho
 WORKDIR /app
