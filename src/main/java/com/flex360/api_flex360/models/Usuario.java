@@ -1,6 +1,14 @@
 package com.flex360.api_flex360.models;
 
+import java.util.Collection;
 import java.util.UUID;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.flex360.api_flex360.enums.UserRole;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -19,7 +27,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -33,5 +41,37 @@ public class Usuario {
 
     @Column(nullable = false, length = 30, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private UserRole role;
+
+    public Usuario(String nome, String senha, String email, UserRole role) {
+        this.nome = nome;
+        this.senha = senha;
+        this.email = email;
+        this.role = role;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        
+        if (this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
+        else return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+
+    }
+
+    @Override
+    public String getPassword() {
+        
+        throw new UnsupportedOperationException("Unimplemented method 'getPassword'");
+    }
+
+    @Override
+    public String getUsername() {
+        
+        return email;
+    }
+
+
     
 }
