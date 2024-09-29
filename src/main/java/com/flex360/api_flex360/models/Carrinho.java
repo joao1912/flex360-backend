@@ -9,10 +9,17 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Carrinho {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -20,6 +27,7 @@ public class Carrinho {
 
     @OneToOne
     @JoinColumn(name = "fk_pedido_id", referencedColumnName = "id")
+    @ToString.Exclude
     private Pedido pedido;
   
 }
