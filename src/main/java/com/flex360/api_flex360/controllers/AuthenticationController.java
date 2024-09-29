@@ -3,8 +3,10 @@ package com.flex360.api_flex360.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.flex360.api_flex360.dto.AuthenticationDTO;
-import com.flex360.api_flex360.dto.RegisterDTO;
+import com.flex360.api_flex360.dto.auth.AuthenticationDTO;
+import com.flex360.api_flex360.dto.auth.LoginResponseDTO;
+import com.flex360.api_flex360.dto.auth.RegisterDTO;
+import com.flex360.api_flex360.infra.security.TokenService;
 import com.flex360.api_flex360.models.Usuario;
 import com.flex360.api_flex360.repository.UsuarioRepository;
 
@@ -27,16 +29,21 @@ public class AuthenticationController {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    @Autowired
+    TokenService tokenService;
+
     @SuppressWarnings("rawtypes")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody AuthenticationDTO data) {
        
         var usernamePassword = new UsernamePasswordAuthenticationToken(data.email() , data.password());
 
-        @SuppressWarnings("unused")
         var auth = this.authenticationManager.authenticate(usernamePassword);
 
-        return ResponseEntity.ok().build();
+        var token = tokenService.generateToken((Usuario) auth.getPrincipal());
+
+        return ResponseEntity.ok(new LoginResponseDTO(token));
+
     }
 
     @SuppressWarnings("rawtypes")
