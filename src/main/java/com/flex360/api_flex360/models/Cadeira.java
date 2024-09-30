@@ -9,7 +9,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,5 +58,9 @@ public class Cadeira extends Item {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_cor_id", referencedColumnName = "id")
     private Cor cor;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_categoria_id")
+    private Categoria categoria;
 
 }
