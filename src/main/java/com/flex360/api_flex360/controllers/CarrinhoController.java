@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flex360.api_flex360.services.CarrinhoService;
 
 @RestController
-@RequestMapping("carrinho")
+@RequestMapping("/carrinho")
 public class CarrinhoController {
     
     @Autowired
     private CarrinhoService carrinhoService;
 
+    
 }
