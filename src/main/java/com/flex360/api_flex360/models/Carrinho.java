@@ -3,6 +3,7 @@ package com.flex360.api_flex360.models;
 
 import java.util.UUID;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,5 +30,8 @@ public class Carrinho {
     @JoinColumn(name = "fk_pedido_id", referencedColumnName = "id")
     @ToString.Exclude
     private Pedido pedido;
+
+    @OneToOne(mappedBy = "carrinho", cascade = CascadeType.ALL)
+    private Usuario usuario;
   
 }
