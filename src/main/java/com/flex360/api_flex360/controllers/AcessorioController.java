@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flex360.api_flex360.dto.acessorio.AcessorioDTO;
 import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.services.AcessorioService;
+import com.flex360.api_flex360.services.ConverteParaDtoService;
+
 import java.util.List;
 import java.util.UUID;
 
@@ -23,16 +25,20 @@ public class AcessorioController {
 
     @Autowired
     private AcessorioService acessorioService;
+
+    @Autowired
+    private ConverteParaDtoService converteParaDtoService;
+
     @GetMapping("/buscarTodos")
     public ResponseEntity<List<AcessorioDTO>> buscarTodosAcessorios() {
         List<Acessorio> acessorios = acessorioService.buscarTodosAcessorios();
 
-        // Converte para AcessorioDTO e retorna a lista
-        List<AcessorioDTO> acessorioDTOs = acessorios.stream()
-                .map(acessorio -> new AcessorioDTO(acessorio.getId(), acessorio.getNome(), acessorio.getPreco(), acessorio.getFoto()))
-                .toList();
+       // Converte a lista de Acessorio para AcessorioDTO usando ConverteParaDtoService
+       List<AcessorioDTO> acessorioDTOs = converteParaDtoService.converterParaDTO(acessorios, acessorio -> 
+       new AcessorioDTO(acessorio.getId(), acessorio.getNome(), acessorio.getPreco(), acessorio.getFoto())
+   );
 
-        return ResponseEntity.ok(acessorioDTOs);
+   return ResponseEntity.ok(acessorioDTOs);
     }
 
         @GetMapping("/buscarPorId/{id}")
