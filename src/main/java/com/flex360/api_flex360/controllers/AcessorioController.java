@@ -48,11 +48,9 @@ public class AcessorioController {
    
     Acessorio acessorio = acessorioService.buscarAcessorioPorId(uuid);
 
-   
-    float preco = acessorio.getPreco();
 
     return ResponseEntity.ok(
-        new AcessorioDTO(acessorio.getId(), acessorio.getNome(), preco, acessorio.getFoto())
+        new AcessorioDTO(acessorio.getId(), acessorio.getNome(), acessorio.getPreco(), acessorio.getFoto())
     );
 }
 
