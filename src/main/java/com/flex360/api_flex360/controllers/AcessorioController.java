@@ -23,7 +23,7 @@ public class AcessorioController {
 
     @Autowired
     private AcessorioService acessorioService;
-    @GetMapping("/buscarTodas")
+    @GetMapping("/buscarTodos")
     public ResponseEntity<List<AcessorioDTO>> buscarTodosAcessorios() {
         List<Acessorio> acessorios = acessorioService.buscarTodosAcessorios();
 
