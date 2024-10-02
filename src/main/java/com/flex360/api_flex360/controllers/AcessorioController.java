@@ -59,7 +59,6 @@ public class AcessorioController {
     public ResponseEntity<AcessorioDTO> criarAcessorio(@RequestBody AcessorioDTO acessorioDTO) {
         
         Acessorio novoAcessorio = new Acessorio();
-        novoAcessorio.setId(acessorioDTO.id());
         novoAcessorio.setNome(acessorioDTO.nome());
         novoAcessorio.setPreco(acessorioDTO.preco());
         novoAcessorio.setFoto(acessorioDTO.foto());
