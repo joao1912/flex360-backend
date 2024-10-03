@@ -27,6 +27,6 @@ public class Acessorio extends Item {
     
     private String foto;
     private String nome;
-    private String preco;
+    private Float preco;
     
 }
