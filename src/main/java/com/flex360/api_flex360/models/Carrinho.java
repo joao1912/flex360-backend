@@ -27,9 +27,9 @@ public class Carrinho {
     private UUID id;
 
     @OneToOne
-    @JoinColumn(name = "fk_pedido_id", referencedColumnName = "id")
+    @JoinColumn(name = "fk_produto_carrinho_id", referencedColumnName = "id")
     @ToString.Exclude
-    private Pedido pedido;
+    private ProdutoCarrinho produtoCarrinho;
 
     @OneToOne(mappedBy = "carrinho", cascade = CascadeType.ALL)
     private Usuario usuario;

@@ -1,6 +1,8 @@
 package com.flex360.api_flex360.models;
 
-import jakarta.persistence.CascadeType;
+import java.util.UUID;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,35 +13,34 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-
-import java.util.UUID;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Pedido {
+
+public class ProdutoCarrinho {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @OneToOne
     @JoinColumn(name = "fk_cor_id", referencedColumnName = "id")
-    @ToString.Exclude
+    @Column(nullable = false)
     private Cor cor;
 
     @OneToOne
-    @JoinColumn(name = "fk_produto_id", referencedColumnName = "id")
-    @ToString.Exclude
-    private Produto produto;
+    @JoinColumn(name = "fk_acessorio_id", referencedColumnName = "id")
+    @Column(nullable = true)
+    private Acessorio acessorio;
 
-    @OneToOne(mappedBy = "pedido", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private Carrinho carrinho;
 
-    private int quantidade;
+    @OneToOne
+    @JoinColumn(name = "fk_cadeira_id", referencedColumnName = "id")
+    @Column(nullable=true)
+    private Cadeira cadeira;
+
+    @Column(nullable = false)
+    int quantidade;
 }
-
-//não estou colocando as FK

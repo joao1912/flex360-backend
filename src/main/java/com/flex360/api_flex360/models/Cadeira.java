@@ -3,7 +3,6 @@ package com.flex360.api_flex360.models;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,8 +19,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@DiscriminatorValue("CADEIRA")
-public class Cadeira extends Item {
+public class Cadeira {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
