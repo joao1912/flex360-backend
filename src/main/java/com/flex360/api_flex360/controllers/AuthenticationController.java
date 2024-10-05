@@ -9,6 +9,7 @@ import com.flex360.api_flex360.dto.auth.RegisterDTO;
 import com.flex360.api_flex360.infra.security.TokenService;
 import com.flex360.api_flex360.models.Usuario;
 import com.flex360.api_flex360.repository.UsuarioRepository;
+import com.flex360.api_flex360.services.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +28,7 @@ public class AuthenticationController {
     AuthenticationManager authenticationManager;
 
     @Autowired
-    UsuarioRepository usuarioRepository;
+    UsuarioService usuarioService;
 
     @Autowired
     TokenService tokenService;
@@ -49,13 +50,13 @@ public class AuthenticationController {
     @SuppressWarnings("rawtypes")
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody RegisterDTO data) {
-      
-        if (this.usuarioRepository.findByEmail(data.email()) != null) return ResponseEntity.badRequest().build();
-        
-        String encryptedPassword = new BCryptPasswordEncoder().encode(data.password());
-        Usuario newUser = new Usuario(data.nome(), encryptedPassword, data.email(), data.role());
 
-        this.usuarioRepository.save(newUser);
+        Usuario newUsuario = new Usuario();
+        newUsuario.setNome(data.nome());
+        newUsuario.setEmail(data.email());
+        newUsuario.setSenha(data.password());
+      
+        usuarioService.criarUsuario(newUsuario);
 
         return ResponseEntity.ok().build();
 
