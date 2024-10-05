@@ -38,7 +38,7 @@ public class UsuarioService {
 
     }
     
-    public void criarUsuario(Usuario usuario) {
+    public Usuario criarUsuario(Usuario usuario) {
 
         if (usuarioRepository.findByEmail(usuario.getEmail()) != null) {
             throw new RuntimeException("Email ja cadastrado");
@@ -49,7 +49,9 @@ public class UsuarioService {
 
         try {
             
-            usuarioRepository.save(newUser);
+            Usuario novoUsuario = usuarioRepository.save(newUser);
+
+            return novoUsuario;
             
         } catch (Exception e) {
             
