@@ -1,6 +1,5 @@
 package com.flex360.api_flex360.services;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ public class CarrinhoService {
 
     private final CarrinhoRepository carrinhoRepository;
 
-    public List<Carrinho> buscarCarrinhoPorId(UUID id) {
+    public Carrinho buscarCarrinhoPorId(UUID id) {
         throw new EntityNotFoundException();
     }
 

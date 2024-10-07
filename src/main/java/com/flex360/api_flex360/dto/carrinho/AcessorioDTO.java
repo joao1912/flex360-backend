@@ -2,7 +2,7 @@ package com.flex360.api_flex360.dto.carrinho;
 
 import java.util.UUID;
 
-public record AcessorioDTO(UUID id, String nome, float preco, String foto) implements ItemDTO{
+public record AcessorioDTO(UUID id, String nome, float preco, int quantidade, String foto) implements ItemDTO{
 
     @Override
     public UUID getId() {
@@ -17,6 +17,11 @@ public record AcessorioDTO(UUID id, String nome, float preco, String foto) imple
     @Override
     public float getPreco() {
         return preco;
+    }
+
+    @Override
+    public int getQuantidade() {
+        return quantidade;
     }
 
     @Override

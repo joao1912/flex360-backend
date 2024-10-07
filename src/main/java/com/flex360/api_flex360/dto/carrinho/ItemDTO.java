@@ -7,5 +7,6 @@ public interface ItemDTO {
 String getNome();
 float getPreco();
 String getFoto();
+int getQuantidade();
     
 }

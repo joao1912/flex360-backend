@@ -17,14 +17,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Acessorio {
+public class Acessorio extends Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
-    private String foto;
-    private String nome;
-    private Float preco;
     
 }

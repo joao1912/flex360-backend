@@ -14,12 +14,11 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "produto_carrinho")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-
 public class ProdutoCarrinho {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
