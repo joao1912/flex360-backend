@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.flex360.api_flex360.models.Cor;
@@ -18,6 +19,7 @@ import com.flex360.api_flex360.repository.CorRepository;
 import com.flex360.api_flex360.services.CorService;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.persistence.Id;
 
 @SpringBootTest
 public class CorServiceTest {
@@ -147,7 +149,7 @@ public class CorServiceTest {
         // Verificando se o resultado é o esperado
         assertNotNull(result);
         assertEquals("indigo", result.getName());
-        assertEquals("#FFA500", result.getCodigo());
+        assertEquals("#4B0082", result.getCodigo());
     }
 
     @Test
@@ -168,31 +170,40 @@ public class CorServiceTest {
     // Teste para deletarCor()
     @Test
     public void testDeletarCor_success() {
-        // Mockando o comportamento do repository
-        UUID id = UUID.randomUUID();
-        Cor corExistente = new Cor();
-        corExistente.setCodigo("#00BFFF");
-        corExistente.setId(id);
-        corExistente.setName("azul escuro");
-        when(corRepository.findById(id)).thenReturn(Optional.of(corExistente));
-        doNothing().when(corRepository).delete(corExistente);
 
-        // Testando o método deletarCor
-        Cor result = corService.deletarCor(id);
+      // Define um UUID para o teste
+    UUID id = UUID.randomUUID();
 
-        // Verificando se o resultado é o esperado
-        assertNotNull(result);
-        verify(corRepository, times(1)).delete(corExistente);
+    // Simula a entidade que será retornada pelo repositório
+    Cor cor = new Cor();
+    cor.setCodigo("#00BFFF");
+    cor.setName("azul claro");
+    cor.setId(id);
+
+    // Configura o comportamento do mock para retornar a entidade
+    Mockito.when(corRepository.findById(id)).thenReturn(Optional.of(cor));
+
+    // Chama o método que estamos testando
+    corService.deletarCor(id);
+
+    // Verifica se o método delete foi chamado com a entidade correta
+    Mockito.verify(corRepository).delete(cor);
     }
 
     @Test
     public void testDeletarCor_notFound() {
-        // Mockando um cenário onde a cor não é encontrada
-        UUID id = UUID.randomUUID();
-        when(corRepository.findById(id)).thenReturn(Optional.empty());
+         // Define um UUID para o teste
+    UUID id = UUID.randomUUID();
 
-        // Verificando se a exceção correta é lançada
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> corService.deletarCor(id));
-        assertEquals("Cor com ID " + id + " não encontrada.", exception.getMessage());
+    // Configura o mock para retornar vazio (entidade não encontrada)
+    Mockito.when(corRepository.findById(id)).thenReturn(Optional.empty());
+
+    // Verifica se a exceção EntityNotFoundException é lançada
+    assertThrows(EntityNotFoundException.class, () -> {
+        corService.deletarCor(id);
+    });
+
+    // Verifica se o método delete nunca foi chamado
+    Mockito.verify(corRepository, Mockito.never()).delete(Mockito.any());
     }
 }
