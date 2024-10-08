@@ -6,7 +6,7 @@ public interface ItemDTO {
     UUID getId();
 String getNome();
 float getPreco();
-String getFoto();
 int getQuantidade();
+String getFoto();
     
 }

@@ -30,5 +30,5 @@ public record AcessorioDTO(UUID id, String nome, float preco, int quantidade, St
     }
 
     
-    
+
 }
