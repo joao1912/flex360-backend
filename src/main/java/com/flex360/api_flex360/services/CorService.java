@@ -57,10 +57,11 @@ public class CorService {
 
     }
 
-    public Cor deletarCor(UUID id) {
+    public void deletarCor(UUID id) {
 
-        Cor cor = buscarCorPorId(id); 
-        corRepository.delete(cor);      throw new EntityNotFoundException();
+        Cor cor = corRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Cor não encontrada com o id: " + id));
+        corRepository.delete(cor);
 
     }
     
