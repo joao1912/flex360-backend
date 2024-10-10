@@ -53,10 +53,10 @@ public class CadeiraService {
 
     }
 
-    public Cadeira deletarCadeira(UUID id) {
+    public void deletarCadeira(UUID id) {
 
-        Cadeira cadeira = buscarCadeiraPorId(id); 
-        cadeiraRepository.delete(cadeira);      throw new EntityNotFoundException();
+        Optional<Cadeira> cadeira = cadeiraRepository.findById(id); 
+        cadeiraRepository.delete(cadeira.get());      
 
     }
     
