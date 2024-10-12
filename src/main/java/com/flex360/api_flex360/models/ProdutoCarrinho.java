@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,16 +30,12 @@ public class ProdutoCarrinho {
     @Column(nullable = false)
     private Cor cor;
 
-    @OneToOne
-    @JoinColumn(name = "fk_acessorio_id", referencedColumnName = "id")
-    @Column(nullable = true)
-    private Acessorio acessorio;
-
-
-    @OneToOne
-    @JoinColumn(name = "fk_cadeira_id", referencedColumnName = "id")
-    @Column(nullable=true)
-    private Cadeira cadeira;
+@ManyToOne
+@JoinColumn(name = "produto_id", nullable = false)
+private Produto produto;
+        @ManyToOne
+    @JoinColumn(name = "carrinho_id")
+    private Carrinho carrinho;
 
     @Column(nullable = false)
     int quantidade;
