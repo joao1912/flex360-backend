@@ -114,16 +114,18 @@ public class CarrinhoService {
             if (produtoCarrinho.getQuantidade() <= 0) {
                 produtoCarrinhoRepository.delete(produtoCarrinho);
             }
-            
+
+            produtoCarrinhoRepository.save(produtoCarrinho);
+
         } else {
             ProdutoCarrinho produtoCarrinho = new ProdutoCarrinho();
             produtoCarrinho.setProduto(produto);
             produtoCarrinho.setQuantidade(modificaCarrinhoDTO.quantidade());
             produtoCarrinho.setCarrinho(carrinho);
-            carrinho.getProdutosCarrinho().add(produtoCarrinho);
-        }
 
-        carrinhoRepository.save(carrinho);
+            //tratar erro aqui
+            produtoCarrinhoRepository.save(produtoCarrinho);
+        }
 
         return buscarProdutosDoCarrinho(carrinho.getId());
     }
