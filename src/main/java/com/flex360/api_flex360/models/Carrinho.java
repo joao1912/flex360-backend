@@ -30,6 +30,7 @@ public class Carrinho {
 
     @OneToMany(mappedBy="carrinho", cascade=CascadeType.ALL)
     private List<ProdutoCarrinho> produtosCarrinho = new ArrayList<>();
+    
     @ToString.Exclude
     private ProdutoCarrinho produtoCarrinho;
 

@@ -54,13 +54,15 @@ public class CarrinhoService {
     }
 
     public ProdutosDTO buscarProdutosDoCarrinho(UUID id) {
-        Carrinho carrinho = carrinhoRepository.findById(id)
+        carrinhoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Carrinho não encontrado."));
 
-        List<AcessorioDTO> acessorios = new ArrayList<>();
-        List<CadeiraDTO> cadeiras = new ArrayList<>();
+        List<AcessorioDTO> acessoriosDTO = new ArrayList<>();
+        List<CadeiraDTO> cadeirasDTO = new ArrayList<>();
 
-        for (ProdutoCarrinho produtoCarrinho : carrinho.getProdutosCarrinho()) {
+        List<ProdutoCarrinho> produtos = produtoCarrinhoRepository.findByCarrinhoId(id);
+
+        for (ProdutoCarrinho produtoCarrinho : produtos) {
 
             Produto produto = produtoCarrinho.getProduto();
 
@@ -68,13 +70,13 @@ public class CarrinhoService {
 
                 case Acessorio acessorio -> {
 
-                    acessorios.add(new AcessorioDTO(acessorio.getId(), acessorio.getNome(), acessorio.getPreco(),
+                    acessoriosDTO.add(new AcessorioDTO(acessorio.getId(), acessorio.getNome(), acessorio.getPreco(),
                             produtoCarrinho.getQuantidade(), acessorio.getFoto()));
 
                 }
                 case Cadeira cadeira -> {
 
-                    cadeiras.add(new CadeiraDTO(cadeira.getId(), cadeira.getNome(), cadeira.getPreco(),
+                    cadeirasDTO.add(new CadeiraDTO(cadeira.getId(), cadeira.getNome(), cadeira.getPreco(),
                             produtoCarrinho.getQuantidade(), cadeira.getFoto(), cadeira.getDescricao(),
                             cadeira.getInformacoes(), cadeira.getTemp_garantia(), cadeira.getDimensoes(),
                             cadeira.getFoto_dimensoes(), cadeira.getDesc_encosto(), cadeira.getDesc_apoio(),
@@ -88,26 +90,31 @@ public class CarrinhoService {
             }
         }
 
-        return new ProdutosDTO(acessorios, cadeiras);
+        return new ProdutosDTO(acessoriosDTO, cadeirasDTO);
     }
 
     public ProdutosDTO adicionarProduto(UUID id, ModificaCarrinhoDTO modificaCarrinhoDTO) {
+
         Carrinho carrinho = carrinhoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Carrinho não encontrado."));
 
         Produto produto = produtoRepository.findById(modificaCarrinhoDTO.id())
                 .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado."));
 
-        Optional<ProdutoCarrinho> existente = carrinho.getProdutosCarrinho().stream()
+        List<ProdutoCarrinho> produtos = produtoCarrinhoRepository.findByCarrinhoId(id);
+
+        Optional<ProdutoCarrinho> existente = produtos.stream()
                 .filter(pc -> pc.getProduto().getId().equals(produto.getId()))
                 .findFirst();
 
         if (existente.isPresent()) {
+
             ProdutoCarrinho produtoCarrinho = existente.get();
             produtoCarrinho.setQuantidade(produtoCarrinho.getQuantidade() + modificaCarrinhoDTO.quantidade());
             if (produtoCarrinho.getQuantidade() <= 0) {
                 produtoCarrinhoRepository.delete(produtoCarrinho);
             }
+            
         } else {
             ProdutoCarrinho produtoCarrinho = new ProdutoCarrinho();
             produtoCarrinho.setProduto(produto);

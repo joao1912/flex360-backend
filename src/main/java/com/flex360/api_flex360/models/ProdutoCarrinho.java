@@ -27,13 +27,14 @@ public class ProdutoCarrinho {
 
     @OneToOne
     @JoinColumn(name = "fk_cor_id", referencedColumnName = "id")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Cor cor;
 
-@ManyToOne
-@JoinColumn(name = "produto_id", nullable = false)
-private Produto produto;
-        @ManyToOne
+    @ManyToOne
+    @JoinColumn(name = "produto_id", nullable = false)
+    private Produto produto;
+    
+    @ManyToOne
     @JoinColumn(name = "carrinho_id")
     private Carrinho carrinho;
 
