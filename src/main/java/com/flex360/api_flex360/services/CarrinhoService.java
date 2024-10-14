@@ -153,4 +153,14 @@ public class CarrinhoService {
         return buscarProdutosDoCarrinho(carrinho.getId());
     }
 
+    public void deletaProduto(UUID id) {
+
+        produtoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado."));
+
+        produtoCarrinhoRepository.deleteById(id);
+        //tratar erro aqui
+
+    }
+
 }

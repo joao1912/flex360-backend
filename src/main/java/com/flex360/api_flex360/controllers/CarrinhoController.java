@@ -1,8 +1,11 @@
 package com.flex360.api_flex360.controllers;
 
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,6 +64,15 @@ public class CarrinhoController {
 
         ProdutosDTO produtos = carrinhoService.editarQuantidadeProduto(carrinho.getId(), modificaCarrinhoDTO, true);
         return ResponseEntity.ok(new ResponseCarrinhoDTO(carrinho.getId(), produtos));
+    }
+
+    @DeleteMapping("/deleta/{id}")
+    public ResponseEntity<?> deletaProduto(@PathVariable UUID id) {
+    
+        carrinhoService.deletaProduto(id);
+        
+        return ResponseEntity.ok().build();
+       
     }
 
 }
