@@ -15,6 +15,9 @@ import com.flex360.api_flex360.dto.carrinho.ResponseCarrinhoDTO;
 import com.flex360.api_flex360.models.Carrinho;
 import com.flex360.api_flex360.models.Usuario;
 import com.flex360.api_flex360.services.CarrinhoService;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 @RestController
 @RequestMapping("/carrinho")
@@ -26,7 +29,7 @@ public class CarrinhoController {
     @GetMapping("/buscar")
     public ResponseEntity<ResponseCarrinhoDTO> buscarCarrinho(@AuthenticationPrincipal Usuario usuario) {
 
-        Carrinho carrinho = carrinhoService.buscarCarrinhoPorId(usuario.getId());
+        Carrinho carrinho = carrinhoService.buscarCarrinhoPorId(usuario.getCarrinho().getId());
         ProdutosDTO produtos = carrinhoService.buscarProdutosDoCarrinho(carrinho.getId());
 
         return ResponseEntity.ok(new ResponseCarrinhoDTO(carrinho.getId(), produtos));
@@ -36,9 +39,27 @@ public class CarrinhoController {
     public ResponseEntity<ResponseCarrinhoDTO> adicionaProduto(@AuthenticationPrincipal Usuario usuario,
     @RequestBody ModificaCarrinhoDTO modificaCarrinhoDTO) {
 
+        if (modificaCarrinhoDTO.quantidade() < 1) {
+            throw new IllegalArgumentException("A quantidade deve ser maior que 0.");
+        }
+
         Carrinho carrinho = carrinhoService.buscarCarrinhoPorId(usuario.getCarrinho().getId());
 
-        ProdutosDTO produtos = carrinhoService.adicionarProduto(carrinho.getId(), modificaCarrinhoDTO);
+        ProdutosDTO produtos = carrinhoService.editarQuantidadeProduto(carrinho.getId(), modificaCarrinhoDTO, false);
+        return ResponseEntity.ok(new ResponseCarrinhoDTO(carrinho.getId(), produtos));
+    }
+
+    @PutMapping("/remove")
+    public ResponseEntity<ResponseCarrinhoDTO> removeProduto(@AuthenticationPrincipal Usuario usuario,
+    @RequestBody ModificaCarrinhoDTO modificaCarrinhoDTO) {
+
+        if (modificaCarrinhoDTO.quantidade() < 1) {
+            throw new IllegalArgumentException("A quantidade deve ser maior que 0.");
+        }
+
+        Carrinho carrinho = carrinhoService.buscarCarrinhoPorId(usuario.getCarrinho().getId());
+
+        ProdutosDTO produtos = carrinhoService.editarQuantidadeProduto(carrinho.getId(), modificaCarrinhoDTO, true);
         return ResponseEntity.ok(new ResponseCarrinhoDTO(carrinho.getId(), produtos));
     }
 

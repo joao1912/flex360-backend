@@ -93,7 +93,7 @@ public class CarrinhoService {
         return new ProdutosDTO(acessoriosDTO, cadeirasDTO);
     }
 
-    public ProdutosDTO adicionarProduto(UUID id, ModificaCarrinhoDTO modificaCarrinhoDTO) {
+    public ProdutosDTO editarQuantidadeProduto(UUID id, ModificaCarrinhoDTO modificaCarrinhoDTO, boolean removerQuantidade) {
 
         Carrinho carrinho = carrinhoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Carrinho não encontrado."));
@@ -110,14 +110,37 @@ public class CarrinhoService {
         if (existente.isPresent()) {
 
             ProdutoCarrinho produtoCarrinho = existente.get();
-            produtoCarrinho.setQuantidade(produtoCarrinho.getQuantidade() + modificaCarrinhoDTO.quantidade());
-            if (produtoCarrinho.getQuantidade() <= 0) {
-                produtoCarrinhoRepository.delete(produtoCarrinho);
+
+            if (removerQuantidade) {
+
+                if (produtoCarrinho.getQuantidade() <= modificaCarrinhoDTO.quantidade()) {
+
+                    produtoCarrinhoRepository.delete(produtoCarrinho);
+
+                } else {
+
+                    produtoCarrinho.setQuantidade(produtoCarrinho.getQuantidade() - modificaCarrinhoDTO.quantidade());
+
+                }
+
+            } else {
+
+                produtoCarrinho.setQuantidade(produtoCarrinho.getQuantidade() + modificaCarrinhoDTO.quantidade());
+
             }
 
             produtoCarrinhoRepository.save(produtoCarrinho);
+            // tratar erro aqui
 
         } else {
+
+            if (removerQuantidade) {
+
+                throw new EntityNotFoundException();
+                // tratar erro aqui
+
+            }
+
             ProdutoCarrinho produtoCarrinho = new ProdutoCarrinho();
             produtoCarrinho.setProduto(produto);
             produtoCarrinho.setQuantidade(modificaCarrinhoDTO.quantidade());
