@@ -150,7 +150,6 @@ public class CadeiraController {
         cadeiraAtualizada.setDesc_ajuste_altura(cadeiraDTO.desc_ajuste_altura());
         cadeiraAtualizada.setDesc_revestimento(cadeiraDTO.desc_revestimento());
         cadeiraAtualizada.setCategorias(cadeiraDTO.categorias());
-
         Cadeira cadeiraEditada = cadeiraService.editarCadeira(id, cadeiraAtualizada);
 
         CadeiraDTO cadeiraEditadaDTO = new CadeiraDTO(
