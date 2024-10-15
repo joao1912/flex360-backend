@@ -43,7 +43,7 @@ public class CadeiraService {
     }
 
     public List<Cadeira> buscarTodasCadeiras() {
-        
+
         List<Cadeira> cadeiras = cadeiraRepository.findAll();
         if (cadeiras.isEmpty()) {
             throw new EntityNotFoundException("Nenhuma cadeira encontrada.");
@@ -60,7 +60,7 @@ public class CadeiraService {
 
         validarCadeira(novaCadeira);
 
-        List<Categoria> categoriasModels= new ArrayList<>();
+        List<Categoria> categoriasModels = new ArrayList<>();
 
         for (Categoria categoria : novaCadeira.getCategorias()) {
 
@@ -101,6 +101,7 @@ public class CadeiraService {
         Cadeira cadeira = buscarCadeiraPorId(id);
         cadeiraRepository.delete(cadeira);
     }
+    
 }
 
     

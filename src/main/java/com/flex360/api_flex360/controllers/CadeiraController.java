@@ -55,7 +55,8 @@ public class CadeiraController {
                     cadeira.getDesc_apoio(),
                     cadeira.getDesc_rodinha(),
                     cadeira.getDesc_ajuste_altura(),
-                    cadeira.getDesc_revestimento()));
+                    cadeira.getDesc_revestimento(),
+                    cadeira.getCategorias()));
 
                     return ResponseEntity.ok(cadeiraDTOs);
         
@@ -82,7 +83,9 @@ public class CadeiraController {
             cadeira.getDesc_apoio(),
             cadeira.getDesc_rodinha(),
             cadeira.getDesc_ajuste_altura(),
-            cadeira.getDesc_revestimento()));
+            cadeira.getDesc_revestimento(),
+            cadeira.getCategorias()
+            ));
     }
 
     @PostMapping("/criar")
@@ -102,6 +105,7 @@ public class CadeiraController {
         novaCadeira.setDesc_rodinha(cadeiraDTO.desc_rodinha());
         novaCadeira.setDesc_ajuste_altura(cadeiraDTO.desc_ajuste_altura());
         novaCadeira.setDesc_revestimento(cadeiraDTO.desc_revestimento());
+        novaCadeira.setCategorias(cadeiraDTO.categorias());
 
         Cadeira cadeiraCriada= cadeiraService.criarCadeira(novaCadeira);
 
@@ -119,7 +123,11 @@ public class CadeiraController {
                     cadeiraCriada.getDesc_apoio(),
                     cadeiraCriada.getDesc_rodinha(),
                     cadeiraCriada.getDesc_ajuste_altura(),
-                    cadeiraCriada.getDesc_revestimento()); 
+                    cadeiraCriada.getDesc_revestimento(),
+                    cadeiraCriada.getCategorias()
+                    );
+                 
+                    
 
         return ResponseEntity.status(201).body(novaCadeiraDTO);
     }
@@ -140,7 +148,8 @@ public class CadeiraController {
         cadeiraAtualizada.setDesc_rodinha(cadeiraDTO.desc_rodinha());
         cadeiraAtualizada.setDesc_ajuste_altura(cadeiraDTO.desc_ajuste_altura());
         cadeiraAtualizada.setDesc_revestimento(cadeiraDTO.desc_revestimento());
-
+        cadeiraAtualizada.setCategorias(cadeiraDTO.categorias());
+        
         Cadeira cadeiraEditada = cadeiraService.editarCadeira(id, cadeiraAtualizada);
 
         CadeiraDTO cadeiraEditadaDTO = new CadeiraDTO(
@@ -157,7 +166,9 @@ public class CadeiraController {
                     cadeiraEditada.getDesc_apoio(),
                     cadeiraEditada.getDesc_rodinha(),
                     cadeiraEditada.getDesc_ajuste_altura(),
-                    cadeiraEditada.getDesc_revestimento());
+                    cadeiraEditada.getDesc_revestimento(),
+                    cadeiraEditada.getCategorias()
+                    );
 
         return ResponseEntity.ok(cadeiraEditadaDTO);
     }
