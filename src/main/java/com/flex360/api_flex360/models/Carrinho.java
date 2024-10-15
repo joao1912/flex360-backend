@@ -30,7 +30,7 @@ public class Carrinho {
     @OneToMany(mappedBy="carrinho", cascade=CascadeType.ALL)
     private List<ProdutoCarrinho> produtosCarrinho = new ArrayList<>();
 
-    @OneToOne(mappedBy = "carrinho", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
   
 }

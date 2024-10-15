@@ -27,7 +27,6 @@ public class ProdutoCarrinho {
 
     @OneToOne
     @JoinColumn(name = "fk_cor_id", referencedColumnName = "id")
-    @Column(nullable = true)
     private Cor cor;
 
     @ManyToOne
