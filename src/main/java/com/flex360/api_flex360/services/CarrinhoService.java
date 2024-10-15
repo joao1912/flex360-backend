@@ -158,8 +158,7 @@ public class CarrinhoService {
         produtoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado."));
 
-        produtoCarrinhoRepository.deleteById(id);
-        //tratar erro aqui
+        produtoCarrinhoRepository.deleteByProdutoId(id);
 
     }
 
