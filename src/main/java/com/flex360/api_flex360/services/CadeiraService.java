@@ -44,7 +44,7 @@ public class CadeiraService {
     }
 
     public List<Cadeira> buscarTodasCadeiras() {
-        
+
         List<Cadeira> cadeiras = cadeiraRepository.findAll();
         if (cadeiras.isEmpty()) {
             throw new EntityNotFoundException("Nenhuma cadeira encontrada.");
