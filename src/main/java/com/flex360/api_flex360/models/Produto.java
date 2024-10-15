@@ -1,31 +1,29 @@
 package com.flex360.api_flex360.models;
 
+import java.util.UUID;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
-import java.util.UUID;
 
 @Entity
+@Inheritance(strategy=InheritanceType.JOINED)
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 public class Produto {
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy=GenerationType.UUID)
     private UUID id;
+    @Column(length=25, nullable=false)
+    private String nome;
+    private float preco;
+    private String foto;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_item_id", referencedColumnName = "id")
-    @ToString.Exclude
-    private Item item;
 }

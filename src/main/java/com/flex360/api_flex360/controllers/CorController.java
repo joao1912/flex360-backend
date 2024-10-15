@@ -3,7 +3,6 @@ package com.flex360.api_flex360.controllers;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.flex360.api_flex360.dto.auth.LoginResponseDTO;
 import com.flex360.api_flex360.dto.cor.CorDTO;
 import com.flex360.api_flex360.models.Cor;
 import com.flex360.api_flex360.services.CorService;

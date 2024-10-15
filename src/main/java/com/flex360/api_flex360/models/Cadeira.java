@@ -3,15 +3,12 @@ package com.flex360.api_flex360.models;
 import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,14 +19,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@DiscriminatorValue("CADEIRA")
-public class Cadeira extends Item {
+public class Cadeira extends Produto {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
-    private String nome;
     
     private String descricao;
 
@@ -37,11 +31,7 @@ public class Cadeira extends Item {
 
     private int temp_garantia;
 
-    private Float preco;
-
     private String dimensoes;
-
-    private String foto_cadeira;
 
     private String foto_dimensoes;
 

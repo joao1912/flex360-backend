@@ -9,19 +9,19 @@ import java.util.List;
 import java.util.ArrayList;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.flex360.api_flex360.models.Cor;
 import com.flex360.api_flex360.repository.CorRepository;
 import com.flex360.api_flex360.services.CorService;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.Id;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class CorServiceTest {
 
     @Mock

@@ -1,6 +1,7 @@
 package com.flex360.api_flex360.models;
 
-import jakarta.persistence.DiscriminatorValue;
+import java.util.UUID;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -10,23 +11,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@DiscriminatorValue("ACESSORIO")
-public class Acessorio extends Item {
+public class Acessorio extends Produto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
-    private String foto;
-    private String nome;
-    private Float preco;
     
 }
