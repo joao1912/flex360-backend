@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.flex360.api_flex360.dto.cadeira.SugestaoErgonomicaDTO;
 import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.models.Categoria;
 import com.flex360.api_flex360.repository.CadeiraRepository;
@@ -99,9 +100,18 @@ public class CadeiraService {
 
     public void deletarCadeira(UUID id) {
         Cadeira cadeira = buscarCadeiraPorId(id);
-        cadeiraRepository.delete(cadeira);
+        cadeiraRepository.delete(cadeira);   
+
     }
-    
+
+    public Cadeira sugestaoErgonomica(SugestaoErgonomicaDTO dados){
+
+        
+
+        throw new EntityNotFoundException();
+    }
+
+   
 }
 
     

@@ -3,6 +3,7 @@ package com.flex360.api_flex360.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flex360.api_flex360.dto.cadeira.CadeiraDTO;
+import com.flex360.api_flex360.dto.cadeira.SugestaoErgonomicaDTO;
 import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.services.CadeiraService;
 import com.flex360.api_flex360.services.ConverteParaDtoService;
@@ -149,7 +150,7 @@ public class CadeiraController {
         cadeiraAtualizada.setDesc_ajuste_altura(cadeiraDTO.desc_ajuste_altura());
         cadeiraAtualizada.setDesc_revestimento(cadeiraDTO.desc_revestimento());
         cadeiraAtualizada.setCategorias(cadeiraDTO.categorias());
-        
+
         Cadeira cadeiraEditada = cadeiraService.editarCadeira(id, cadeiraAtualizada);
 
         CadeiraDTO cadeiraEditadaDTO = new CadeiraDTO(
@@ -181,6 +182,32 @@ public class CadeiraController {
         return ResponseEntity.ok("Cadeira deletada com sucesso.");
     }
 
+    @PostMapping("/sugestaoErgonomica")
+    public ResponseEntity<CadeiraDTO> buscarSugestaoErgonomica(@RequestBody SugestaoErgonomicaDTO dados) {
+        
+      Cadeira cadeiraEncontrada = cadeiraService.sugestaoErgonomica(dados);
+
+      return ResponseEntity.ok(new CadeiraDTO(
+        cadeiraEncontrada.getId(),
+        cadeiraEncontrada.getNome(),
+        cadeiraEncontrada.getDescricao(),
+        cadeiraEncontrada.getInformacoes(),
+        cadeiraEncontrada.getTemp_garantia(),
+        cadeiraEncontrada.getPreco(),
+        cadeiraEncontrada.getDimensoes(),
+        cadeiraEncontrada.getFoto(),
+        cadeiraEncontrada.getFoto_dimensoes(),
+        cadeiraEncontrada.getDesc_encosto(),
+        cadeiraEncontrada.getDesc_apoio(),
+        cadeiraEncontrada.getDesc_rodinha(),
+        cadeiraEncontrada.getDesc_ajuste_altura(),
+        cadeiraEncontrada.getDesc_revestimento(),
+        cadeiraEncontrada.getCategorias()
+        
+      ));
+
+    }
+    
     
     
 }
