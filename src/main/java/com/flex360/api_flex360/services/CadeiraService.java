@@ -86,6 +86,10 @@ public class CadeiraService {
         cadeiraRepository.delete(cadeira);      throw new EntityNotFoundException();
 
     }
+
+    public Cadeira buscarSugestaoErgonomica(){
+        
+    }
     
 }
 
