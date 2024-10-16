@@ -10,11 +10,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-<<<<<<< HEAD
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-=======
->>>>>>> origin/main
 import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,24 +23,12 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-<<<<<<< HEAD
-@DiscriminatorValue("CADEIRA")
-public class Cadeira extends Item {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
-
-    private String nome;
-
-=======
 public class Cadeira extends Produto {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     
->>>>>>> origin/main
     private String descricao;
 
     private String informacoes;

@@ -195,7 +195,7 @@ public class CadeiraController {
         cadeiraEncontrada.getTemp_garantia(),
         cadeiraEncontrada.getPreco(),
         cadeiraEncontrada.getDimensoes(),
-        cadeiraEncontrada.getFoto_cadeira(),
+        cadeiraEncontrada.getFoto(),
         cadeiraEncontrada.getFoto_dimensoes(),
         cadeiraEncontrada.getDesc_encosto(),
         cadeiraEncontrada.getDesc_apoio(),
