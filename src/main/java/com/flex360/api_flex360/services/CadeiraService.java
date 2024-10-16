@@ -83,6 +83,7 @@ public class CadeiraService {
 
         novaCadeira.setCategorias(categoriasModels);
 
+        validarCadeira(novaCadeira);
         return cadeiraRepository.save(novaCadeira);
     }
 
@@ -153,9 +154,3 @@ public class CadeiraService {
     }
 
 }
-
-
-
-
-    
-
