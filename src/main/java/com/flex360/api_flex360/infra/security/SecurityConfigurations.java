@@ -30,10 +30,17 @@ public class SecurityConfigurations {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                .requestMatchers(HttpMethod.POST, "/auth/register").permitAll() // Tem que melhorar isso aqui
-                .requestMatchers(HttpMethod.POST, "/algumaRota").hasRole("ADMIN")
-                .anyRequest().authenticated()
+                .requestMatchers(HttpMethod.GET, "/usuario/buscarTodos").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/usuario/buscarPorId").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/usuario/buscarPerfil").authenticated()
+                .requestMatchers(HttpMethod.GET, "/usuario/editar").authenticated()
+                .requestMatchers(HttpMethod.GET, "/usuario/deletar").authenticated()
+                .requestMatchers(HttpMethod.GET, "/cor/buscarTodas").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/cor/buscarPorId").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/cor/criar").hasRole("ADMIN")
+
+                
+                .anyRequest().permitAll()
             )
             .addFilterBefore((Filter) securityFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
