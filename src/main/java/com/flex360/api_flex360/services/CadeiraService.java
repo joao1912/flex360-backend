@@ -106,13 +106,57 @@ public class CadeiraService {
 
     public Cadeira sugestaoErgonomica(SugestaoErgonomicaDTO dados){
 
-        
+       List<Cadeira> cadeiras = cadeiraRepository.findAll();
+       List<Cadeira> cadeirasCategoria= new ArrayList<>();
 
-        throw new EntityNotFoundException();
+        float peso = dados.peso();
+        float altura = dados.altura();
+        String[] categorias = dados.categoria();
+
+
+        for(Cadeira cadeira : cadeiras){
+            
+            for(String nomeCategoria : categorias){
+
+               List<Categoria> categoriasDaCadeira= cadeira.getCategorias();
+
+                boolean existeCategoria = categoriasDaCadeira.stream()
+                 .anyMatch(categoria -> categoria.getName().equals(nomeCategoria));
+
+                 if(existeCategoria){
+                    cadeirasCategoria.add(cadeira);
+                    break;
+                 }
+
+            }
+            
+
+        }
+        return selecionarCadeiraPorPesoEAltura(cadeirasCategoria, peso, altura);
+
     }
 
-   
+    private Cadeira selecionarCadeiraPorPesoEAltura(List<Cadeira> cadeiras, float peso, float altura) {
+
+        // Regra especial para cadeira "Obeso BIG ONE"
+        if (peso >= 121 && peso <= 150) {
+            return cadeiras.stream()
+                    .filter(c -> c.getNome().equals("Obeso BIG ONE"))
+                    .findFirst()
+                    .orElse(null); // Retorna null se não encontrar
+        }
+    
+        // Regra para peso até 120 kg e altura entre 1,40 e 1,90
+        return cadeiras.stream()
+                .filter(c -> peso <= 120 && altura >= 1.40 && altura <= 1.90)
+                .findFirst()
+                .orElse(null); // Retorna null se não encontrar
+    }
+
 }
+
+
+
 
     
 
