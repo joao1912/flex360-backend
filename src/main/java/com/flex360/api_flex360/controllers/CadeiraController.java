@@ -50,7 +50,7 @@ public class CadeiraController {
                     cadeira.getTemp_garantia(),
                     cadeira.getPreco(),
                     cadeira.getDimensoes(),
-                    cadeira.getFoto_cadeira(),
+                    cadeira.getFoto(),
                     cadeira.getFoto_dimensoes(),
                     cadeira.getDesc_encosto(),
                     cadeira.getDesc_apoio(),
@@ -78,7 +78,7 @@ public class CadeiraController {
             cadeira.getTemp_garantia(),
             cadeira.getPreco(),
             cadeira.getDimensoes(),
-            cadeira.getFoto_cadeira(),
+            cadeira.getFoto(),
             cadeira.getFoto_dimensoes(),
             cadeira.getDesc_encosto(),
             cadeira.getDesc_apoio(),
@@ -99,7 +99,7 @@ public class CadeiraController {
         novaCadeira.setTemp_garantia(cadeiraDTO.temp_garantia());
         novaCadeira.setPreco(cadeiraDTO.preco());
         novaCadeira.setDimensoes(cadeiraDTO.dimencoes());
-        novaCadeira.setFoto_cadeira(cadeiraDTO.foto_cadeira());
+        novaCadeira.setFoto(cadeiraDTO.foto_cadeira());
         novaCadeira.setFoto_dimensoes(cadeiraDTO.foto_dimencoes());
         novaCadeira.setDesc_encosto(cadeiraDTO.desc_encosto());
         novaCadeira.setDesc_apoio(cadeiraDTO.desc_apoio());
@@ -118,7 +118,7 @@ public class CadeiraController {
                     cadeiraCriada.getTemp_garantia(),
                     cadeiraCriada.getPreco(),
                     cadeiraCriada.getDimensoes(),
-                    cadeiraCriada.getFoto_cadeira(),
+                    cadeiraCriada.getFoto(),
                     cadeiraCriada.getFoto_dimensoes(),
                     cadeiraCriada.getDesc_encosto(),
                     cadeiraCriada.getDesc_apoio(),
@@ -142,7 +142,7 @@ public class CadeiraController {
         cadeiraAtualizada.setTemp_garantia(cadeiraDTO.temp_garantia());
         cadeiraAtualizada.setPreco(cadeiraDTO.preco());
         cadeiraAtualizada.setDimensoes(cadeiraDTO.dimencoes());
-        cadeiraAtualizada.setFoto_cadeira(cadeiraDTO.foto_cadeira());
+        cadeiraAtualizada.setFoto(cadeiraDTO.foto_cadeira());
         cadeiraAtualizada.setFoto_dimensoes(cadeiraDTO.foto_dimencoes());
         cadeiraAtualizada.setDesc_encosto(cadeiraDTO.desc_encosto());
         cadeiraAtualizada.setDesc_apoio(cadeiraDTO.desc_apoio());
@@ -161,7 +161,7 @@ public class CadeiraController {
                     cadeiraEditada.getTemp_garantia(),
                     cadeiraEditada.getPreco(),
                     cadeiraEditada.getDimensoes(),
-                    cadeiraEditada.getFoto_cadeira(),
+                    cadeiraEditada.getFoto(),
                     cadeiraEditada.getFoto_dimensoes(),
                     cadeiraEditada.getDesc_encosto(),
                     cadeiraEditada.getDesc_apoio(),

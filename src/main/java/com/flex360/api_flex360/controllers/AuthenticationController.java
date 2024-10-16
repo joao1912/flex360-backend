@@ -8,14 +8,12 @@ import com.flex360.api_flex360.dto.auth.LoginResponseDTO;
 import com.flex360.api_flex360.dto.auth.RegisterDTO;
 import com.flex360.api_flex360.infra.security.TokenService;
 import com.flex360.api_flex360.models.Usuario;
-import com.flex360.api_flex360.repository.UsuarioRepository;
 import com.flex360.api_flex360.services.UsuarioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 

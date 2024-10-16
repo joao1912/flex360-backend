@@ -15,9 +15,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.flex360.api_flex360.enums.UserRole;
 import com.flex360.api_flex360.models.Usuario;
@@ -26,7 +27,7 @@ import com.flex360.api_flex360.services.UsuarioService;
 
 import jakarta.persistence.EntityNotFoundException;
 
-@SpringBootTest
+@ExtendWith(MockitoExtension.class)
 public class UsuarioServiceTest {
 
     @Mock

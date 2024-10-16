@@ -1,5 +1,8 @@
 package com.flex360.api_flex360.controllers;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,9 +18,6 @@ import com.flex360.api_flex360.dto.acessorio.AcessorioDTO;
 import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.services.AcessorioService;
 import com.flex360.api_flex360.services.ConverteParaDtoService;
-
-import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/acessorio")
