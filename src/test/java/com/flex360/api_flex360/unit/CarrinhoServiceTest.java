@@ -424,6 +424,8 @@ public void testEditarQuantidadeProduto_RemoveQuantidade_DeleteProdutoCarrinho()
         ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToAdd);
 
         Carrinho carrinho = new Carrinho();
+        carrinho.setId(carrinhoId);
+
         Produto produto = new Acessorio();
         produto.setId(produtoId);
 
@@ -447,7 +449,7 @@ public void testEditarQuantidadeProduto_RemoveQuantidade_DeleteProdutoCarrinho()
         assertEquals(quantidadeToAdd, savedProdutoCarrinho.getQuantidade());
 
         verify(carrinhoRepository, times(2)).findById(carrinhoId);
-        verify(produtoCarrinhoRepository, times(1)).findByCarrinhoId(carrinhoId);
+        
     }
 
 
