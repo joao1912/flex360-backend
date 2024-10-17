@@ -7,11 +7,13 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.flex360.api_flex360.dto.carrinho.AcessorioDTO;
 import com.flex360.api_flex360.dto.carrinho.CadeiraDTO;
 import com.flex360.api_flex360.dto.carrinho.ModificaCarrinhoDTO;
 import com.flex360.api_flex360.dto.carrinho.ProdutosDTO;
+import com.flex360.api_flex360.exceptions.ErroAoSalvarException;
 import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.models.Carrinho;
@@ -37,6 +39,7 @@ public class CarrinhoService {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    @Transactional(readOnly = true)
     public Carrinho buscarCarrinhoPorId(UUID id) {
         return carrinhoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Erro ao encontrar carrinho com esse id"));
@@ -49,10 +52,8 @@ public class CarrinhoService {
         carrinhoRepository.delete(carrinho);
     }
 
-    public Carrinho atualizarCarrinho() {
-        throw new EntityNotFoundException();
-    }
 
+    @Transactional(readOnly=true)
     public ProdutosDTO buscarProdutosDoCarrinho(UUID id) {
         carrinhoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Carrinho não encontrado."));
@@ -129,14 +130,18 @@ public class CarrinhoService {
 
             }
 
-            produtoCarrinhoRepository.save(produtoCarrinho);
+            try {
+                produtoCarrinhoRepository.save(produtoCarrinho);
+                } catch(Exception e) {
+                    throw new ErroAoSalvarException("Erro al salvar informações na tabela do carrinho", e);
+                }
             // tratar erro aqui
 
         } else {
 
             if (removerQuantidade) {
 
-                throw new EntityNotFoundException();
+                throw new IllegalArgumentException("Produto não está no carrinho");
                 // tratar erro aqui
 
             }
@@ -147,7 +152,11 @@ public class CarrinhoService {
             produtoCarrinho.setCarrinho(carrinho);
 
             //tratar erro aqui
+            try {
             produtoCarrinhoRepository.save(produtoCarrinho);
+            } catch(Exception e) {
+                throw new ErroAoSalvarException("Erro al salvar informações na tabela do carrinho", e);
+            }
         }
 
         return buscarProdutosDoCarrinho(carrinho.getId());
