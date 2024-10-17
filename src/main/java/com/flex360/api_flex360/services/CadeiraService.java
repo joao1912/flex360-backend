@@ -2,11 +2,12 @@ package com.flex360.api_flex360.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.flex360.api_flex360.dto.cadeira.SugestaoErgonomicaDTO;
 import com.flex360.api_flex360.models.Cadeira;
@@ -15,7 +16,7 @@ import com.flex360.api_flex360.repository.CadeiraRepository;
 import com.flex360.api_flex360.repository.CategoriaRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-
+import jakarta.validation.ValidationException;
 
 @Service
 public class CadeiraService {
@@ -26,6 +27,22 @@ public class CadeiraService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
+    private void validarCadeira(Cadeira cadeira) {
+        
+        if (!StringUtils.hasText(cadeira.getNome()) || cadeira.getNome().length() > 20) {
+            throw new ValidationException("O nome é obrigatório e não pode exceder 20 caracteres.");
+        }
+
+        if (!StringUtils.hasText(cadeira.getDescricao()) || cadeira.getDescricao().length() > 100) {
+            throw new ValidationException("A descrição é obrigatória e não pode exceder 100 caracteres.");
+        }
+
+        if (cadeira.getPreco() <= 0) {
+            throw new ValidationException("O preço deve ser maior que zero.");
+        }
+        
+    }
+
     public List<Cadeira> buscarTodasCadeiras() {
 
         List<Cadeira> cadeiras = cadeiraRepository.findAll();
@@ -33,19 +50,18 @@ public class CadeiraService {
             throw new EntityNotFoundException("Nenhuma cadeira encontrada.");
         }
         return cadeiras;
-
     }
 
     public Cadeira buscarCadeiraPorId(UUID id) {
-
-        Optional<Cadeira> cadeira = cadeiraRepository.findById(id);
-        return cadeira.orElseThrow(() -> new EntityNotFoundException("Cadeira com ID " + id + " não encontrada."));
-
+        return cadeiraRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Cadeira com ID " + id + " não encontrada."));
     }
-    
+
     public Cadeira criarCadeira(Cadeira novaCadeira) {
 
-        List<Categoria> categoriasModels= new ArrayList<>();
+        validarCadeira(novaCadeira);
+
+        List<Categoria> categoriasModels = new ArrayList<>();
 
         for (Categoria categoria : novaCadeira.getCategorias()) {
 
@@ -69,23 +85,17 @@ public class CadeiraService {
         novaCadeira.setCategorias(categoriasModels);
 
         return cadeiraRepository.save(novaCadeira);
-
     }
 
     public Cadeira editarCadeira(UUID id, Cadeira cadeiraAtualizada) {
+        Cadeira cadeiraExistente = buscarCadeiraPorId(id);
+        validarCadeira(cadeiraAtualizada);
 
-        Cadeira cadeiraExistente = buscarCadeiraPorId(id); 
-
+        cadeiraExistente.setNome(cadeiraAtualizada.getNome());
+        cadeiraExistente.setDescricao(cadeiraAtualizada.getDescricao());
+        cadeiraExistente.setPreco(cadeiraAtualizada.getPreco());
 
         return cadeiraRepository.save(cadeiraExistente);
-
-    }
-
-    public void deletarCadeira(UUID id) {
-
-        Cadeira cadeira = buscarCadeiraPorId(id); 
-        cadeiraRepository.delete(cadeira);     
-
     }
 
     public Cadeira sugestaoErgonomica(SugestaoErgonomicaDTO dados){
@@ -119,6 +129,13 @@ public class CadeiraService {
         return selecionarCadeiraPorPesoEAltura(cadeirasCategoria, peso, altura);
 
     }
+      
+    public void deletarCadeira(UUID id) {
+
+        Cadeira cadeira = buscarCadeiraPorId(id); 
+        cadeiraRepository.delete(cadeira);     
+
+    }
 
     private Cadeira selecionarCadeiraPorPesoEAltura(List<Cadeira> cadeiras, float peso, float altura) {
 
@@ -138,9 +155,3 @@ public class CadeiraService {
     }
 
 }
-
-
-
-
-    
-
