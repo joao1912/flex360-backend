@@ -98,12 +98,6 @@ public class CadeiraService {
         return cadeiraRepository.save(cadeiraExistente);
     }
 
-    public void deletarCadeira(UUID id) {
-        Cadeira cadeira = buscarCadeiraPorId(id);
-        cadeiraRepository.delete(cadeira);   
-
-    }
-
     public Cadeira sugestaoErgonomica(SugestaoErgonomicaDTO dados){
 
        List<Cadeira> cadeiras = cadeiraRepository.findAll();
@@ -133,6 +127,13 @@ public class CadeiraService {
 
         }
         return selecionarCadeiraPorPesoEAltura(cadeirasCategoria, peso, altura);
+
+    }
+      
+    public void deletarCadeira(UUID id) {
+
+        Cadeira cadeira = buscarCadeiraPorId(id); 
+        cadeiraRepository.delete(cadeira);     
 
     }
 
