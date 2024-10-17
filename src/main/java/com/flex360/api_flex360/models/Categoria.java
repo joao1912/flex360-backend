@@ -7,13 +7,16 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.UUID;
+
 import java.util.List;
 
 @Entity
@@ -30,7 +33,8 @@ public class Categoria {
     @Column(nullable = false, unique = true, length = 28)
     private String name;
 
-    @OneToMany(mappedBy = "categoria", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "cadeira_categoria", joinColumns = @JoinColumn(name = "cadeira_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
     private List<Cadeira> cadeiras;
-    
+
 }

@@ -3,6 +3,7 @@ package com.flex360.api_flex360.controllers;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flex360.api_flex360.dto.cadeira.CadeiraDTO;
+import com.flex360.api_flex360.dto.cadeira.SugestaoErgonomicaDTO;
 import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.services.CadeiraService;
 import com.flex360.api_flex360.services.ConverteParaDtoService;
@@ -55,7 +56,8 @@ public class CadeiraController {
                     cadeira.getDesc_apoio(),
                     cadeira.getDesc_rodinha(),
                     cadeira.getDesc_ajuste_altura(),
-                    cadeira.getDesc_revestimento()));
+                    cadeira.getDesc_revestimento(),
+                    cadeira.getCategorias()));
 
                     return ResponseEntity.ok(cadeiraDTOs);
         
@@ -82,7 +84,9 @@ public class CadeiraController {
             cadeira.getDesc_apoio(),
             cadeira.getDesc_rodinha(),
             cadeira.getDesc_ajuste_altura(),
-            cadeira.getDesc_revestimento()));
+            cadeira.getDesc_revestimento(),
+            cadeira.getCategorias()
+            ));
     }
 
     @PostMapping("/criar")
@@ -102,6 +106,7 @@ public class CadeiraController {
         novaCadeira.setDesc_rodinha(cadeiraDTO.desc_rodinha());
         novaCadeira.setDesc_ajuste_altura(cadeiraDTO.desc_ajuste_altura());
         novaCadeira.setDesc_revestimento(cadeiraDTO.desc_revestimento());
+        novaCadeira.setCategorias(cadeiraDTO.categorias());
 
         Cadeira cadeiraCriada= cadeiraService.criarCadeira(novaCadeira);
 
@@ -119,7 +124,11 @@ public class CadeiraController {
                     cadeiraCriada.getDesc_apoio(),
                     cadeiraCriada.getDesc_rodinha(),
                     cadeiraCriada.getDesc_ajuste_altura(),
-                    cadeiraCriada.getDesc_revestimento()); 
+                    cadeiraCriada.getDesc_revestimento(),
+                    cadeiraCriada.getCategorias()
+                    );
+                 
+                    
 
         return ResponseEntity.status(201).body(novaCadeiraDTO);
     }
@@ -140,6 +149,7 @@ public class CadeiraController {
         cadeiraAtualizada.setDesc_rodinha(cadeiraDTO.desc_rodinha());
         cadeiraAtualizada.setDesc_ajuste_altura(cadeiraDTO.desc_ajuste_altura());
         cadeiraAtualizada.setDesc_revestimento(cadeiraDTO.desc_revestimento());
+        cadeiraAtualizada.setCategorias(cadeiraDTO.categorias());
 
         Cadeira cadeiraEditada = cadeiraService.editarCadeira(id, cadeiraAtualizada);
 
@@ -157,7 +167,9 @@ public class CadeiraController {
                     cadeiraEditada.getDesc_apoio(),
                     cadeiraEditada.getDesc_rodinha(),
                     cadeiraEditada.getDesc_ajuste_altura(),
-                    cadeiraEditada.getDesc_revestimento());
+                    cadeiraEditada.getDesc_revestimento(),
+                    cadeiraEditada.getCategorias()
+                    );
 
         return ResponseEntity.ok(cadeiraEditadaDTO);
     }
@@ -170,6 +182,32 @@ public class CadeiraController {
         return ResponseEntity.ok("Cadeira deletada com sucesso.");
     }
 
+    @PostMapping("/sugestaoErgonomica")
+    public ResponseEntity<CadeiraDTO> buscarSugestaoErgonomica(@RequestBody SugestaoErgonomicaDTO dados) {
+        
+      Cadeira cadeiraEncontrada = cadeiraService.sugestaoErgonomica(dados);
+
+      return ResponseEntity.ok(new CadeiraDTO(
+        cadeiraEncontrada.getId(),
+        cadeiraEncontrada.getNome(),
+        cadeiraEncontrada.getDescricao(),
+        cadeiraEncontrada.getInformacoes(),
+        cadeiraEncontrada.getTemp_garantia(),
+        cadeiraEncontrada.getPreco(),
+        cadeiraEncontrada.getDimensoes(),
+        cadeiraEncontrada.getFoto(),
+        cadeiraEncontrada.getFoto_dimensoes(),
+        cadeiraEncontrada.getDesc_encosto(),
+        cadeiraEncontrada.getDesc_apoio(),
+        cadeiraEncontrada.getDesc_rodinha(),
+        cadeiraEncontrada.getDesc_ajuste_altura(),
+        cadeiraEncontrada.getDesc_revestimento(),
+        cadeiraEncontrada.getCategorias()
+        
+      ));
+
+    }
+    
     
     
 }
