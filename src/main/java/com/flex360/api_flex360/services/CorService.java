@@ -22,8 +22,8 @@ public class CorService {
     private final CorRepository corRepository;
 
     private void validarCor(Cor cor) {
-            if (!StringUtils.hasText(cor.getName()) || cor.getName().length() > 10) {
-                throw new ValidationException("O nome da cor é obrigatório e não pode exceder 10 caracteres.");
+            if (!StringUtils.hasText(cor.getName()) || cor.getName().length() > 20) {
+                throw new ValidationException("O nome da cor é obrigatório e não pode exceder 20 caracteres.");
             }
             if (!StringUtils.hasText(cor.getCodigo())) {
                 throw new ValidationException("O código da cor é obrigatório.");
