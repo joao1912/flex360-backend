@@ -1,5 +1,6 @@
 package com.flex360.api_flex360.unit;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -119,9 +120,8 @@ public class UsuarioServiceTest {
 
         doNothing().when(usuarioRepository).deleteById(id);
 
-        boolean result = usuarioService.deletarUsuario(id);
+        assertDoesNotThrow(() -> usuarioService.deletarUsuario(id));
 
-        assertTrue(result);
     }
 
     @Test
