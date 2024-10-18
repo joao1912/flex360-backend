@@ -100,6 +100,7 @@ public class AcessorioServiceTest {
         Acessorio acessorio = new Acessorio();
         acessorio.setNome("Mouse");
         acessorio.setPreco(100.0f);
+        acessorio.setFoto("https://bucket/foto");
 
         when(acessorioRepository.save(acessorio)).thenReturn(acessorio);
 
@@ -115,6 +116,7 @@ public class AcessorioServiceTest {
         Acessorio acessorio = new Acessorio();
         acessorio.setNome("Mouse");
         acessorio.setPreco(100.0f);
+        acessorio.setFoto("https://bucket/foto");
 
         when(acessorioRepository.save(acessorio)).thenThrow(new RuntimeException("Erro ao salvar no banco"));
 
@@ -131,10 +133,12 @@ public class AcessorioServiceTest {
         Acessorio acessorioExistente = new Acessorio();
         acessorioExistente.setNome("Mouse");
         acessorioExistente.setPreco(100.0f);
+        acessorioExistente.setFoto("https://bucket/foto");
 
         Acessorio acessorioAtualizado = new Acessorio();
         acessorioAtualizado.setNome("Teclado");
         acessorioAtualizado.setPreco(150.0f);
+        acessorioAtualizado.setFoto("https://bucket/foto1");
 
         when(acessorioRepository.findById(id)).thenReturn(Optional.of(acessorioExistente));
         when(acessorioRepository.save(acessorioExistente)).thenReturn(acessorioExistente);
@@ -144,6 +148,7 @@ public class AcessorioServiceTest {
         assertNotNull(resultado);
         assertEquals("Teclado", resultado.getNome());
         assertEquals(150.0f, resultado.getPreco());
+        assertEquals("https://bucket/foto1", resultado.getFoto());
     }
 
     @Test
@@ -152,10 +157,12 @@ public class AcessorioServiceTest {
         Acessorio acessorioExistente = new Acessorio();
         acessorioExistente.setNome("Mouse");
         acessorioExistente.setPreco(100.0f);
+        acessorioExistente.setFoto("https://bucket/foto");
 
         Acessorio acessorioAtualizado = new Acessorio();
         acessorioAtualizado.setNome("Teclado");
         acessorioAtualizado.setPreco(150.0f);
+        acessorioAtualizado.setFoto("https://bucket/foto1");
 
         when(acessorioRepository.findById(id)).thenReturn(Optional.of(acessorioExistente));
         when(acessorioRepository.save(acessorioExistente)).thenThrow(new RuntimeException("Erro ao salvar no banco"));

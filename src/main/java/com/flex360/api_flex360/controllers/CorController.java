@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.flex360.api_flex360.dto.cor.CorDTO;
 import com.flex360.api_flex360.models.Cor;
+import com.flex360.api_flex360.services.ConverteParaDtoService;
 import com.flex360.api_flex360.services.CorService;
-
-import jakarta.el.ELException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +26,18 @@ public class CorController {
 
     @Autowired
     private CorService corService;
+
+    @Autowired
+    private ConverteParaDtoService converteParaDtoService;
     
     @GetMapping("/buscarTodas")
     public ResponseEntity<List<CorDTO>> buscarTodasCores() {
 
         List<Cor> cores=corService.buscarTodasCores();
 
-        throw new ELException();
+        List<CorDTO> coresDTO = converteParaDtoService.converterParaDTO(cores, cor -> new CorDTO(cor.getId(), cor.getName(), cor.getCodigo()));
+
+        return ResponseEntity.status(200).body(coresDTO);
 
         
     }

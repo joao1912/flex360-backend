@@ -51,6 +51,8 @@ public class AcessorioService {
     
     public Acessorio criarAcessorio(Acessorio acessorio) {
 
+        validarAcessorio(acessorio);
+
         try {
             return acessorioRepository.save(acessorio);
         } catch (Exception e) {
@@ -60,6 +62,8 @@ public class AcessorioService {
     }
 
     public Acessorio editarAcessorio(UUID id, Acessorio acessorioAtualizado) {
+
+        validarAcessorio(acessorioAtualizado);
 
         Acessorio acessorioExistente = buscarAcessorioPorId(id);
         acessorioExistente.setNome(acessorioAtualizado.getNome());
