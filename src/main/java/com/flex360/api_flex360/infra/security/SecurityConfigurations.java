@@ -30,15 +30,32 @@ public class SecurityConfigurations {
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(authorize -> authorize
+
                 .requestMatchers(HttpMethod.GET, "/usuario/buscarTodos").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/usuario/buscarPorId").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/usuario/buscarPerfil").authenticated()
-                .requestMatchers(HttpMethod.GET, "/usuario/editar").authenticated()
-                .requestMatchers(HttpMethod.GET, "/usuario/deletar").authenticated()
-                .requestMatchers(HttpMethod.GET, "/cor/buscarTodas").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/cor/buscarPorId").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/cor/criar").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/usuario/editar").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/usuario/deletar").authenticated()
 
+                .requestMatchers(HttpMethod.GET, "/cor/buscarTodas").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/cor/buscarPorId/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/cor/criar").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/cor/editar/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/cor/deletar/{id}").hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.POST, "/acessorio/criar").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/acessorio/editar/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/acessorio/deletar/{id}").hasRole("ADMIN")
+
+                .requestMatchers(HttpMethod.POST, "/cadeira/criar").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/cadeira/editar/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/cadeira/deletar/{id}").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/cadeira/sugestaoErgonomica").authenticated()
+
+                .requestMatchers(HttpMethod.GET, "/carrinho/buscar").authenticated()
+                .requestMatchers(HttpMethod.POST, "/carrinho/adiciona").authenticated()
+                .requestMatchers(HttpMethod.PUT, "/carrinho/remove").authenticated()
+                .requestMatchers(HttpMethod.DELETE, "/carrinho/deleta/produto/{id}").authenticated()
                 
                 .anyRequest().permitAll()
             )

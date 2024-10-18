@@ -132,7 +132,8 @@ public class CadeiraController {
 
         return ResponseEntity.status(201).body(novaCadeiraDTO);
     }
-     @PutMapping("/editar/{id}")
+    
+    @PutMapping("/editar/{id}")
     public ResponseEntity<CadeiraDTO> editarCadeira(@PathVariable UUID id, @RequestBody CadeiraDTO cadeiraDTO) {
 
         Cadeira cadeiraAtualizada = new Cadeira();
