@@ -1,9 +1,9 @@
 package com.flex360.api_flex360.unit;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.doThrow;
@@ -78,7 +78,7 @@ public class UsuarioServiceTest {
 
     @Test
     void criarUsuario_deveSalvarNovoUsuario() {
-        Usuario usuario = new Usuario("Nome", "123456", "email@test.com", UserRole.USER);
+        Usuario usuario = new Usuario("Nome", "UmaSenha123", "email@test.com", UserRole.USER);
 
         when(usuarioRepository.findByEmail(usuario.getEmail())).thenReturn(null);
         when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
@@ -119,9 +119,8 @@ public class UsuarioServiceTest {
 
         doNothing().when(usuarioRepository).deleteById(id);
 
-        boolean result = usuarioService.deletarUsuario(id);
+        assertDoesNotThrow(() -> usuarioService.deletarUsuario(id));
 
-        assertTrue(result);
     }
 
     @Test

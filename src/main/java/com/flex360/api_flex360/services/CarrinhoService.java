@@ -49,10 +49,6 @@ public class CarrinhoService {
         carrinhoRepository.delete(carrinho);
     }
 
-    public Carrinho atualizarCarrinho() {
-        throw new EntityNotFoundException();
-    }
-
     public ProdutosDTO buscarProdutosDoCarrinho(UUID id) {
         carrinhoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Carrinho não encontrado."));
