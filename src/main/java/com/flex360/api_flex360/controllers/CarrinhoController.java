@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
-@RequestMapping("/carrinho")
+@RequestMapping("carrinho")
 public class CarrinhoController {
 
     @Autowired
@@ -66,7 +66,7 @@ public class CarrinhoController {
         return ResponseEntity.ok(new ResponseCarrinhoDTO(carrinho.getId(), produtos));
     }
 
-    @DeleteMapping("/deleta/{id}")
+    @DeleteMapping("/deleta/produto/{id}")
     public ResponseEntity<?> deletaProduto(@PathVariable UUID id) {
     
         carrinhoService.deletaProduto(id);

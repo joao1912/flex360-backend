@@ -5,17 +5,15 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flex360.api_flex360.dto.usuario.ResponseUsuarioDTO;
-import com.flex360.api_flex360.dto.usuario.UsuarioDTO;
 import com.flex360.api_flex360.models.Usuario;
 import com.flex360.api_flex360.services.UsuarioService;
 import com.flex360.api_flex360.services.ConverteParaDtoService;
@@ -49,40 +47,31 @@ public class UsuarioController {
             new ResponseUsuarioDTO( usuario.getId(), usuario.getNome(), usuario.getEmail()) );
     }
 
-    @PostMapping("/criar")
-    public ResponseEntity<ResponseUsuarioDTO> criarAcessorio(@RequestBody UsuarioDTO UsuarioDTO) {
+    @GetMapping("/buscarPerfil")
+    public ResponseEntity<ResponseUsuarioDTO> buscarPerfil(@AuthenticationPrincipal Usuario usuario) {
 
-        Usuario novoUsuario = new Usuario();
-        novoUsuario.setNome(UsuarioDTO.nome());
-        novoUsuario.setEmail(UsuarioDTO.email());
-        novoUsuario.setSenha(UsuarioDTO.senha());
-
-        Usuario usuarioCriado = usuarioService.criarUsuario(novoUsuario);
-
-        ResponseUsuarioDTO novoUsuarioDTO = new ResponseUsuarioDTO(usuarioCriado.getId(), usuarioCriado.getNome(), usuarioCriado.getEmail());
-
-        return ResponseEntity.status(201).body(novoUsuarioDTO);
-
+        return ResponseEntity.ok(
+            new ResponseUsuarioDTO( usuario.getId(), usuario.getNome(), usuario.getEmail()) );
     }
 
-    @PutMapping("/editar/{id}")
-    public ResponseEntity<ResponseUsuarioDTO> editarUsuario(@PathVariable UUID id, @RequestBody UsuarioDTO UsuarioDTO) {
+    @PutMapping("/editar")
+    public ResponseEntity<ResponseUsuarioDTO> editarUsuario(@AuthenticationPrincipal Usuario usuario) {
 
         Usuario usuarioAtualizado = new Usuario();
-        usuarioAtualizado.setNome(UsuarioDTO.nome());
-        usuarioAtualizado.setEmail(UsuarioDTO.email());
+        usuarioAtualizado.setNome(usuario.getNome());
+        usuarioAtualizado.setEmail(usuario.getEmail());
 
-        Usuario usuarioEditado = usuarioService.editarUsuario(id, usuarioAtualizado);
+        Usuario usuarioEditado = usuarioService.editarUsuario(usuario.getId(), usuarioAtualizado);
 
         ResponseUsuarioDTO usuarioEditadoDTO = new ResponseUsuarioDTO(usuarioEditado.getId(), usuarioEditado.getNome(), usuarioEditado.getEmail());
 
         return ResponseEntity.ok(usuarioEditadoDTO);
     }
 
-    @DeleteMapping("/deletar/{id}")
-    public ResponseEntity<String> deletarAcessorio(@PathVariable UUID id) {
+    @DeleteMapping("/deletar")
+    public ResponseEntity<String> deletarAcessorio(@AuthenticationPrincipal Usuario usuario) {
 
-        usuarioService.deletarUsuario(id);
+        usuarioService.deletarUsuario(usuario.getId());
 
         return ResponseEntity.ok("Usuário deletado com sucesso.");
 
