@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("/Cadeira")
+@RequestMapping("cadeira")
 public class CadeiraController {
 
     @Autowired
