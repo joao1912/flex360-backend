@@ -16,10 +16,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.flex360.api_flex360.dto.usuario.ResponseUsuarioDTO;
 import com.flex360.api_flex360.models.Usuario;
 import com.flex360.api_flex360.services.UsuarioService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import com.flex360.api_flex360.services.ConverteParaDtoService;
 
 @RestController
 @RequestMapping("/usuario")
+@Tag(name = "Usuario")
 public class UsuarioController {
 
     @Autowired
@@ -28,6 +33,9 @@ public class UsuarioController {
     @Autowired
     private ConverteParaDtoService converteParaDtoService;
 
+    @Operation(
+        description = "Vai buscar todos os usuários cadastrados."
+    )
     @GetMapping("/buscarTodos")
     public ResponseEntity<List<ResponseUsuarioDTO>> buscarTodosUsuarios() {
         List<Usuario> usuarios = usuarioService.buscarTodosUsuarios();
