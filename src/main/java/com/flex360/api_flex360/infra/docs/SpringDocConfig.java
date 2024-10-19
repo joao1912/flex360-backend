@@ -15,7 +15,7 @@ import io.swagger.v3.oas.annotations.security.SecurityScheme;
     ),
     
     security = {
-        @SecurityRequirement(name = "BearerToken")
+        @SecurityRequirement(name = "BearerAuth")
     }
 )
 @SecurityScheme(
