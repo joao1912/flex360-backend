@@ -18,6 +18,8 @@ import com.flex360.api_flex360.models.Usuario;
 import com.flex360.api_flex360.services.UsuarioService;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import com.flex360.api_flex360.services.ConverteParaDtoService;
@@ -34,7 +36,23 @@ public class UsuarioController {
     private ConverteParaDtoService converteParaDtoService;
 
     @Operation(
-        description = "Vai buscar todos os usuários cadastrados."
+        description = "Vai buscar todos os usuários cadastrados.",
+        responses = {
+            @ApiResponse(
+                responseCode = "200"
+            ),
+
+            @ApiResponse(
+                responseCode = "403",
+                content = @Content()
+            ),
+
+            @ApiResponse(
+                responseCode = "404",
+                content = @Content()
+            )
+        }
+
     )
     @GetMapping("/buscarTodos")
     public ResponseEntity<List<ResponseUsuarioDTO>> buscarTodosUsuarios() {
@@ -46,6 +64,25 @@ public class UsuarioController {
         return ResponseEntity.ok(UsuarioDTOs);
     }
 
+    @Operation(
+        description = "Vai buscar um usuário por id.",
+        responses = {
+            @ApiResponse(
+                responseCode = "200"
+            ),
+
+            @ApiResponse(
+                responseCode = "403",
+                content = @Content()
+            ),
+
+            @ApiResponse(
+                responseCode = "404",
+                content = @Content()
+            )
+        }
+
+    )
     @GetMapping("/buscarPorId/{id}")
     public ResponseEntity<ResponseUsuarioDTO> buscarPorId(@PathVariable UUID id) {
 
@@ -55,6 +92,21 @@ public class UsuarioController {
             new ResponseUsuarioDTO( usuario.getId(), usuario.getNome(), usuario.getEmail()) );
     }
 
+    @Operation(
+        description = "Vai buscar os dados do usuário cadastrado.",
+        responses = {
+            @ApiResponse(
+                responseCode = "200"
+            ),
+
+            @ApiResponse(
+                responseCode = "403",
+                content = @Content()
+            ),
+
+        }
+
+    )
     @GetMapping("/buscarPerfil")
     public ResponseEntity<ResponseUsuarioDTO> buscarPerfil(@AuthenticationPrincipal Usuario usuario) {
 
@@ -62,6 +114,21 @@ public class UsuarioController {
             new ResponseUsuarioDTO( usuario.getId(), usuario.getNome(), usuario.getEmail()) );
     }
 
+    @Operation(
+        description = "Vai editar os dados de um usuário.",
+        responses = {
+            @ApiResponse(
+                responseCode = "200"
+            ),
+
+            @ApiResponse(
+                responseCode = "403",
+                content = @Content()
+            ),
+
+        }
+
+    )
     @PutMapping("/editar")
     public ResponseEntity<ResponseUsuarioDTO> editarUsuario(@AuthenticationPrincipal Usuario usuario) {
 
@@ -76,6 +143,23 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarioEditadoDTO);
     }
 
+    @Operation(
+        description = "Vai deletar um usuário.",
+        responses = {
+            @ApiResponse(
+                responseCode = "200",
+                description = "Usuário deletado com sucesso.",
+                content = @Content()
+            ),
+
+            @ApiResponse(
+                responseCode = "403",
+                content = @Content()
+            ),
+
+        }
+
+    )
     @DeleteMapping("/deletar")
     public ResponseEntity<String> deletarAcessorio(@AuthenticationPrincipal Usuario usuario) {
 
