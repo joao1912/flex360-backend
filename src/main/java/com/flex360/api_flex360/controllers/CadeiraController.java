@@ -8,6 +8,7 @@ import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.services.CadeiraService;
 import com.flex360.api_flex360.services.ConverteParaDtoService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,7 +26,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("cadeira")
+@RequestMapping("/cadeira")
+@Tag(name = "Cadeira")
 public class CadeiraController {
 
     @Autowired

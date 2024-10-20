@@ -18,12 +18,16 @@ import com.flex360.api_flex360.dto.carrinho.ResponseCarrinhoDTO;
 import com.flex360.api_flex360.models.Carrinho;
 import com.flex360.api_flex360.models.Usuario;
 import com.flex360.api_flex360.services.CarrinhoService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
 @RestController
-@RequestMapping("carrinho")
+@RequestMapping("/carrinho")
+@Tag(name = "Carrinho")
 public class CarrinhoController {
 
     @Autowired

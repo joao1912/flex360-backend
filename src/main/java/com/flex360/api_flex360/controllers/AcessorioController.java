@@ -19,8 +19,11 @@ import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.services.AcessorioService;
 import com.flex360.api_flex360.services.ConverteParaDtoService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/acessorio")
+@Tag(name = "Acessorio")
 public class AcessorioController {
 
     @Autowired

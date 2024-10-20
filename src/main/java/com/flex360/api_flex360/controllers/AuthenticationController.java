@@ -10,6 +10,8 @@ import com.flex360.api_flex360.infra.security.TokenService;
 import com.flex360.api_flex360.models.Usuario;
 import com.flex360.api_flex360.services.UsuarioService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,7 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController
-@RequestMapping("auth")
+@RequestMapping("/auth")
+@Tag(name = "Auth")
 public class AuthenticationController {
 
     @Autowired
