@@ -52,7 +52,7 @@ public class CarrinhoService {
         carrinhoRepository.delete(carrinho);
     }
 
-    @Transactional(readOnly=true)
+    @Transactional(readOnly = true)
     public ProdutosDTO buscarProdutosDoCarrinho(UUID id) {
         carrinhoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Carrinho não encontrado."));
@@ -82,10 +82,10 @@ public class CarrinhoService {
                             cadeira.getFoto_dimensoes(), cadeira.getDesc_encosto(), cadeira.getDesc_apoio(),
                             cadeira.getDesc_rodinha(), cadeira.getDesc_ajuste_altura(),
                             cadeira.getDesc_revestimento()));
-                            
+
                 }
                 default -> {
-                    throw  new IllegalArgumentException("Tipo de produto desconhecido");
+                    throw new IllegalArgumentException("Tipo de produto desconhecido");
                 }
             }
         }
@@ -93,7 +93,8 @@ public class CarrinhoService {
         return new ProdutosDTO(acessoriosDTO, cadeirasDTO);
     }
 
-    public ProdutosDTO editarQuantidadeProduto(UUID id, ModificaCarrinhoDTO modificaCarrinhoDTO, boolean removerQuantidade) {
+    public ProdutosDTO editarQuantidadeProduto(UUID id, ModificaCarrinhoDTO modificaCarrinhoDTO,
+            boolean removerQuantidade) {
 
         Carrinho carrinho = carrinhoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Carrinho não encontrado."));
@@ -131,9 +132,9 @@ public class CarrinhoService {
 
             try {
                 produtoCarrinhoRepository.save(produtoCarrinho);
-                } catch(Exception e) {
-                    throw new ErroAoSalvarException("Erro al salvar informações na tabela do carrinho", e);
-                }
+            } catch (Exception e) {
+                throw new ErroAoSalvarException("Erro ao salvar informações na tabela do carrinho", e);
+            }
             // tratar erro aqui
 
         } else {
@@ -150,11 +151,11 @@ public class CarrinhoService {
             produtoCarrinho.setQuantidade(modificaCarrinhoDTO.quantidade());
             produtoCarrinho.setCarrinho(carrinho);
 
-            //tratar erro aqui
+            // tratar erro aqui
             try {
-            produtoCarrinhoRepository.save(produtoCarrinho);
-            } catch(Exception e) {
-                throw new ErroAoSalvarException("Erro al salvar informações na tabela do carrinho", e);
+                produtoCarrinhoRepository.save(produtoCarrinho);
+            } catch (Exception e) {
+                throw new ErroAoSalvarException("Erro ao salvar informações na tabela do carrinho", e);
             }
         }
 
