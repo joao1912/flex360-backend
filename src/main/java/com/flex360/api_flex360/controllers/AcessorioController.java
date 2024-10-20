@@ -19,6 +19,9 @@ import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.services.AcessorioService;
 import com.flex360.api_flex360.services.ConverteParaDtoService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
@@ -32,6 +35,13 @@ public class AcessorioController {
     @Autowired
     private ConverteParaDtoService converteParaDtoService;
 
+    @Operation(description = "Vai buscar todas os acessorios cadastrados.", responses = {
+            @ApiResponse(responseCode = "200"),
+
+            @ApiResponse(responseCode = "404", content = @Content())
+    }
+
+    )
     @GetMapping("/buscarTodos")
     public ResponseEntity<List<AcessorioDTO>> buscarTodosAcessorios() {
         List<Acessorio> acessorios = acessorioService.buscarTodosAcessorios();
@@ -44,6 +54,13 @@ public class AcessorioController {
         return ResponseEntity.ok(acessorioDTOs);
     }
 
+    @Operation(description = "Vai buscar um acessorio por id.", responses = {
+            @ApiResponse(responseCode = "200"),
+
+            @ApiResponse(responseCode = "404", content = @Content())
+    }
+
+    )
     @GetMapping("/buscarPorId/{id}")
     public ResponseEntity<AcessorioDTO> buscarPorId(@PathVariable String id) {
 
@@ -55,6 +72,14 @@ public class AcessorioController {
                 new AcessorioDTO(acessorio.getId(), acessorio.getNome(), acessorio.getPreco(), acessorio.getFoto()));
     }
 
+    @Operation(description = "Vai cadastrar um acessorio.", responses = {
+            @ApiResponse(responseCode = "201"),
+
+            @ApiResponse(responseCode = "403", content = @Content()),
+
+    }
+
+    )
     @PostMapping("/criar")
     public ResponseEntity<AcessorioDTO> criarAcessorio(@RequestBody AcessorioDTO acessorioDTO) {
 
@@ -71,6 +96,14 @@ public class AcessorioController {
         return ResponseEntity.status(201).body(novoAcessorioDTO);
     }
 
+    @Operation(description = "Vai editar os dados de um acessorio por id.", responses = {
+            @ApiResponse(responseCode = "200"),
+
+            @ApiResponse(responseCode = "403", content = @Content()),
+
+    }
+
+    )
     @PutMapping("/editar/{id}")
     public ResponseEntity<AcessorioDTO> editarAcessorio(@PathVariable UUID id, @RequestBody AcessorioDTO acessorioDTO) {
 
@@ -88,6 +121,14 @@ public class AcessorioController {
         return ResponseEntity.ok(acessorioEditadoDTO);
     }
 
+    @Operation(description = "Vai deletar um acessorio por id.", responses = {
+            @ApiResponse(responseCode = "200", description = "Acessório deletado com sucesso.", content = @Content()),
+
+            @ApiResponse(responseCode = "403", content = @Content()),
+
+    }
+
+    )
     @DeleteMapping("/deletar/{id}")
     public ResponseEntity<String> deletarAcessorio(@PathVariable UUID id) {
 
