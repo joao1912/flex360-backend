@@ -18,6 +18,7 @@ import static org.mockito.ArgumentMatchers.any;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -28,6 +29,7 @@ import com.flex360.api_flex360.dto.carrinho.AcessorioDTO;
 import com.flex360.api_flex360.dto.carrinho.CadeiraDTO;
 import com.flex360.api_flex360.dto.carrinho.ModificaCarrinhoDTO;
 import com.flex360.api_flex360.dto.carrinho.ProdutosDTO;
+import com.flex360.api_flex360.exceptions.ErroAoSalvarException;
 import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.models.Carrinho;
@@ -89,6 +91,38 @@ public class CarrinhoServiceTest {
 
         assertEquals("Erro ao encontrar carrinho com esse id", exception.getMessage());
         verify(carrinhoRepository, times(1)).findById(id);
+    }
+
+    @Test
+    public void testEditarQuantidadeProduto_ThrowsErroAoSalvarException() {
+        // Arrange
+        UUID carrinhoId = UUID.randomUUID();
+        UUID produtoId = UUID.randomUUID();
+        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, 1);
+
+        Carrinho carrinho = new Carrinho();
+        carrinho.setId(carrinhoId);
+
+        Produto produto = new Produto();
+        produto.setId(produtoId);
+
+        when(carrinhoRepository.findById(carrinhoId)).thenReturn(Optional.of(carrinho));
+        when(produtoRepository.findById(produtoId)).thenReturn(Optional.of(produto));
+        when(produtoCarrinhoRepository.findByCarrinhoId(carrinhoId)).thenReturn(new ArrayList<>());
+
+        // Simula uma exceção ao salvar
+        doThrow(new RuntimeException("Erro no banco de dados"))
+                .when(produtoCarrinhoRepository).save(any(ProdutoCarrinho.class));
+
+        // Act & Assert
+        ErroAoSalvarException exception = assertThrows(ErroAoSalvarException.class, () -> {
+            carrinhoService.editarQuantidadeProduto(carrinhoId, modificaCarrinhoDTO, false);
+        });
+
+        assertEquals("Erro ao salvar informações na tabela do carrinho", exception.getMessage());
+
+        // Verifica se o método save foi chamado
+        verify(produtoCarrinhoRepository).save(any(ProdutoCarrinho.class));
     }
 
     // Teste para deletarCarrinho quando o carrinho é encontrado
@@ -244,52 +278,53 @@ public class CarrinhoServiceTest {
 
     // Teste para editarQuantidadeProduto quando remove quantidade e deleta o
     // ProdutoCarrinho
-@Test
-public void testEditarQuantidadeProduto_RemoveQuantidade_DeleteProdutoCarrinho() {
-    // Arrange
-    UUID carrinhoId = UUID.randomUUID();
-    UUID produtoId = UUID.randomUUID();
-    int quantidadeToRemove = 2;
-    ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToRemove);
+    @Test
+    public void testEditarQuantidadeProduto_RemoveQuantidade_DeleteProdutoCarrinho() {
+        // Arrange
+        UUID carrinhoId = UUID.randomUUID();
+        UUID produtoId = UUID.randomUUID();
+        int quantidadeToRemove = 2;
+        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToRemove);
 
-    Carrinho carrinho = new Carrinho();
-    carrinho.setId(carrinhoId);
-    Produto produto = new Acessorio();
-    produto.setId(produtoId);
+        Carrinho carrinho = new Carrinho();
+        carrinho.setId(carrinhoId);
+        Produto produto = new Acessorio();
+        produto.setId(produtoId);
 
-    when(carrinhoRepository.findById(carrinhoId)).thenReturn(Optional.of(carrinho));
-    when(produtoRepository.findById(produtoId)).thenReturn(Optional.of(produto));
+        when(carrinhoRepository.findById(carrinhoId)).thenReturn(Optional.of(carrinho));
+        when(produtoRepository.findById(produtoId)).thenReturn(Optional.of(produto));
 
-    ProdutoCarrinho produtoCarrinho = new ProdutoCarrinho();
-    produtoCarrinho.setCarrinho(carrinho);
-    produtoCarrinho.setProduto(produto);
-    produtoCarrinho.setQuantidade(2);
+        ProdutoCarrinho produtoCarrinho = new ProdutoCarrinho();
+        produtoCarrinho.setCarrinho(carrinho);
+        produtoCarrinho.setProduto(produto);
+        produtoCarrinho.setQuantidade(2);
 
-    // Lista em memória para simular o repositório
-    List<ProdutoCarrinho> produtosInRepository = new ArrayList<>();
-    produtosInRepository.add(produtoCarrinho);
+        // Lista em memória para simular o repositório
+        List<ProdutoCarrinho> produtosInRepository = new ArrayList<>();
+        produtosInRepository.add(produtoCarrinho);
 
-    // Configura o mock para retornar o estado atual da lista
-    when(produtoCarrinhoRepository.findByCarrinhoId(carrinhoId)).thenAnswer(invocation -> new ArrayList<>(produtosInRepository));
+        // Configura o mock para retornar o estado atual da lista
+        when(produtoCarrinhoRepository.findByCarrinhoId(carrinhoId))
+                .thenAnswer(invocation -> new ArrayList<>(produtosInRepository));
 
-    // Simula o comportamento do método delete
-    doAnswer(invocation -> {
-        produtosInRepository.remove(produtoCarrinho);
-        return null;
-    }).when(produtoCarrinhoRepository).delete(produtoCarrinho);
+        // Simula o comportamento do método delete
+        doAnswer(invocation -> {
+            produtosInRepository.remove(produtoCarrinho);
+            return null;
+        }).when(produtoCarrinhoRepository).delete(produtoCarrinho);
 
-    // Act
-    ProdutosDTO result = carrinhoService.editarQuantidadeProduto(carrinhoId, modificaCarrinhoDTO, true);
+        // Act
+        ProdutosDTO result = carrinhoService.editarQuantidadeProduto(carrinhoId, modificaCarrinhoDTO, true);
 
-    // Assert
-    verify(produtoCarrinhoRepository).delete(produtoCarrinho);
-    verify(carrinhoRepository, times(2)).findById(carrinhoId);
-    verify(produtoCarrinhoRepository, times(2)).findByCarrinhoId(carrinhoId);
+        // Assert
+        verify(produtoCarrinhoRepository).delete(produtoCarrinho);
+        verify(carrinhoRepository, times(2)).findById(carrinhoId);
+        verify(produtoCarrinhoRepository, times(2)).findByCarrinhoId(carrinhoId);
 
-    assertNotNull(result);
-    assertTrue(result.acessorios().isEmpty());
-    assertTrue(result.cadeiras().isEmpty());
-}
+        assertNotNull(result);
+        assertTrue(result.acessorios().isEmpty());
+        assertTrue(result.cadeiras().isEmpty());
+    }
 
     // Teste para editarQuantidadeProduto quando remove quantidade e atualiza o
     // ProdutoCarrinho
@@ -300,58 +335,59 @@ public void testEditarQuantidadeProduto_RemoveQuantidade_DeleteProdutoCarrinho()
         UUID produtoId = UUID.randomUUID();
         int quantidadeToRemove = 1;
         ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToRemove);
-    
+
         Carrinho carrinho = new Carrinho();
         carrinho.setId(carrinhoId); // Definindo o ID do carrinho
-    
+
         Produto produto = new Acessorio();
         produto.setId(produtoId);
-    
+
         when(carrinhoRepository.findById(carrinhoId)).thenReturn(Optional.of(carrinho));
         when(produtoRepository.findById(produtoId)).thenReturn(Optional.of(produto));
-    
+
         ProdutoCarrinho produtoCarrinho = new ProdutoCarrinho();
         produtoCarrinho.setCarrinho(carrinho);
         produtoCarrinho.setProduto(produto);
         produtoCarrinho.setQuantidade(2);
-    
+
         // Lista em memória para simular o repositório
         List<ProdutoCarrinho> produtosInRepository = new ArrayList<>();
         produtosInRepository.add(produtoCarrinho);
-    
+
         // Configura o mock para retornar o estado atual da lista
         when(produtoCarrinhoRepository.findByCarrinhoId(carrinhoId))
-            .thenAnswer(invocation -> new ArrayList<>(produtosInRepository));
-    
+                .thenAnswer(invocation -> new ArrayList<>(produtosInRepository));
+
         // Simula o comportamento do método save
         doAnswer(invocation -> {
             ProdutoCarrinho pc = invocation.getArgument(0);
             // Atualiza a quantidade no objeto existente
-            produtosInRepository.removeIf(existingPc -> existingPc.getProduto().getId().equals(pc.getProduto().getId()));
+            produtosInRepository
+                    .removeIf(existingPc -> existingPc.getProduto().getId().equals(pc.getProduto().getId()));
             produtosInRepository.add(pc);
             return null;
         }).when(produtoCarrinhoRepository).save(any(ProdutoCarrinho.class));
-    
+
         // Act
         carrinhoService.editarQuantidadeProduto(carrinhoId, modificaCarrinhoDTO, true);
-    
+
         // Assert
         // Verifica se a quantidade foi atualizada corretamente
         ProdutoCarrinho updatedProdutoCarrinho = produtosInRepository.stream()
-            .filter(pc -> pc.getProduto().getId().equals(produtoId))
-            .findFirst()
-            .orElse(null);
-    
+                .filter(pc -> pc.getProduto().getId().equals(produtoId))
+                .findFirst()
+                .orElse(null);
+
         assertNotNull(updatedProdutoCarrinho);
         assertEquals(1, updatedProdutoCarrinho.getQuantidade());
-    
+
         verify(produtoCarrinhoRepository, times(1)).save(any(ProdutoCarrinho.class));
         verify(produtoCarrinhoRepository, never()).delete(any());
-    
+
         verify(carrinhoRepository, times(2)).findById(carrinhoId);
         verify(produtoCarrinhoRepository, times(2)).findByCarrinhoId(carrinhoId);
     }
-    
+
     // Teste para editarQuantidadeProduto quando adiciona quantidade ao
     // ProdutoCarrinho existente
     @Test
@@ -361,54 +397,55 @@ public void testEditarQuantidadeProduto_RemoveQuantidade_DeleteProdutoCarrinho()
         UUID produtoId = UUID.randomUUID();
         int quantidadeToAdd = 3;
         ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToAdd);
-    
+
         Carrinho carrinho = new Carrinho();
         carrinho.setId(carrinhoId); // Definindo o ID do carrinho
-    
+
         Produto produto = new Acessorio();
         produto.setId(produtoId);
-    
+
         when(carrinhoRepository.findById(carrinhoId)).thenReturn(Optional.of(carrinho));
         when(produtoRepository.findById(produtoId)).thenReturn(Optional.of(produto));
-    
+
         ProdutoCarrinho produtoCarrinho = new ProdutoCarrinho();
         produtoCarrinho.setCarrinho(carrinho);
         produtoCarrinho.setProduto(produto);
         produtoCarrinho.setQuantidade(2);
-    
+
         // Lista em memória para simular o repositório
         List<ProdutoCarrinho> produtosInRepository = new ArrayList<>();
         produtosInRepository.add(produtoCarrinho);
-    
+
         // Configura o mock para retornar o estado atual da lista
         when(produtoCarrinhoRepository.findByCarrinhoId(carrinhoId))
-            .thenAnswer(invocation -> new ArrayList<>(produtosInRepository));
-    
+                .thenAnswer(invocation -> new ArrayList<>(produtosInRepository));
+
         // Simula o comportamento do método save
         doAnswer(invocation -> {
             ProdutoCarrinho pc = invocation.getArgument(0);
             // Atualiza a quantidade no objeto existente
-            produtosInRepository.removeIf(existingPc -> existingPc.getProduto().getId().equals(pc.getProduto().getId()));
+            produtosInRepository
+                    .removeIf(existingPc -> existingPc.getProduto().getId().equals(pc.getProduto().getId()));
             produtosInRepository.add(pc);
             return null;
         }).when(produtoCarrinhoRepository).save(any(ProdutoCarrinho.class));
-    
+
         // Act
         carrinhoService.editarQuantidadeProduto(carrinhoId, modificaCarrinhoDTO, false);
-    
+
         // Assert
         // Verifica se a quantidade foi atualizada corretamente
         ProdutoCarrinho updatedProdutoCarrinho = produtosInRepository.stream()
-            .filter(pc -> pc.getProduto().getId().equals(produtoId))
-            .findFirst()
-            .orElse(null);
-    
+                .filter(pc -> pc.getProduto().getId().equals(produtoId))
+                .findFirst()
+                .orElse(null);
+
         assertNotNull(updatedProdutoCarrinho);
         assertEquals(5, updatedProdutoCarrinho.getQuantidade());
-    
+
         verify(produtoCarrinhoRepository, times(1)).save(any(ProdutoCarrinho.class));
         verify(produtoCarrinhoRepository, never()).delete(any());
-    
+
         verify(carrinhoRepository, times(2)).findById(carrinhoId);
         verify(produtoCarrinhoRepository, times(2)).findByCarrinhoId(carrinhoId);
     }
@@ -436,7 +473,7 @@ public void testEditarQuantidadeProduto_RemoveQuantidade_DeleteProdutoCarrinho()
         when(produtoCarrinhoRepository.findByCarrinhoId(carrinhoId)).thenReturn(produtos);
 
         // Act
-       
+
         carrinhoService.editarQuantidadeProduto(carrinhoId, modificaCarrinhoDTO, false);
 
         // Assert
@@ -449,9 +486,8 @@ public void testEditarQuantidadeProduto_RemoveQuantidade_DeleteProdutoCarrinho()
         assertEquals(quantidadeToAdd, savedProdutoCarrinho.getQuantidade());
 
         verify(carrinhoRepository, times(2)).findById(carrinhoId);
-        
-    }
 
+    }
 
     // Teste para deletaProduto quando o produto é encontrado
     @Test
