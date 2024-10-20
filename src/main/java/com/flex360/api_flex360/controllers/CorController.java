@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flex360.api_flex360.dto.cor.CorDTO;
+import com.flex360.api_flex360.dto.cor.RequestCorDTO;
 import com.flex360.api_flex360.models.Cor;
 import com.flex360.api_flex360.services.ConverteParaDtoService;
 import com.flex360.api_flex360.services.CorService;
@@ -85,7 +86,7 @@ public class CorController {
 
     )
     @PostMapping("/criar")
-    public ResponseEntity<CorDTO> criarCor(@RequestBody CorDTO corDTO) {
+    public ResponseEntity<CorDTO> criarCor(@RequestBody RequestCorDTO corDTO) {
         // Converter o CorDTO para a entidade Cor
         Cor novaCor = new Cor();
         novaCor.setName(corDTO.nome());
@@ -110,7 +111,7 @@ public class CorController {
 
     )
     @PutMapping("/editar/{id}")
-    public ResponseEntity<CorDTO> editarCor(@PathVariable UUID id, @RequestBody CorDTO corDTO) {
+    public ResponseEntity<CorDTO> editarCor(@PathVariable UUID id, @RequestBody RequestCorDTO corDTO) {
         // Converter o CorDTO para a entidade Cor
         Cor corAtualizada = new Cor();
         corAtualizada.setName(corDTO.nome());
