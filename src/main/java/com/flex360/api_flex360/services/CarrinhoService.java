@@ -52,7 +52,6 @@ public class CarrinhoService {
         carrinhoRepository.delete(carrinho);
     }
 
-
     @Transactional(readOnly=true)
     public ProdutosDTO buscarProdutosDoCarrinho(UUID id) {
         carrinhoRepository.findById(id)

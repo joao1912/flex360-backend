@@ -5,9 +5,13 @@ import java.util.UUID;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.repository.AcessorioRepository;
+
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.ValidationException; 
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -15,6 +19,20 @@ import lombok.RequiredArgsConstructor;
 public class AcessorioService {
 
     private final AcessorioRepository acessorioRepository;
+
+    private void validarAcessorio(Acessorio acessorio) {
+        
+        if (!StringUtils.hasText(acessorio.getNome()) || acessorio.getNome().length() > 20) {
+            throw new ValidationException("O nome do acessório é obrigatório e não pode exceder 20 caracteres.");
+        }
+        if (acessorio.getPreco() <= 0) {
+            throw new ValidationException("O preço do acessório deve ser maior que zero.");
+        }
+        if (acessorio.getFoto() == null || 
+        !acessorio.getFoto().matches("^(https?|ftp)://.*$")) {
+            throw new ValidationException("A foto do acessório deve ser uma URL válida");
+        }
+    }
 
     public List<Acessorio> buscarTodosAcessorios() {
         List<Acessorio> acessorios = acessorioRepository.findAll();
@@ -27,11 +45,13 @@ public class AcessorioService {
     public Acessorio buscarAcessorioPorId(UUID id) {
 
         return acessorioRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Acessório não encontrado com ID"));
+            .orElseThrow(() -> new EntityNotFoundException("Acessório não encontrado com ID" ));
 
     }
     
     public Acessorio criarAcessorio(Acessorio acessorio) {
+
+        validarAcessorio(acessorio);
 
         try {
             return acessorioRepository.save(acessorio);
@@ -43,7 +63,10 @@ public class AcessorioService {
 
     public Acessorio editarAcessorio(UUID id, Acessorio acessorioAtualizado) {
 
+        validarAcessorio(acessorioAtualizado);
+
         Acessorio acessorioExistente = buscarAcessorioPorId(id);
+        acessorioExistente.setId(id);
         acessorioExistente.setNome(acessorioAtualizado.getNome());
         acessorioExistente.setPreco(acessorioAtualizado.getPreco());
         acessorioExistente.setFoto(acessorioAtualizado.getFoto());
