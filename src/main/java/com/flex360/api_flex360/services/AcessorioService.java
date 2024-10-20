@@ -66,6 +66,7 @@ public class AcessorioService {
         validarAcessorio(acessorioAtualizado);
 
         Acessorio acessorioExistente = buscarAcessorioPorId(id);
+        acessorioExistente.setId(id);
         acessorioExistente.setNome(acessorioAtualizado.getNome());
         acessorioExistente.setPreco(acessorioAtualizado.getPreco());
         acessorioExistente.setFoto(acessorioAtualizado.getFoto());

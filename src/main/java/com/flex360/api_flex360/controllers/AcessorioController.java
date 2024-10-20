@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flex360.api_flex360.dto.acessorio.AcessorioDTO;
+import com.flex360.api_flex360.dto.acessorio.RequestAcessorioDTO;
 import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.services.AcessorioService;
 import com.flex360.api_flex360.services.ConverteParaDtoService;
@@ -81,7 +82,7 @@ public class AcessorioController {
 
     )
     @PostMapping("/criar")
-    public ResponseEntity<AcessorioDTO> criarAcessorio(@RequestBody AcessorioDTO acessorioDTO) {
+    public ResponseEntity<AcessorioDTO> criarAcessorio(@RequestBody RequestAcessorioDTO acessorioDTO) {
 
         Acessorio novoAcessorio = new Acessorio();
         novoAcessorio.setNome(acessorioDTO.nome());
@@ -105,10 +106,9 @@ public class AcessorioController {
 
     )
     @PutMapping("/editar/{id}")
-    public ResponseEntity<AcessorioDTO> editarAcessorio(@PathVariable UUID id, @RequestBody AcessorioDTO acessorioDTO) {
+    public ResponseEntity<AcessorioDTO> editarAcessorio(@PathVariable UUID id, @RequestBody RequestAcessorioDTO acessorioDTO) {
 
         Acessorio acessorioAtualizado = new Acessorio();
-        acessorioAtualizado.setId(acessorioDTO.id());
         acessorioAtualizado.setNome(acessorioDTO.nome());
         acessorioAtualizado.setPreco(acessorioDTO.preco());
         acessorioAtualizado.setFoto(acessorioDTO.foto());

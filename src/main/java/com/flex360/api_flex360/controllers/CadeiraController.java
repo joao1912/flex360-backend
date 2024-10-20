@@ -160,7 +160,7 @@ public class CadeiraController {
 
     )
     @PutMapping("/editar/{id}")
-    public ResponseEntity<CadeiraDTO> editarCadeira(@PathVariable UUID id, @RequestBody CadeiraDTO cadeiraDTO) {
+    public ResponseEntity<CadeiraDTO> editarCadeira(@PathVariable UUID id, @RequestBody RequestCadeiraDTO cadeiraDTO) {
 
         Cadeira cadeiraAtualizada = new Cadeira();
         cadeiraAtualizada.setNome(cadeiraDTO.nome());
