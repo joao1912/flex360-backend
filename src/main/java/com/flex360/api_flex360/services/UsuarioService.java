@@ -53,9 +53,9 @@ public class UsuarioService {
     }
 
     public Usuario criarUsuario(Usuario usuario) {
-        validarUsuario(usuario);  // Valida antes de salvar
+        validarUsuario(usuario);
         String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
-        Usuario novoUsuario = new Usuario(usuario.getNome(), usuario.getEmail(), senhaCriptografada, UserRole.USER);
+        Usuario novoUsuario = new Usuario(usuario.getNome(), senhaCriptografada, usuario.getEmail(), UserRole.USER);
 
         try {
             return usuarioRepository.save(novoUsuario);
