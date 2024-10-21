@@ -2,8 +2,8 @@ package com.flex360.api_flex360.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -84,7 +84,11 @@ public class CadeiraService {
 
         novaCadeira.setCategorias(categoriasModels);
 
-        return cadeiraRepository.save(novaCadeira);
+        try {
+            return cadeiraRepository.save(novaCadeira);
+        } catch(e) {
+            //corrigir depois
+        }
     }
 
     public Cadeira editarCadeira(UUID id, Cadeira cadeiraAtualizada) {
