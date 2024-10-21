@@ -24,11 +24,11 @@ public class UsuarioService {
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     
-    private void validarUsuario(Usuario usuario) {
+    private void validarUsuario(Usuario usuario, boolean checaEmail) {
         if (!StringUtils.hasText(usuario.getNome()) || usuario.getNome().length() > 20) {
             throw new ValidationException("O nome é obrigatório e deve ter no máximo 20 caracteres.");
         }
-        if (!StringUtils.hasText(usuario.getEmail()) || !usuario.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+        if (checaEmail && !StringUtils.hasText(usuario.getEmail()) || !usuario.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
             throw new ValidationException("O e-mail é obrigatório e deve ser válido.");
         }
         if (usuarioRepository.findByEmail(usuario.getEmail()) != null) {
@@ -53,7 +53,7 @@ public class UsuarioService {
     }
 
     public Usuario criarUsuario(Usuario usuario) {
-        validarUsuario(usuario);
+        validarUsuario(usuario, true);
         String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
         Usuario novoUsuario = new Usuario(usuario.getNome(), senhaCriptografada, usuario.getEmail(), UserRole.USER);
 
@@ -75,6 +75,9 @@ public class UsuarioService {
                     usuarioRepository.findByEmail(usuarioAtualizado.getEmail()) != null) {
                 throw new ValidationException("E-mail já cadastrado.");
             }
+
+            validarUsuario(usuarioAtualizado, false);
+
             usuarioExistente.setEmail(usuarioAtualizado.getEmail());
         }
         if (StringUtils.hasText(usuarioAtualizado.getSenha())) {
