@@ -1,0 +1,163 @@
+[
+    {
+        "nome": "Cadeira Tecton",
+        "descricao": "colocar descricao",
+        "temp_garantia": 0,
+        "preco": 0,
+        "dimensoes": "120cm x 70cm x 50cm",
+        "foto_dimensoes": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/tecton/ddp-tecton.jpeg",
+        "foto_banner": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/tecton/banner-tecton.jpeg",
+        "desc_encosto": "Encosto reclinável com ajuste lombar.",
+        "desc_apoio": "Apoio de braços ajustáveis.",
+        "desc_rodinha": "Rodinhas de silicone que não riscam o chão.",
+        "desc_ajuste_altura": "Ajuste de altura com pistão a gás.",
+        "desc_revestimento": "Revestimento em couro sintético.",
+        "categorias": [
+            {
+                "name": "Ergonômica"
+            },
+            {
+                "name": "Escritório"
+            }
+        ],
+        "cores_disponiveis": [
+            {
+                "name": "Preto",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/tecton/cadeira-tecton-all-black-unique.jpeg"
+            },
+            {
+                "name": "Dourado",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/tecton/cadeira-tecton-golden-unique.jpeg"
+            },
+            {
+                "name": "Marrom",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/tecton/cadeira-tecton-coffee-unique.jpeg"
+            },
+            {
+                "name": "Azul",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/tecton/cadeira-tecton-night-blue-unique.jpeg"
+            }
+        ]
+    },
+    {
+        "nome": "Cadeira Big One",
+        "descricao": "colocar descricao",
+        "temp_garantia": 0,
+        "preco": 0,
+        "dimensoes": "120cm x 70cm x 50cm",
+        "foto_dimensoes": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/big-one/ddp-big-one.jpeg",
+        "foto_banner": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/big-one/banner-big-one.jpeg",
+        "desc_encosto": "Encosto reclinável com ajuste lombar.",
+        "desc_apoio": "Apoio de braços ajustáveis.",
+        "desc_rodinha": "Rodinhas de silicone que não riscam o chão.",
+        "desc_ajuste_altura": "Ajuste de altura com pistão a gás.",
+        "desc_revestimento": "Revestimento em couro sintético.",
+        "categorias": [
+            {
+                "name": "Ergonômica"
+            },
+            {
+                "name": "Escritório"
+            }
+        ],
+        "cores_disponiveis": [
+            {
+                "name": "Preto",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/big-one/cadeira-golden-big-one-150kg.jpeg"
+            }
+        ]
+    },
+    {
+        "nome": "Cadeira Uni",
+        "descricao": "colocar descricao",
+        "temp_garantia": 0,
+        "preco": 0,
+        "dimensoes": "120cm x 70cm x 50cm",
+        "foto_dimensoes": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/uni/ddp-uni.jpeg",
+        "foto_banner": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/uni/banner-uni.jpeg",
+        "desc_encosto": "Encosto reclinável com ajuste lombar.",
+        "desc_apoio": "Apoio de braços ajustáveis.",
+        "desc_rodinha": "Rodinhas de silicone que não riscam o chão.",
+        "desc_ajuste_altura": "Ajuste de altura com pistão a gás.",
+        "desc_revestimento": "Revestimento em couro sintético.",
+        "categorias": [
+            {
+                "name": "Ergonômica"
+            },
+            {
+                "name": "Escritório"
+            }
+        ],
+        "cores_disponiveis": [
+            {
+                "name": "Preto",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/uni/cadeira-uni-all-black.jpeg"
+            },
+            {
+                "name": "Vermelho",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/uni/cadeira-uni-all-red.jpeg"
+            },
+            {
+                "name": "Amarelo",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/uni/cadeira-uni-all-yellow.jpeg"
+            },
+            {
+                "name": "Jeans",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/uni/cadeira-uni-jeans.jpeg"
+            }
+        ]
+    },
+    {
+        "nome": "Cadeira Led",
+        "descricao": "colocar descricao",
+        "temp_garantia": 0,
+        "preco": 0,
+        "dimensoes": "120cm x 70cm x 50cm",
+        "foto_dimensoes": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/ddp-led.jpeg",
+        "foto_banner": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/banner-led.jpeg",
+        "desc_encosto": "Encosto reclinável com ajuste lombar.",
+        "desc_apoio": "Apoio de braços ajustáveis.",
+        "desc_rodinha": "Rodinhas de silicone que não riscam o chão.",
+        "desc_ajuste_altura": "Ajuste de altura com pistão a gás.",
+        "desc_revestimento": "Revestimento em couro sintético.",
+        "categorias": [
+            {
+                "name": "Ergonômica"
+            },
+            {
+                "name": "Escritório"
+            }
+        ],
+        "cores_disponiveis": [
+            {
+                "name": "Preto",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/cadeira-led-all-black.jpeg"
+            },
+            {
+                "name": "Vermelho / Preto",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/cadeira-led-shadow-black.jpeg"
+            },
+            {
+                "name": "Preto / Vermelho",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/cadeira-led-lipstick-red.jpeg"
+            },
+            {
+                "name": "Branco / Preto",
+                "codigo": "#000000",
+                "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/cadeira-led-black-n-white.jpeg"
+            }
+        ]
+    }
+]
