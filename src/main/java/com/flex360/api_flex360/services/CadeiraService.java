@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.flex360.api_flex360.dto.cadeira.RequestCadeiraDTO;
@@ -65,6 +66,7 @@ public class CadeiraService {
             .orElseThrow(() -> new EntityNotFoundException("Cadeira com ID " + id + " não encontrada."));
     }
 
+    @Transactional
     public Cadeira criarCadeira(RequestCadeiraDTO cadeiraDTO) {
 
         validarCadeira(cadeiraDTO);
@@ -101,11 +103,10 @@ public class CadeiraService {
 
             }else{
 
-                Cor dataCor = corExiste.get();
                 Cor novaCor = new Cor();
-                novaCor.setName(dataCor.getName());
-                novaCor.setCodigo(dataCor.getCodigo());
-                novaCor.setFoto_cadeira(dataCor.getFoto_cadeira());
+                novaCor.setName(cor.getName());
+                novaCor.setCodigo(cor.getCodigo());
+                novaCor.setFoto_cadeira(cor.getFoto_cadeira());
 
                 Cor corCriada = corRepository.save(novaCor);
                 corModels.add(corCriada);
@@ -121,7 +122,6 @@ public class CadeiraService {
         novaCadeira.setTemp_garantia(cadeiraDTO.temp_garantia());
         novaCadeira.setPreco(cadeiraDTO.preco());
         novaCadeira.setDimensoes(cadeiraDTO.dimencoes());
-        novaCadeira.setFoto(cadeiraDTO.foto_cadeira());
         novaCadeira.setFoto_dimensoes(cadeiraDTO.foto_dimencoes());
         novaCadeira.setDesc_encosto(cadeiraDTO.desc_encosto());
         novaCadeira.setDesc_apoio(cadeiraDTO.desc_apoio());
@@ -144,7 +144,6 @@ public class CadeiraService {
         cadeiraExistente.setTemp_garantia(cadeiraAtualizada.temp_garantia());
         cadeiraExistente.setPreco(cadeiraAtualizada.preco());
         cadeiraExistente.setDimensoes(cadeiraAtualizada.dimencoes());
-        cadeiraExistente.setFoto(cadeiraAtualizada.foto_cadeira());
         cadeiraExistente.setFoto_dimensoes(cadeiraAtualizada.foto_dimencoes());
         cadeiraExistente.setDesc_encosto(cadeiraAtualizada.desc_encosto());
         cadeiraExistente.setDesc_apoio(cadeiraAtualizada.desc_apoio());
