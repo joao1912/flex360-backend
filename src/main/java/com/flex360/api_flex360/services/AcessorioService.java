@@ -45,7 +45,7 @@ public class AcessorioService {
     public Acessorio buscarAcessorioPorId(UUID id) {
 
         return acessorioRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Acessório não encontrado com ID" ));
+            .orElseThrow(() -> new EntityNotFoundException("Acessório não encontrado com ID" + id));
 
     }
     
