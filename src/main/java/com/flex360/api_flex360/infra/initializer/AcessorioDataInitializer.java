@@ -4,7 +4,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CadeiraDataInitializer implements CommandLineRunner {
+public class AcessorioDataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
@@ -14,4 +14,3 @@ public class CadeiraDataInitializer implements CommandLineRunner {
     }
     
 }
-
