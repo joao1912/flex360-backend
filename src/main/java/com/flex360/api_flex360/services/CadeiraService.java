@@ -9,11 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.flex360.api_flex360.dto.cadeira.RequestCadeiraDTO;
 import com.flex360.api_flex360.dto.cadeira.SugestaoErgonomicaDTO;
 import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.models.Categoria;
+import com.flex360.api_flex360.models.Cor;
 import com.flex360.api_flex360.repository.CadeiraRepository;
 import com.flex360.api_flex360.repository.CategoriaRepository;
+import com.flex360.api_flex360.repository.CorRepository;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
@@ -27,19 +30,24 @@ public class CadeiraService {
     @Autowired
     private CategoriaRepository categoriaRepository;
 
-    private void validarCadeira(Cadeira cadeira) {
+    @Autowired
+    private CorRepository corRepository;
+
+    private void validarCadeira(RequestCadeiraDTO cadeira) {
         
-        if (!StringUtils.hasText(cadeira.getNome()) || cadeira.getNome().length() > 20) {
+        if (!StringUtils.hasText(cadeira.nome()) || cadeira.nome().length() > 20) {
             throw new ValidationException("O nome é obrigatório e não pode exceder 20 caracteres.");
         }
 
-        if (!StringUtils.hasText(cadeira.getDescricao()) || cadeira.getDescricao().length() > 100) {
+        if (!StringUtils.hasText(cadeira.descricao()) || cadeira.descricao().length() > 100) {
             throw new ValidationException("A descrição é obrigatória e não pode exceder 100 caracteres.");
         }
 
-        if (cadeira.getPreco() <= 0) {
+        if (cadeira.preco() <= 0) {
             throw new ValidationException("O preço deve ser maior que zero.");
         }
+
+        // validar as outras props aqui
         
     }
 
@@ -57,13 +65,14 @@ public class CadeiraService {
             .orElseThrow(() -> new EntityNotFoundException("Cadeira com ID " + id + " não encontrada."));
     }
 
-    public Cadeira criarCadeira(Cadeira novaCadeira) {
+    public Cadeira criarCadeira(RequestCadeiraDTO cadeiraDTO) {
 
-        validarCadeira(novaCadeira);
+        validarCadeira(cadeiraDTO);
 
         List<Categoria> categoriasModels = new ArrayList<>();
+        List<Cor> corModels = new ArrayList<>();
 
-        for (Categoria categoria : novaCadeira.getCategorias()) {
+        for (Categoria categoria : cadeiraDTO.categorias()) {
 
             Optional<Categoria> categoriaExiste =  categoriaRepository.findByName(categoria.getName());
 
@@ -82,18 +91,68 @@ public class CadeiraService {
 
         }
 
+        for (Cor cor : cadeiraDTO.cores_disponiveis()) {
+
+            Optional<Cor> corExiste =  corRepository.findByName(cor.getName());
+
+            if (corExiste.isPresent()){
+
+                corModels.add(corExiste.get());
+
+            }else{
+
+                Cor dataCor = corExiste.get();
+                Cor novaCor = new Cor();
+                novaCor.setName(dataCor.getName());
+                novaCor.setCodigo(dataCor.getCodigo());
+                novaCor.setFoto_cadeira(dataCor.getFoto_cadeira());
+
+                Cor corCriada = corRepository.save(novaCor);
+                corModels.add(corCriada);
+
+            }
+
+        }
+
+        Cadeira novaCadeira = new Cadeira();
+        novaCadeira.setNome(cadeiraDTO.nome());
+        novaCadeira.setDescricao(cadeiraDTO.descricao());
+        novaCadeira.setInformacoes(cadeiraDTO.informacoes());
+        novaCadeira.setTemp_garantia(cadeiraDTO.temp_garantia());
+        novaCadeira.setPreco(cadeiraDTO.preco());
+        novaCadeira.setDimensoes(cadeiraDTO.dimencoes());
+        novaCadeira.setFoto(cadeiraDTO.foto_cadeira());
+        novaCadeira.setFoto_dimensoes(cadeiraDTO.foto_dimencoes());
+        novaCadeira.setDesc_encosto(cadeiraDTO.desc_encosto());
+        novaCadeira.setDesc_apoio(cadeiraDTO.desc_apoio());
+        novaCadeira.setDesc_rodinha(cadeiraDTO.desc_rodinha());
+        novaCadeira.setDesc_ajuste_altura(cadeiraDTO.desc_ajuste_altura());
+        novaCadeira.setDesc_revestimento(cadeiraDTO.desc_revestimento());
+        novaCadeira.setCores(corModels);
         novaCadeira.setCategorias(categoriasModels);
 
         return cadeiraRepository.save(novaCadeira);
     }
 
-    public Cadeira editarCadeira(UUID id, Cadeira cadeiraAtualizada) {
+    public Cadeira editarCadeira(UUID id, RequestCadeiraDTO cadeiraAtualizada) {
         Cadeira cadeiraExistente = buscarCadeiraPorId(id);
         validarCadeira(cadeiraAtualizada);
 
-        cadeiraExistente.setNome(cadeiraAtualizada.getNome());
-        cadeiraExistente.setDescricao(cadeiraAtualizada.getDescricao());
-        cadeiraExistente.setPreco(cadeiraAtualizada.getPreco());
+        cadeiraExistente.setNome(cadeiraAtualizada.nome());
+        cadeiraExistente.setDescricao(cadeiraAtualizada.descricao());
+        cadeiraExistente.setInformacoes(cadeiraAtualizada.informacoes());
+        cadeiraExistente.setTemp_garantia(cadeiraAtualizada.temp_garantia());
+        cadeiraExistente.setPreco(cadeiraAtualizada.preco());
+        cadeiraExistente.setDimensoes(cadeiraAtualizada.dimencoes());
+        cadeiraExistente.setFoto(cadeiraAtualizada.foto_cadeira());
+        cadeiraExistente.setFoto_dimensoes(cadeiraAtualizada.foto_dimencoes());
+        cadeiraExistente.setDesc_encosto(cadeiraAtualizada.desc_encosto());
+        cadeiraExistente.setDesc_apoio(cadeiraAtualizada.desc_apoio());
+        cadeiraExistente.setDesc_rodinha(cadeiraAtualizada.desc_rodinha());
+        cadeiraExistente.setDesc_ajuste_altura(cadeiraAtualizada.desc_ajuste_altura());
+        cadeiraExistente.setDesc_revestimento(cadeiraAtualizada.desc_revestimento());
+        cadeiraExistente.setCores(cadeiraAtualizada.cores_disponiveis());
+        cadeiraExistente.setCategorias(cadeiraAtualizada.categorias());
 
         return cadeiraRepository.save(cadeiraExistente);
     }

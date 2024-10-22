@@ -58,14 +58,15 @@ public class CadeiraController {
                         cadeira.getTemp_garantia(),
                         cadeira.getPreco(),
                         cadeira.getDimensoes(),
-                        cadeira.getFoto(),
                         cadeira.getFoto_dimensoes(),
                         cadeira.getDesc_encosto(),
                         cadeira.getDesc_apoio(),
                         cadeira.getDesc_rodinha(),
                         cadeira.getDesc_ajuste_altura(),
                         cadeira.getDesc_revestimento(),
-                        cadeira.getCategorias()));
+                        cadeira.getCategorias(),
+                        cadeira.getCores()
+                ));
 
         return ResponseEntity.ok(cadeiraDTOs);
 
@@ -92,14 +93,14 @@ public class CadeiraController {
                         cadeira.getTemp_garantia(),
                         cadeira.getPreco(),
                         cadeira.getDimensoes(),
-                        cadeira.getFoto(),
                         cadeira.getFoto_dimensoes(),
                         cadeira.getDesc_encosto(),
                         cadeira.getDesc_apoio(),
                         cadeira.getDesc_rodinha(),
                         cadeira.getDesc_ajuste_altura(),
                         cadeira.getDesc_revestimento(),
-                        cadeira.getCategorias()));
+                        cadeira.getCategorias(),
+                        cadeira.getCores()));
     }
 
     @Operation(description = "Vai cadastrar uma cadeira.", responses = {
@@ -113,23 +114,7 @@ public class CadeiraController {
     @PostMapping("/criar")
     public ResponseEntity<CadeiraDTO> criarCadeira(@RequestBody RequestCadeiraDTO cadeiraDTO) {
 
-        Cadeira novaCadeira = new Cadeira();
-        novaCadeira.setNome(cadeiraDTO.nome());
-        novaCadeira.setDescricao(cadeiraDTO.descricao());
-        novaCadeira.setInformacoes(cadeiraDTO.informacoes());
-        novaCadeira.setTemp_garantia(cadeiraDTO.temp_garantia());
-        novaCadeira.setPreco(cadeiraDTO.preco());
-        novaCadeira.setDimensoes(cadeiraDTO.dimencoes());
-        novaCadeira.setFoto(cadeiraDTO.foto_cadeira());
-        novaCadeira.setFoto_dimensoes(cadeiraDTO.foto_dimencoes());
-        novaCadeira.setDesc_encosto(cadeiraDTO.desc_encosto());
-        novaCadeira.setDesc_apoio(cadeiraDTO.desc_apoio());
-        novaCadeira.setDesc_rodinha(cadeiraDTO.desc_rodinha());
-        novaCadeira.setDesc_ajuste_altura(cadeiraDTO.desc_ajuste_altura());
-        novaCadeira.setDesc_revestimento(cadeiraDTO.desc_revestimento());
-        novaCadeira.setCategorias(cadeiraDTO.categorias());
-
-        Cadeira cadeiraCriada = cadeiraService.criarCadeira(novaCadeira);
+        Cadeira cadeiraCriada = cadeiraService.criarCadeira(cadeiraDTO);
 
         CadeiraDTO novaCadeiraDTO = new CadeiraDTO(
                 cadeiraCriada.getId(),
@@ -139,14 +124,14 @@ public class CadeiraController {
                 cadeiraCriada.getTemp_garantia(),
                 cadeiraCriada.getPreco(),
                 cadeiraCriada.getDimensoes(),
-                cadeiraCriada.getFoto(),
                 cadeiraCriada.getFoto_dimensoes(),
                 cadeiraCriada.getDesc_encosto(),
                 cadeiraCriada.getDesc_apoio(),
                 cadeiraCriada.getDesc_rodinha(),
                 cadeiraCriada.getDesc_ajuste_altura(),
                 cadeiraCriada.getDesc_revestimento(),
-                cadeiraCriada.getCategorias());
+                cadeiraCriada.getCategorias(),
+                cadeiraCriada.getCores());
 
         return ResponseEntity.status(201).body(novaCadeiraDTO);
     }
@@ -162,23 +147,7 @@ public class CadeiraController {
     @PutMapping("/editar/{id}")
     public ResponseEntity<CadeiraDTO> editarCadeira(@PathVariable UUID id, @RequestBody RequestCadeiraDTO cadeiraDTO) {
 
-        Cadeira cadeiraAtualizada = new Cadeira();
-        cadeiraAtualizada.setNome(cadeiraDTO.nome());
-        cadeiraAtualizada.setDescricao(cadeiraDTO.descricao());
-        cadeiraAtualizada.setInformacoes(cadeiraDTO.informacoes());
-        cadeiraAtualizada.setTemp_garantia(cadeiraDTO.temp_garantia());
-        cadeiraAtualizada.setPreco(cadeiraDTO.preco());
-        cadeiraAtualizada.setDimensoes(cadeiraDTO.dimencoes());
-        cadeiraAtualizada.setFoto(cadeiraDTO.foto_cadeira());
-        cadeiraAtualizada.setFoto_dimensoes(cadeiraDTO.foto_dimencoes());
-        cadeiraAtualizada.setDesc_encosto(cadeiraDTO.desc_encosto());
-        cadeiraAtualizada.setDesc_apoio(cadeiraDTO.desc_apoio());
-        cadeiraAtualizada.setDesc_rodinha(cadeiraDTO.desc_rodinha());
-        cadeiraAtualizada.setDesc_ajuste_altura(cadeiraDTO.desc_ajuste_altura());
-        cadeiraAtualizada.setDesc_revestimento(cadeiraDTO.desc_revestimento());
-        cadeiraAtualizada.setCategorias(cadeiraDTO.categorias());
-
-        Cadeira cadeiraEditada = cadeiraService.editarCadeira(id, cadeiraAtualizada);
+        Cadeira cadeiraEditada = cadeiraService.editarCadeira(id, cadeiraDTO);
 
         CadeiraDTO cadeiraEditadaDTO = new CadeiraDTO(
                 cadeiraEditada.getId(),
@@ -188,14 +157,14 @@ public class CadeiraController {
                 cadeiraEditada.getTemp_garantia(),
                 cadeiraEditada.getPreco(),
                 cadeiraEditada.getDimensoes(),
-                cadeiraEditada.getFoto(),
                 cadeiraEditada.getFoto_dimensoes(),
                 cadeiraEditada.getDesc_encosto(),
                 cadeiraEditada.getDesc_apoio(),
                 cadeiraEditada.getDesc_rodinha(),
                 cadeiraEditada.getDesc_ajuste_altura(),
                 cadeiraEditada.getDesc_revestimento(),
-                cadeiraEditada.getCategorias());
+                cadeiraEditada.getCategorias(),
+                cadeiraEditada.getCores());
 
         return ResponseEntity.ok(cadeiraEditadaDTO);
     }
@@ -237,14 +206,14 @@ public class CadeiraController {
                 cadeiraEncontrada.getTemp_garantia(),
                 cadeiraEncontrada.getPreco(),
                 cadeiraEncontrada.getDimensoes(),
-                cadeiraEncontrada.getFoto(),
                 cadeiraEncontrada.getFoto_dimensoes(),
                 cadeiraEncontrada.getDesc_encosto(),
                 cadeiraEncontrada.getDesc_apoio(),
                 cadeiraEncontrada.getDesc_rodinha(),
                 cadeiraEncontrada.getDesc_ajuste_altura(),
                 cadeiraEncontrada.getDesc_revestimento(),
-                cadeiraEncontrada.getCategorias()
+                cadeiraEncontrada.getCategorias(),
+                cadeiraEncontrada.getCores()
 
         ));
 
