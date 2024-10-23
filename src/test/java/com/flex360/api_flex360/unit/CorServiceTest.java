@@ -111,9 +111,12 @@ public class CorServiceTest {
         Cor novaCor = new Cor();
         novaCor.setCodigo("#00BFFF");
         novaCor.setName("azul escuro");
+        novaCor.setFoto_cadeira("http://foto-da-cadeira");
         Cor corSalva = new Cor();
         corSalva.setCodigo("#00BFFF");
         corSalva.setName("azul escuro");
+        corSalva.setFoto_cadeira("http://outra-foto-da-cadeira");
+
         when(corRepository.save(novaCor)).thenReturn(corSalva);
 
         // Testando o método criarCor
@@ -134,11 +137,13 @@ public class CorServiceTest {
         corExistente.setCodigo("#00BFFF");
         corExistente.setId(id);
         corExistente.setName("azul escuro");
+        corExistente.setFoto_cadeira("http://foto-da-cadeira");
 
         Cor corAtualizada = new Cor();
         corAtualizada.setCodigo("#4B0082");
         corAtualizada.setId(id);
         corAtualizada.setName("indigo");
+        corAtualizada.setFoto_cadeira("http://nova-foto-da-cadeira");
 
         when(corRepository.findById(id)).thenReturn(Optional.of(corExistente));
         when(corRepository.save(corExistente)).thenReturn(corAtualizada);

@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.flex360.api_flex360.enums.UserRole;
+import com.flex360.api_flex360.models.Carrinho;
 import com.flex360.api_flex360.models.Usuario;
+import com.flex360.api_flex360.repository.CarrinhoRepository;
 import com.flex360.api_flex360.repository.UsuarioRepository;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -22,13 +24,14 @@ public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
+    private final CarrinhoRepository carrinhoRepository;
     
     private void validarUsuario(Usuario usuario, boolean checaEmail) {
         if (!StringUtils.hasText(usuario.getNome()) || usuario.getNome().length() > 20) {
             throw new ValidationException("O nome é obrigatório e deve ter no máximo 20 caracteres.");
         }
         if (checaEmail && !StringUtils.hasText(usuario.getEmail()) || !usuario.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+
             throw new ValidationException("O e-mail é obrigatório e deve ser válido.");
         }
         if (usuarioRepository.findByEmail(usuario.getEmail()) != null) {
@@ -55,13 +58,25 @@ public class UsuarioService {
     public Usuario criarUsuario(Usuario usuario) {
         validarUsuario(usuario, true);
         String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
-        Usuario novoUsuario = new Usuario(usuario.getNome(), senhaCriptografada, usuario.getEmail(), UserRole.USER);
+
+        Carrinho dataCarrinho = new Carrinho();
 
         try {
-            return usuarioRepository.save(novoUsuario);
+            
+            Carrinho novoCarrinho = carrinhoRepository.save(dataCarrinho);
+
+            Usuario novoUsuario = new Usuario(usuario.getNome(), senhaCriptografada, usuario.getEmail(), UserRole.USER, novoCarrinho);
+
+            try {
+                return usuarioRepository.save(novoUsuario);
+            } catch (Exception e) {
+                throw new RuntimeException("Erro ao criar usuário: " + e.getMessage(), e);
+            }
+
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao criar usuário: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao criar o carrinho: " + e.getMessage(), e);
         }
+
     }
 
     public Usuario editarUsuario(UUID id, Usuario usuarioAtualizado) {
@@ -101,4 +116,3 @@ public class UsuarioService {
         }
     }
 }
-

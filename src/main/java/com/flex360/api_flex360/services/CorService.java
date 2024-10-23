@@ -28,6 +28,9 @@ public class CorService {
             if (!StringUtils.hasText(cor.getCodigo())) {
                 throw new ValidationException("O código da cor é obrigatório.");
             }
+            if (!StringUtils.hasText(cor.getFoto_cadeira())) {
+                throw new ValidationException("A foto da cadeira é obrigatória.");
+            }
         }
     public List<Cor> buscarTodasCores() {
         List<Cor> cores = corRepository.findAll();
@@ -53,6 +56,7 @@ public class CorService {
 
         corExistente.setName(corAtualizada.getName());
         corExistente.setCodigo(corAtualizada.getCodigo());
+        corExistente.setFoto_cadeira(corAtualizada.getFoto_cadeira());
 
         return corRepository.save(corExistente);
     }

@@ -21,8 +21,11 @@ import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.flex360.api_flex360.enums.UserRole;
+import com.flex360.api_flex360.models.Carrinho;
 import com.flex360.api_flex360.models.Usuario;
+import com.flex360.api_flex360.repository.CarrinhoRepository;
 import com.flex360.api_flex360.repository.UsuarioRepository;
+import com.flex360.api_flex360.services.CarrinhoService;
 import com.flex360.api_flex360.services.UsuarioService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -33,14 +36,20 @@ public class UsuarioServiceTest {
     @Mock
     UsuarioRepository usuarioRepository;
 
+    @Mock
+    CarrinhoRepository carrinhoRepository;
+
     @InjectMocks
     UsuarioService usuarioService;
+
+    @InjectMocks
+    CarrinhoService carrinhoService;
 
     @Test
     void buscarTodosUsuarios_deveRetornarListaDeUsuarios() {
         List<Usuario> usuarios = new ArrayList<>();
-        usuarios.add(new Usuario("Nome", "Senha", "email@test.com", UserRole.USER));
-        usuarios.add(new Usuario("Nome2", "Senha2", "email2@test.com", UserRole.USER));
+        usuarios.add(new Usuario("Nome", "Senha", "email@test.com", UserRole.USER, new Carrinho()));
+        usuarios.add(new Usuario("Nome2", "Senha2", "email2@test.com", UserRole.USER, new Carrinho()));
 
         when(usuarioRepository.findAll()).thenReturn(usuarios);
 
@@ -61,7 +70,7 @@ public class UsuarioServiceTest {
     @Test
     void buscarUsuarioPorId_deveRetornarUsuarioSeExistir() {
         UUID id = UUID.randomUUID();
-        Usuario usuario = new Usuario("Nome", "Senha", "email@test.com", UserRole.USER);
+        Usuario usuario = new Usuario("Nome", "Senha", "email@test.com", UserRole.USER, new Carrinho());
 
         when(usuarioRepository.findById(id)).thenReturn(Optional.of(usuario));
 
@@ -82,7 +91,7 @@ public class UsuarioServiceTest {
 
     @Test
     void criarUsuario_deveSalvarNovoUsuario() {
-        Usuario usuario = new Usuario("Nome", "UmaSenha123", "email@test.com", UserRole.USER);
+        Usuario usuario = new Usuario("Nome", "UmaSenha123", "email@test.com", UserRole.USER, new Carrinho());
 
         when(usuarioRepository.findByEmail(usuario.getEmail())).thenReturn(null);
         when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
@@ -95,7 +104,7 @@ public class UsuarioServiceTest {
 
     @Test
     void criarUsuario_deveLancarExcecaoSeEmailJaCadastrado() {
-        Usuario usuario = new Usuario("Nome", "123456", "email@test.com", UserRole.USER);
+        Usuario usuario = new Usuario("Nome", "123456", "email@test.com", UserRole.USER, new Carrinho());
 
         when(usuarioRepository.findByEmail(usuario.getEmail())).thenReturn(usuario);
 
@@ -106,8 +115,9 @@ public class UsuarioServiceTest {
     @Test
     void editarUsuario_deveAtualizarDadosDoUsuario() {
         UUID id = UUID.randomUUID();
-        Usuario usuarioExistente = new Usuario("Nome", "Senha123@1ss", "email@test.com", UserRole.USER);
-        Usuario usuarioAtualizado = new Usuario("Novo Nome", "Senha123@1ss", "novoemail@test.com", UserRole.USER);
+
+        Usuario usuarioExistente = new Usuario("Nome", "Senha", "email@test.com", UserRole.USER, new Carrinho());
+        Usuario usuarioAtualizado = new Usuario("Novo Nome", "Senha", "novoemail@test.com", UserRole.USER, new Carrinho());
 
         when(usuarioRepository.findById(id)).thenReturn(Optional.of(usuarioExistente));
         when(usuarioRepository.save(usuarioExistente)).thenReturn(usuarioExistente);

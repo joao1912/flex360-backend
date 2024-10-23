@@ -16,6 +16,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,14 +46,16 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private UserRole role;
 
-    @OneToOne(mappedBy="usuario", cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "carrinho_id", referencedColumnName = "id")
     private Carrinho carrinho;
 
-    public Usuario(String nome, String senha, String email, UserRole role) {
+    public Usuario(String nome, String senha, String email, UserRole role, Carrinho carrinho) {
         this.nome = nome;
         this.senha = senha;
         this.email = email;
         this.role = role;
+        this.carrinho = carrinho;
     }
 
     @Override
