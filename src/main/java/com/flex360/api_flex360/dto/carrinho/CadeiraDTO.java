@@ -1,8 +1,11 @@
 package com.flex360.api_flex360.dto.carrinho;
 
+import java.util.List;
 import java.util.UUID;
 
-public record CadeiraDTO(UUID id, String nome, float preco, int quantidade, String foto, String descricao, String informacoes, int temp_garantia, String dimenssoes, String foto_dimenssoes, String desc_encosto, String desc_apoio, String desc_rodinha, String desc_ajuste_altura, String desc_revestimento) implements ItemDTO {
+import com.flex360.api_flex360.models.Cor;
+
+public record CadeiraDTO(UUID id, String nome, float preco, int quantidade, String foto, String descricao, String informacoes, int temp_garantia, String dimenssoes, String foto_dimenssoes, String desc_encosto, String desc_apoio, String desc_rodinha, String desc_ajuste_altura, String desc_revestimento, Cor corSelecionada, List<Cor> cores_disponiveis) implements ItemDTO {
     
     @Override
     public UUID getId() {
@@ -67,6 +70,14 @@ public record CadeiraDTO(UUID id, String nome, float preco, int quantidade, Stri
     
     public String getDescRevestimento() {
         return desc_revestimento;
+    }
+
+    public Cor getCorSelecionada() {
+        return corSelecionada;
+    }
+    
+    public List<Cor> getCores_disponiveis() {
+        return cores_disponiveis;
     }
     
 }
