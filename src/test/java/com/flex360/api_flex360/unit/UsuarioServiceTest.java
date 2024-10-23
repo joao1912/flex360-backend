@@ -116,8 +116,8 @@ public class UsuarioServiceTest {
     void editarUsuario_deveAtualizarDadosDoUsuario() {
         UUID id = UUID.randomUUID();
 
-        Usuario usuarioExistente = new Usuario("Nome", "Senha", "email@test.com", UserRole.USER, new Carrinho());
-        Usuario usuarioAtualizado = new Usuario("Novo Nome", "Senha", "novoemail@test.com", UserRole.USER, new Carrinho());
+        Usuario usuarioExistente = new Usuario("Nome", "Senha123@@ss", "email@test.com", UserRole.USER, new Carrinho());
+        Usuario usuarioAtualizado = new Usuario("Novo Nome", "Senha123@@ss", "novoemail@test.com", UserRole.USER, new Carrinho());
 
         when(usuarioRepository.findById(id)).thenReturn(Optional.of(usuarioExistente));
         when(usuarioRepository.save(usuarioExistente)).thenReturn(usuarioExistente);
