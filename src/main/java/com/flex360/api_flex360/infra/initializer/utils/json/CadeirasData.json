@@ -1,161 +1,162 @@
 [
     {
         "nome": "Cadeira Tecton",
-        "descricao": "colocar descricao",
-        "temp_garantia": 0,
-        "preco": 0,
+        "descricao": "Cadeira Tecton Golden Unique / Flexform Encosto e assento revestido em pvc sintético. Apoio de braço, estrutura do encosto e base na cor Carbon Grey (Grafite).",
+        "informacoes":"Desenvolvida pelos renomados designers Baldanzi & Novelli, a Tecton possui um design marcado pelas linhas retas, além de proporcionar ao usuário conforto e liberdade de movimento",
+        "temp_garantia": 5,
+        "preco": 1899.00,
         "dimensoes": "120cm x 70cm x 50cm",
         "foto_dimensoes": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/tecton/ddp-tecton.jpeg",
         "foto_banner": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/tecton/banner-tecton.jpeg",
-        "desc_encosto": "Encosto reclinável com ajuste lombar.",
-        "desc_apoio": "Apoio de braços ajustáveis.",
-        "desc_rodinha": "Rodinhas de silicone que não riscam o chão.",
-        "desc_ajuste_altura": "Ajuste de altura com pistão a gás.",
-        "desc_revestimento": "Revestimento em couro sintético.",
+        "desc_encosto": "Encosto com estrutura injetada em resina plastica, com apoio lombar regulável na altura..",
+        "desc_apoio": "Apoia braço 360, regulável na altura, profundidade, abertura e ângulo.",
+        "desc_rodinha": "Rodizios / Rodinha com 65 mm de diâmetro indicado para qualquer tipo de piso.",
+        "desc_ajuste_altura": "Mecanismo ajuste de altura do assento. Inclinação do encosto com 4 pontos de parada, possui movemento relax.",
+        "desc_revestimento": "Revestimento em pvc sintético de alta qualidade. Facilidade na assepsia e fogo retardante.",
         "categorias": [
             {
-                "name": "Ergonômica"
-            },
-            {
-                "name": "Escritório"
+                "name": "Clássica"
             }
+            
         ],
         "cores_disponiveis": [
             {
                 "name": "Preto",
-                "codigo": "#000000",
+                "codigo": "#171426",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/tecton/cadeira-tecton-all-black-unique.jpeg"
             },
             {
                 "name": "Dourado",
-                "codigo": "#000000",
+                "codigo": "#B0712A",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/tecton/cadeira-tecton-golden-unique.jpeg"
             },
             {
                 "name": "Marrom",
-                "codigo": "#000000",
+                "codigo": "#403136",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/tecton/cadeira-tecton-coffee-unique.jpeg"
             },
             {
                 "name": "Azul",
-                "codigo": "#000000",
+                "codigo": "#2A2D40",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/tecton/cadeira-tecton-night-blue-unique.jpeg"
             }
         ]
     },
     {
         "nome": "Cadeira Big One",
-        "descricao": "colocar descricao",
-        "temp_garantia": 0,
-        "preco": 0,
+        "descricao": " Base 5 astes fabricada em aço com capa de  polipropileno, coluna giratória com regulagem  protegidas por capa telescópica, braços  reguláveis na altura e largura, apoio em  poliuretano injetado macio para maior  conforto na utilização.",
+        "informacoes":"A Golden BIG ONE Poltrona Luxo de altíssima  qualidade, projetada para suportar até 150 kg,  além de super-resistente, mantém o conforto,  elegância e Ergonomia em seu ambiente de trabalho.",
+        "temp_garantia": 1,
+        "preco": 1600.00,
         "dimensoes": "120cm x 70cm x 50cm",
         "foto_dimensoes": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/big-one/ddp-big-one.jpeg",
         "foto_banner": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/big-one/banner-big-one.jpeg",
-        "desc_encosto": "Encosto reclinável com ajuste lombar.",
-        "desc_apoio": "Apoio de braços ajustáveis.",
-        "desc_rodinha": "Rodinhas de silicone que não riscam o chão.",
-        "desc_ajuste_altura": "Ajuste de altura com pistão a gás.",
-        "desc_revestimento": "Revestimento em couro sintético.",
+        "desc_encosto": "Encosto com estrutura injetada em resina plastica, com regulagem de altura.",
+        "desc_apoio": "Apoia braços  2D, regulável na altura e largura.",
+        "desc_rodinha": "Rodizio especial com freio, suporta alta capacidade de peso",
+        "desc_ajuste_altura": "Mecanismo ajuste de altura do assento. Inclinação do encosto com 4 pontos de parada, possui movimento relax.",
+        "desc_revestimento": "Revestimento em pvc sintético .",
         "categorias": [
             {
-                "name": "Ergonômica"
+                "name": "Contemporânea"
             },
             {
-                "name": "Escritório"
+                "name": "Minimalista"
+            },
+            {
+                "name": "Clássica"
             }
         ],
         "cores_disponiveis": [
             {
                 "name": "Preto",
-                "codigo": "#000000",
+                "codigo": "#171426",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/big-one/cadeira-golden-big-one-150kg.jpeg"
             }
         ]
     },
     {
         "nome": "Cadeira Uni",
-        "descricao": "colocar descricao",
-        "temp_garantia": 0,
-        "preco": 0,
+        "descricao": "Cadeira Uni  / Flexform Tela em nylon, estrutura do encosto com apoio lombar, base preto e apoio de braço preto.",
+        "informacoes":"Uni, perfeita para mesas de escritório ou home office. Além de estilo, a Uni garante a postura correta que beneficia a circulação sanguínea do corpo.",
+        "temp_garantia": 5,
+        "preco": 899.00,
         "dimensoes": "120cm x 70cm x 50cm",
         "foto_dimensoes": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/uni/ddp-uni.jpeg",
         "foto_banner": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/uni/banner-uni.jpeg",
-        "desc_encosto": "Encosto reclinável com ajuste lombar.",
-        "desc_apoio": "Apoio de braços ajustáveis.",
-        "desc_rodinha": "Rodinhas de silicone que não riscam o chão.",
-        "desc_ajuste_altura": "Ajuste de altura com pistão a gás.",
-        "desc_revestimento": "Revestimento em couro sintético.",
+        "desc_encosto": "Encosto em tela flexível 100% poliéster de alta resistêcia. Apoio Lombar indepedente, regulável na altura",
+        "desc_apoio": "Apoia braço regulável na altura.",
+        "desc_rodinha": "Rodizios / Rodinha com 55 mm de diâmetro indicado para qualquer tipom de piso.",
+        "desc_ajuste_altura": "Mecanismo prático, permite ajuste de altura assento e inclinação do encosto",
+        "desc_revestimento": "Revestimento do assento em crepe e encosto em tela de alta performance.",
         "categorias": [
             {
-                "name": "Ergonômica"
-            },
-            {
-                "name": "Escritório"
+                "name": "Contemporânea"
             }
+           
         ],
         "cores_disponiveis": [
             {
                 "name": "Preto",
-                "codigo": "#000000",
+                "codigo": "#0D0D0D",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/uni/cadeira-uni-all-black.jpeg"
             },
             {
                 "name": "Vermelho",
-                "codigo": "#000000",
+                "codigo": "#730925",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/uni/cadeira-uni-all-red.jpeg"
             },
             {
                 "name": "Amarelo",
-                "codigo": "#000000",
+                "codigo": "#F2B872",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/uni/cadeira-uni-all-yellow.jpeg"
             },
             {
                 "name": "Jeans",
-                "codigo": "#000000",
+                "codigo": "#5A6473",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/uni/cadeira-uni-jeans.jpeg"
             }
         ]
     },
     {
         "nome": "Cadeira Led",
-        "descricao": "colocar descricao",
-        "temp_garantia": 0,
-        "preco": 0,
+        "descricao": "Cadeira Led Lipstick Red / Flexform Tela em nylon. Assento revestido na cor preto. Apoia braços na cor preto e base Carbon Grey (Grafite).",
+        "informacoes":"Desenvolvida pelos renomados designers Baldanzi & Novelli, a cadeira LED possui um design particular marcado pelas linhas retas, além de proporcionar ao usuário conforto e liberdade de movimentos.",
+        "temp_garantia": 5,
+        "preco": 1999.00,
         "dimensoes": "120cm x 70cm x 50cm",
         "foto_dimensoes": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/ddp-led.jpeg",
         "foto_banner": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/banner-led.jpeg",
-        "desc_encosto": "Encosto reclinável com ajuste lombar.",
-        "desc_apoio": "Apoio de braços ajustáveis.",
-        "desc_rodinha": "Rodinhas de silicone que não riscam o chão.",
-        "desc_ajuste_altura": "Ajuste de altura com pistão a gás.",
-        "desc_revestimento": "Revestimento em couro sintético.",
+        "desc_encosto": "Encosto revestido em tela flexível com apoio lombar indepedente regulável na altura.",
+        "desc_apoio": "Apoia braços 4D regulável na altura, profundidade, abertura e ângulo. Parte superior em soft touch.",
+        "desc_rodinha": "Rodizios / Rodinha com 65 mm de diâmetro indicado para qualquer tipom de piso.",
+        "desc_ajuste_altura": "Mecanismo ajuste de altura do assento. Inclinação do encosto com 4 pontos de parada, possui movemento relax.",
+        "desc_revestimento":"Revestimento do assento em crepe e encosto em tela de alta performance.",
         "categorias": [
             {
-                "name": "Ergonômica"
-            },
-            {
-                "name": "Escritório"
+                "name": "Minimalista"
             }
+            
         ],
         "cores_disponiveis": [
             {
                 "name": "Preto",
-                "codigo": "#000000",
+                "codigo": "#0D0D0D",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/cadeira-led-all-black.jpeg"
             },
             {
                 "name": "Vermelho / Preto",
-                "codigo": "#000000",
+                "codigo": "#731F1F",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/cadeira-led-shadow-black.jpeg"
             },
             {
                 "name": "Preto / Vermelho",
-                "codigo": "#000000",
+                "codigo": "#A63352",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/cadeira-led-lipstick-red.jpeg"
             },
             {
                 "name": "Branco / Preto",
-                "codigo": "#000000",
+                "codigo": "#F0F0F2",
                 "foto_cadeira": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/cadeira-led-black-n-white.jpeg"
             }
         ]
