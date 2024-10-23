@@ -92,6 +92,7 @@ public class UsuarioServiceTest {
         Usuario usuario = new Usuario("Nome", "UmaSenha123", "email@test.com", UserRole.USER, new Carrinho());
 
         when(usuarioRepository.findByEmail(usuario.getEmail())).thenReturn(null);
+        when(carrinhoRepository.save(any(Carrinho.class))).thenReturn(new Carrinho());
         when(usuarioRepository.save(any(Usuario.class))).thenReturn(usuario);
 
         Usuario result = usuarioService.criarUsuario(usuario);
