@@ -25,7 +25,6 @@ import com.flex360.api_flex360.models.Carrinho;
 import com.flex360.api_flex360.models.Usuario;
 import com.flex360.api_flex360.repository.CarrinhoRepository;
 import com.flex360.api_flex360.repository.UsuarioRepository;
-import com.flex360.api_flex360.services.CarrinhoService;
 import com.flex360.api_flex360.services.UsuarioService;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -34,16 +33,13 @@ import jakarta.persistence.EntityNotFoundException;
 public class UsuarioServiceTest {
 
     @Mock
-    UsuarioRepository usuarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Mock
-    CarrinhoRepository carrinhoRepository;
+    private CarrinhoRepository carrinhoRepository;
 
     @InjectMocks
     UsuarioService usuarioService;
-
-    @InjectMocks
-    CarrinhoService carrinhoService;
 
     @Test
     void buscarTodosUsuarios_deveRetornarListaDeUsuarios() {
@@ -62,7 +58,8 @@ public class UsuarioServiceTest {
     void buscarTodosUsuarios_deveLancarExcecaoSeNaoExistirUsuarios() {
         when(usuarioRepository.findAll()).thenReturn(new ArrayList<>());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> usuarioService.buscarTodosUsuarios());
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> usuarioService.buscarTodosUsuarios());
 
         assertEquals("Nenhum usuário encontrado.", exception.getMessage());
     }
@@ -84,7 +81,8 @@ public class UsuarioServiceTest {
         UUID id = UUID.randomUUID();
         when(usuarioRepository.findById(id)).thenReturn(Optional.empty());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> usuarioService.buscarUsuarioPorId(id));
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class,
+                () -> usuarioService.buscarUsuarioPorId(id));
 
         assertTrue(exception.getMessage().contains("Usuário não encontrado com ID"));
     }
@@ -117,7 +115,8 @@ public class UsuarioServiceTest {
         UUID id = UUID.randomUUID();
 
         Usuario usuarioExistente = new Usuario("Nome", "Senha123@@ss", "email@test.com", UserRole.USER, new Carrinho());
-        Usuario usuarioAtualizado = new Usuario("Novo Nome", "Senha123@@ss", "novoemail@test.com", UserRole.USER, new Carrinho());
+        Usuario usuarioAtualizado = new Usuario("Novo Nome", "Senha123@@ss", "novoemail@test.com", UserRole.USER,
+                new Carrinho());
 
         when(usuarioRepository.findById(id)).thenReturn(Optional.of(usuarioExistente));
         when(usuarioRepository.save(usuarioExistente)).thenReturn(usuarioExistente);
