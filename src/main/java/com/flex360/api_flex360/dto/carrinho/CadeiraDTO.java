@@ -77,7 +77,7 @@ public record CadeiraDTO(UUID id, String nome, float preco, int quantidade, Stri
     }
 
     public List<Cor> getCores_disponiveis() {
-        return cores_disponiveis;
+        return coresDisponiveis();
     }
     
 }
