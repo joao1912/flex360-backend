@@ -2,16 +2,18 @@ package com.flex360.api_flex360.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.flex360.api_flex360.dto.cadeira.RequestCadeiraDTO;
 import com.flex360.api_flex360.dto.cadeira.SugestaoErgonomicaDTO;
+import com.flex360.api_flex360.exceptions.ErroAoSalvarException;
 import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.models.Categoria;
 import com.flex360.api_flex360.models.Cor;
@@ -63,7 +65,7 @@ public class CadeiraService {
 
     public Cadeira buscarCadeiraPorId(UUID id) {
         return cadeiraRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Cadeira com ID " + id + " não encontrada."));
+                .orElseThrow(() -> new EntityNotFoundException("Cadeira com ID " + id + " não encontrada."));
     }
 
     @Transactional
@@ -76,17 +78,17 @@ public class CadeiraService {
 
         for (Categoria categoria : cadeiraDTO.categorias()) {
 
-            Optional<Categoria> categoriaExiste =  categoriaRepository.findByName(categoria.getName());
+            Optional<Categoria> categoriaExiste = categoriaRepository.findByName(categoria.getName());
 
-            if (categoriaExiste.isPresent()){
+            if (categoriaExiste.isPresent()) {
 
                 categoriasModels.add(categoriaExiste.get());
 
-            }else{
+            } else {
 
                 Categoria novaCategoria = new Categoria();
                 novaCategoria.setName(categoria.getName());
-                Categoria categoriaCriada=categoriaRepository.save(novaCategoria);
+                Categoria categoriaCriada = categoriaRepository.save(novaCategoria);
                 categoriasModels.add(categoriaCriada);
 
             }
@@ -131,7 +133,11 @@ public class CadeiraService {
         novaCadeira.setCores(corModels);
         novaCadeira.setCategorias(categoriasModels);
 
-        return cadeiraRepository.save(novaCadeira);
+        try {
+            return cadeiraRepository.save(novaCadeira);
+        } catch (Exception e) {
+            throw new ErroAoSalvarException("Erro ao salvar cadeira.", e);
+        }
     }
 
     public Cadeira editarCadeira(UUID id, RequestCadeiraDTO cadeiraAtualizada) {
@@ -153,45 +159,52 @@ public class CadeiraService {
         cadeiraExistente.setCores(cadeiraAtualizada.cores_disponiveis());
         cadeiraExistente.setCategorias(cadeiraAtualizada.categorias());
 
-        return cadeiraRepository.save(cadeiraExistente);
+        try {
+            return cadeiraRepository.save(cadeiraExistente);
+        } catch (Exception e) {
+            throw new ErroAoSalvarException("Erro ao salvar cadeira", e);
+        }
     }
 
-    public Cadeira sugestaoErgonomica(SugestaoErgonomicaDTO dados){
+    public Cadeira sugestaoErgonomica(SugestaoErgonomicaDTO dados) {
 
-       List<Cadeira> cadeiras = cadeiraRepository.findAll();
-       List<Cadeira> cadeirasCategoria= new ArrayList<>();
+        List<Cadeira> cadeiras = cadeiraRepository.findAll();
+        List<Cadeira> cadeirasCategoria = new ArrayList<>();
 
         float peso = dados.peso();
         float altura = dados.altura();
         String[] categorias = dados.categoria();
 
+        for (Cadeira cadeira : cadeiras) {
 
-        for(Cadeira cadeira : cadeiras){
-            
-            for(String nomeCategoria : categorias){
+            for (String nomeCategoria : categorias) {
 
-               List<Categoria> categoriasDaCadeira= cadeira.getCategorias();
+                List<Categoria> categoriasDaCadeira = cadeira.getCategorias();
 
                 boolean existeCategoria = categoriasDaCadeira.stream()
-                 .anyMatch(categoria -> categoria.getName().equals(nomeCategoria));
+                        .anyMatch(categoria -> categoria.getName().equals(nomeCategoria));
 
-                 if(existeCategoria){
+                if (existeCategoria) {
                     cadeirasCategoria.add(cadeira);
                     break;
-                 }
+                }
 
             }
-            
 
         }
         return selecionarCadeiraPorPesoEAltura(cadeirasCategoria, peso, altura);
 
     }
-      
+
     public void deletarCadeira(UUID id) {
 
-        Cadeira cadeira = buscarCadeiraPorId(id); 
-        cadeiraRepository.delete(cadeira);     
+        try {
+            cadeiraRepository.deleteById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new EntityNotFoundException("Cadeira com ID " + id + " já foi removida ou não existe.");
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao deletar cadeira: " + e.getMessage(), e);
+        }
 
     }
 
@@ -204,7 +217,7 @@ public class CadeiraService {
                     .findFirst()
                     .orElse(null); // Retorna null se não encontrar
         }
-    
+
         // Regra para peso até 120 kg e altura entre 1,40 e 1,90
         return cadeiras.stream()
                 .filter(c -> peso <= 120 && altura >= 1.40 && altura <= 1.90)

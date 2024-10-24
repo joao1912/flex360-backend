@@ -3,6 +3,7 @@ package com.flex360.api_flex360.services;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import com.flex360.api_flex360.repository.CarrinhoRepository;
 import com.flex360.api_flex360.repository.UsuarioRepository;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 
@@ -25,13 +28,13 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final CarrinhoRepository carrinhoRepository;
-
-    private void validarUsuario(Usuario usuario) {
+    
+    private void validarUsuario(Usuario usuario, boolean checaEmail) {
         if (!StringUtils.hasText(usuario.getNome()) || usuario.getNome().length() > 20) {
             throw new ValidationException("O nome é obrigatório e deve ter no máximo 20 caracteres.");
         }
-        if (!StringUtils.hasText(usuario.getEmail())
-                || !usuario.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+        if (checaEmail && !StringUtils.hasText(usuario.getEmail()) || !usuario.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
+
             throw new ValidationException("O e-mail é obrigatório e deve ser válido.");
         }
         if (usuarioRepository.findByEmail(usuario.getEmail()) != null) {
@@ -54,9 +57,10 @@ public class UsuarioService {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID " + id));
     }
-
+    
+    @Transactional
     public Usuario criarUsuario(Usuario usuario) {
-        validarUsuario(usuario);
+        validarUsuario(usuario, true);
         String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
 
         Carrinho dataCarrinho = new Carrinho();
@@ -67,16 +71,12 @@ public class UsuarioService {
 
             Usuario novoUsuario = new Usuario(usuario.getNome(), senhaCriptografada, usuario.getEmail(), UserRole.USER, novoCarrinho);
 
-            try {
                 return usuarioRepository.save(novoUsuario);
-            } catch (Exception e) {
-                throw new RuntimeException("Erro ao criar usuário: " + e.getMessage(), e);
-            }
-
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao criar o carrinho: " + e.getMessage(), e);
-        }
-
+    } catch (DataAccessException | ConstraintViolationException e) {
+        throw new RuntimeException("Erro ao acessar o banco de dados: " + e.getMessage(), e);
+    } catch (Exception e) {
+        throw new RuntimeException("Erro inesperado ao criar usuário ou carrinho: " + e.getMessage(), e);
+    }
     }
 
     public Usuario editarUsuario(UUID id, Usuario usuarioAtualizado) {
@@ -90,6 +90,9 @@ public class UsuarioService {
                     usuarioRepository.findByEmail(usuarioAtualizado.getEmail()) != null) {
                 throw new ValidationException("E-mail já cadastrado.");
             }
+
+            validarUsuario(usuarioAtualizado, false);
+
             usuarioExistente.setEmail(usuarioAtualizado.getEmail());
         }
         if (StringUtils.hasText(usuarioAtualizado.getSenha())) {
