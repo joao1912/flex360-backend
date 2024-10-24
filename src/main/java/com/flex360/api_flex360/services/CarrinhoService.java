@@ -81,7 +81,8 @@ public class CarrinhoService {
                             cadeira.getInformacoes(), cadeira.getTemp_garantia(), cadeira.getDimensoes(),
                             cadeira.getFoto_dimensoes(), cadeira.getDesc_encosto(), cadeira.getDesc_apoio(),
                             cadeira.getDesc_rodinha(), cadeira.getDesc_ajuste_altura(),
-                            cadeira.getDesc_revestimento()));
+                            cadeira.getDesc_revestimento(),
+                            produtoCarrinho.getCor(), cadeira.getCores()));
 
                 }
                 default -> {
