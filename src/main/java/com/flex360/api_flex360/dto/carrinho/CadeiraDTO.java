@@ -6,7 +6,7 @@ import java.util.UUID;
 import com.flex360.api_flex360.models.Cor;
 
 public record CadeiraDTO(UUID id, String nome, float preco, int quantidade, String foto, String descricao, String informacoes, int temp_garantia, String dimenssoes, String foto_dimenssoes, String desc_encosto, String desc_apoio, String desc_rodinha, String desc_ajuste_altura, String desc_revestimento, Cor corSelecionada, List<Cor> coresDisponiveis) implements ItemDTO {
-    
+
     @Override
     public UUID getId() {
         return id;
@@ -72,12 +72,12 @@ public record CadeiraDTO(UUID id, String nome, float preco, int quantidade, Stri
         return desc_revestimento;
     }
 
-    Cor getCorSelecionada() {
+    public Cor getCorSelecionada() {
         return corSelecionada;
     }
 
-    List<Cor> getCoresDisponiveis() {
-        return coresDisponiveis;
+    public List<Cor> getCores_disponiveis() {
+        return cores_disponiveis;
     }
     
 }
