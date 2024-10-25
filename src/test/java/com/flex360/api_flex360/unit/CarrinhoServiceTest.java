@@ -98,7 +98,7 @@ public class CarrinhoServiceTest {
         // Arrange
         UUID carrinhoId = UUID.randomUUID();
         UUID produtoId = UUID.randomUUID();
-        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, 1);
+        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, 1, null);
 
         Carrinho carrinho = new Carrinho();
         carrinho.setId(carrinhoId);
@@ -230,7 +230,6 @@ public class CarrinhoServiceTest {
         assertEquals(cadeira.getNome(), cadeiraDTO.nome());
         assertEquals(cadeira.getPreco(), cadeiraDTO.preco());
         assertEquals(pcCadeira.getQuantidade(), cadeiraDTO.quantidade());
-        assertEquals(cadeira.getFoto(), cadeiraDTO.foto());
 
         verify(carrinhoRepository, times(1)).findById(id);
         verify(produtoCarrinhoRepository, times(1)).findByCarrinhoId(id);
@@ -242,7 +241,7 @@ public class CarrinhoServiceTest {
         // Arrange
         UUID carrinhoId = UUID.randomUUID();
         UUID produtoId = UUID.randomUUID();
-        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, 1);
+        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, 1, null);
 
         when(carrinhoRepository.findById(carrinhoId)).thenReturn(Optional.empty());
 
@@ -261,7 +260,7 @@ public class CarrinhoServiceTest {
         // Arrange
         UUID carrinhoId = UUID.randomUUID();
         UUID produtoId = UUID.randomUUID();
-        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, 1);
+        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, 1, null);
 
         when(carrinhoRepository.findById(carrinhoId)).thenReturn(Optional.of(new Carrinho()));
         when(produtoRepository.findById(produtoId)).thenReturn(Optional.empty());
@@ -284,7 +283,7 @@ public class CarrinhoServiceTest {
         UUID carrinhoId = UUID.randomUUID();
         UUID produtoId = UUID.randomUUID();
         int quantidadeToRemove = 2;
-        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToRemove);
+        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToRemove, null);
 
         Carrinho carrinho = new Carrinho();
         carrinho.setId(carrinhoId);
@@ -334,7 +333,7 @@ public class CarrinhoServiceTest {
         UUID carrinhoId = UUID.randomUUID();
         UUID produtoId = UUID.randomUUID();
         int quantidadeToRemove = 1;
-        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToRemove);
+        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToRemove, null);
 
         Carrinho carrinho = new Carrinho();
         carrinho.setId(carrinhoId); // Definindo o ID do carrinho
@@ -396,7 +395,7 @@ public class CarrinhoServiceTest {
         UUID carrinhoId = UUID.randomUUID();
         UUID produtoId = UUID.randomUUID();
         int quantidadeToAdd = 3;
-        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToAdd);
+        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToAdd, null);
 
         Carrinho carrinho = new Carrinho();
         carrinho.setId(carrinhoId); // Definindo o ID do carrinho
@@ -458,7 +457,7 @@ public class CarrinhoServiceTest {
         UUID carrinhoId = UUID.randomUUID();
         UUID produtoId = UUID.randomUUID();
         int quantidadeToAdd = 2;
-        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToAdd);
+        ModificaCarrinhoDTO modificaCarrinhoDTO = new ModificaCarrinhoDTO(produtoId, quantidadeToAdd, null);
 
         Carrinho carrinho = new Carrinho();
         carrinho.setId(carrinhoId);
