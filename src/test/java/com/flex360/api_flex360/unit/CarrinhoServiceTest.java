@@ -230,7 +230,6 @@ public class CarrinhoServiceTest {
         assertEquals(cadeira.getNome(), cadeiraDTO.nome());
         assertEquals(cadeira.getPreco(), cadeiraDTO.preco());
         assertEquals(pcCadeira.getQuantidade(), cadeiraDTO.quantidade());
-        assertEquals(cadeira.getFoto(), cadeiraDTO.foto());
 
         verify(carrinhoRepository, times(1)).findById(id);
         verify(produtoCarrinhoRepository, times(1)).findByCarrinhoId(id);

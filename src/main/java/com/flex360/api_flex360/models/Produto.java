@@ -24,6 +24,5 @@ public class Produto {
     @Column(length=25, nullable=false)
     private String nome;
     private float preco;
-    private String foto;
 
 }

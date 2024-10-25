@@ -82,7 +82,7 @@ public class CarrinhoService {
                 case Cadeira cadeira -> {
 
                     cadeirasDTO.add(new CadeiraDTO(cadeira.getId(), cadeira.getNome(), cadeira.getPreco(),
-                            produtoCarrinho.getQuantidade(), cadeira.getFoto(), cadeira.getDescricao(),
+                            produtoCarrinho.getQuantidade(), cadeira.getDescricao(),
                             cadeira.getInformacoes(), cadeira.getTemp_garantia(), cadeira.getDimensoes(),
                             cadeira.getFoto_dimensoes(), cadeira.getDesc_encosto(), cadeira.getDesc_apoio(),
                             cadeira.getDesc_rodinha(), cadeira.getDesc_ajuste_altura(),
