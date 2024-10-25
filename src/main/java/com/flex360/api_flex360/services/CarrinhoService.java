@@ -17,9 +17,11 @@ import com.flex360.api_flex360.exceptions.ErroAoSalvarException;
 import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.models.Carrinho;
+import com.flex360.api_flex360.models.Cor;
 import com.flex360.api_flex360.models.Produto;
 import com.flex360.api_flex360.models.ProdutoCarrinho;
 import com.flex360.api_flex360.repository.CarrinhoRepository;
+import com.flex360.api_flex360.repository.CorRepository;
 import com.flex360.api_flex360.repository.ProdutoCarrinhoRepository;
 import com.flex360.api_flex360.repository.ProdutoRepository;
 
@@ -38,6 +40,9 @@ public class CarrinhoService {
 
     @Autowired
     private ProdutoRepository produtoRepository;
+
+    @Autowired
+    private CorRepository corRepository;
 
     @Transactional(readOnly = true)
     public Carrinho buscarCarrinhoPorId(UUID id) {
@@ -136,14 +141,14 @@ public class CarrinhoService {
             } catch (Exception e) {
                 throw new ErroAoSalvarException("Erro ao salvar informações na tabela do carrinho", e);
             }
-            // tratar erro aqui
+           
 
         } else {
 
             if (removerQuantidade) {
 
                 throw new IllegalArgumentException("Produto não está no carrinho");
-                // tratar erro aqui
+               
 
             }
 
@@ -152,7 +157,16 @@ public class CarrinhoService {
             produtoCarrinho.setQuantidade(modificaCarrinhoDTO.quantidade());
             produtoCarrinho.setCarrinho(carrinho);
 
-            // tratar erro aqui
+            if (modificaCarrinhoDTO.idCorSelecionada() != null) {
+
+                Optional<Cor> existeCor = corRepository.findById(modificaCarrinhoDTO.idCorSelecionada());
+
+                if (!existeCor.isPresent()) throw new IllegalArgumentException("Ocorreu um erro em tentar buscar a cor escolhida.");
+
+                produtoCarrinho.setCor(existeCor.get());
+
+            }
+
             try {
                 produtoCarrinhoRepository.save(produtoCarrinho);
             } catch (Exception e) {
