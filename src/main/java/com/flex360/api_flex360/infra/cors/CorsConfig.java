@@ -13,8 +13,11 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class CorsConfig {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CorsConfig.class);
-    private final Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
-    private final String allowedOrigins = dotenv.get("HTTP_ORIGIN", "http://localhost:5173");
+    private final Dotenv dotenv;
+
+    public CorsConfig(Dotenv dotenv) {
+        this.dotenv = dotenv;
+    }
 
     @Value("${cors.allowed-methods}")
     private String allowedMethods;
@@ -30,7 +33,9 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
+                String allowedOrigins = dotenv.get("HTTP_ORIGIN", "http://localhost:5173");
                 logger.info("Configuring CORS with allowed origins: {}", allowedOrigins);
+
                 registry.addMapping("/**")
                         .allowedOrigins(allowedOrigins.split(","))
                         .allowedMethods(allowedMethods.split(","))
