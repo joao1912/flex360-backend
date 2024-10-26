@@ -7,14 +7,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.lang.NonNull;
+import io.github.cdimascio.dotenv.Dotenv;
 
 @Configuration
 public class CorsConfig {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CorsConfig.class);
-
-    @Value("${cors.allowed-origins}")
-    private String allowedOrigins;
+    private final Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
+    private final String allowedOrigins = dotenv.get("HTTP_ORIGIN", "http://localhost:5173");
 
     @Value("${cors.allowed-methods}")
     private String allowedMethods;
