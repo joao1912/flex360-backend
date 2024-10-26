@@ -13,7 +13,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class CorsConfig {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CorsConfig.class);
-    private final Dotenv dotenv = Dotenv.configure().load();
+    private final Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
     private final String allowedOrigins = dotenv.get("HTTP_ORIGIN", "http://localhost:5173");
 
     @Value("${cors.allowed-methods}")
