@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,10 @@ import com.flex360.api_flex360.services.CadeiraService;
 @Component
 public class CadeiraDataInitializer implements CommandLineRunner {
 
+        @Autowired
     CadeiraService cadeiraService;
+
+    @Autowired
     CadeiraRepository cadeiraRepository;
 
     @Override
