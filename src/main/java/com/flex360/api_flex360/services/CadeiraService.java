@@ -125,6 +125,7 @@ public class CadeiraService {
         novaCadeira.setPreco(cadeiraDTO.preco());
         novaCadeira.setDimensoes(cadeiraDTO.dimencoes());
         novaCadeira.setFoto_dimensoes(cadeiraDTO.foto_dimencoes());
+        novaCadeira.setFoto_banner(cadeiraDTO.Foto_banner());
         novaCadeira.setDesc_encosto(cadeiraDTO.desc_encosto());
         novaCadeira.setDesc_apoio(cadeiraDTO.desc_apoio());
         novaCadeira.setDesc_rodinha(cadeiraDTO.desc_rodinha());
