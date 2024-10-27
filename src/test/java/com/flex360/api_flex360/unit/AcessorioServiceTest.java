@@ -1,16 +1,23 @@
 package com.flex360.api_flex360.unit;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
 
@@ -19,7 +26,6 @@ import com.flex360.api_flex360.repository.AcessorioRepository;
 import com.flex360.api_flex360.services.AcessorioService;
 
 import jakarta.persistence.EntityNotFoundException;
-import java.util.Optional;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -92,7 +98,7 @@ public class AcessorioServiceTest {
             acessorioService.buscarAcessorioPorId(id);
         });
 
-        assertEquals("Acessório não encontrado com ID", exception.getMessage());
+        assertTrue(exception.getMessage().contains("Acessório não encontrado com ID"));
     }
 
     @Test

@@ -4,9 +4,13 @@ import java.util.UUID;
 
 public interface ItemDTO {
     UUID getId();
-String getNome();
-float getPreco();
-int getQuantidade();
-String getFoto();
-    
+
+    String getNome();
+
+    float getPreco();
+
+    int getQuantidade();
+
+    String getFoto();
+
 }

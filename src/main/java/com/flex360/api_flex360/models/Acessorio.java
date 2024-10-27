@@ -22,5 +22,7 @@ public class Acessorio extends Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
+    private String foto;
     
 }
