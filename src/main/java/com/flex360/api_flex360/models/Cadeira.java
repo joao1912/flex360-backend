@@ -25,11 +25,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Cadeira extends Produto {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    
+
     private String descricao;
 
     private String informacoes;
@@ -39,6 +39,7 @@ public class Cadeira extends Produto {
     private String dimensoes;
 
     private String foto_dimensoes;
+    private String foto_banner;
 
     private String desc_encosto;
 
