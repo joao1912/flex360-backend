@@ -56,6 +56,7 @@ public class Cadeira extends Produto {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "cadeira_cor", joinColumns = @JoinColumn(name = "cadeira_id"), inverseJoinColumns = @JoinColumn(name = "cor_id"))
+    @JsonProperty("cores_disponiveis")
     private List<Cor> cores;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

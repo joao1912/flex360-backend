@@ -42,8 +42,8 @@ public class CadeiraService {
             throw new ValidationException("O nome é obrigatório e não pode exceder 20 caracteres.");
         }
 
-        if (!StringUtils.hasText(cadeira.descricao()) || cadeira.descricao().length() > 100) {
-            throw new ValidationException("A descrição é obrigatória e não pode exceder 100 caracteres.");
+        if (!StringUtils.hasText(cadeira.descricao()) || cadeira.descricao().length() > 200) {
+            throw new ValidationException("A descrição é obrigatória e não pode exceder 200 caracteres.");
         }
 
         if (cadeira.preco() <= 0) {
