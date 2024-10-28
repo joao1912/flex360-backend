@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -56,7 +57,6 @@ public class Cadeira extends Produto {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "cadeira_cor", joinColumns = @JoinColumn(name = "cadeira_id"), inverseJoinColumns = @JoinColumn(name = "cor_id"))
-    @JsonProperty("cores_disponiveis")
     private List<Cor> cores;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

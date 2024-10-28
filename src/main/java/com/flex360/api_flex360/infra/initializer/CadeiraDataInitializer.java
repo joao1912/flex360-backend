@@ -3,7 +3,9 @@ package com.flex360.api_flex360.infra.initializer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,69 +18,100 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flex360.api_flex360.dto.cadeira.RequestCadeiraDTO;
-import com.flex360.api_flex360.models.Cadeira;
+import com.flex360.api_flex360.models.Categoria;
+import com.flex360.api_flex360.models.Cor;
 import com.flex360.api_flex360.repository.CadeiraRepository;
 import com.flex360.api_flex360.services.CadeiraService;
 
 @Component
 public class CadeiraDataInitializer implements CommandLineRunner {
 
-        @Autowired
-        CadeiraService cadeiraService;
+    @Autowired
+    CadeiraService cadeiraService;
 
-        @Autowired
-        CadeiraRepository cadeiraRepository;
+    @Autowired
+    CadeiraRepository cadeiraRepository;
 
-        @Autowired
-        private ResourceLoader resourceLoader;
+    @Autowired
+    private ResourceLoader resourceLoader;
 
-        @Override
-        public void run(String... args) throws Exception {
+    @SuppressWarnings("unchecked")
+@Override
+    public void run(String... args) throws Exception {
 
-                if (cadeiraRepository.findAll().isEmpty()) {
+        if (cadeiraRepository.findAll().isEmpty()) {
 
-                        String json = "";
+            String json = "";
 
-                        try {
-                                Resource resource = resourceLoader.getResource("classpath:CadeirasData.json");
-                                InputStream inputStream = resource.getInputStream();
-                                json = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
-                        } catch (IOException e) {
-                                e.printStackTrace();
-                        }
+            try {
+                Resource resource = resourceLoader.getResource("classpath:CadeirasData.json");
+                InputStream inputStream = resource.getInputStream();
+                json = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-                        ObjectMapper mapper = new ObjectMapper();
-                        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-                        try {
-                                List<Cadeira> cadeiras = mapper.readValue(json, new TypeReference<List<Cadeira>>() {
-                                });
+            try {
+                // Deserializando o JSON para uma lista de mapas
+                List<Map<String, Object>> cadeiras = mapper.readValue(json, new TypeReference<List<Map<String, Object>>>() {});
 
-                                for (Cadeira c : cadeiras) {
-                                        RequestCadeiraDTO dto = new RequestCadeiraDTO(
-                                                        c.getNome(),
-                                                        c.getDescricao(),
-                                                        c.getInformacoes(),
-                                                        c.getTemp_garantia(),
-                                                        c.getPreco(),
-                                                        c.getDimensoes(),
-                                                        c.getFoto_dimensoes(),
-                                                        c.getFoto_banner(),
-                                                        c.getDesc_encosto(),
-                                                        c.getDesc_apoio(),
-                                                        c.getDesc_rodinha(),
-                                                        c.getDesc_ajuste_altura(),
-                                                        c.getDesc_revestimento(),
-                                                        c.getCategorias(),
-                                                        c.getCores());
+                // Iterando sobre as cadeiras e criando DTOs diretamente
+                for (Map<String, Object> cadeira : cadeiras) {
+                    // Criando a lista de categorias
+                    List<Map<String, Object>> categoriasMap = (List<Map<String, Object>>) cadeira.get("categorias");
+                    List<Categoria> categorias = new ArrayList<>();
+                    for (Map<String, Object> categoria : categoriasMap) {
+                
+                        Categoria novaCategoria = new Categoria();
+                        novaCategoria.setName((String) categoria.get("name"));
 
-                                        cadeiraService.criarCadeira(dto);
-                                }
-                        } catch (IOException e) {
-                                e.printStackTrace();
-                        }
+                        categorias.add(novaCategoria);
+                    }
+                    
+                    // Criando a lista de cores disponíveis
+                    List<Map<String, Object>> coresDisponiveisMap = (List<Map<String, Object>>) cadeira.get("cores_disponiveis");
+                    List<Cor> coresDisponiveis = new ArrayList<>();
+                    for (Map<String, Object> cor : coresDisponiveisMap) {
+                        
+                        Cor corNova = new Cor();
+                        corNova.setName((String) cor.get("name"));
+                        corNova.setCodigo((String) cor.get("codigo"));
+                        corNova.setFoto_cadeira((String) cor.get("foto_cadeira"));
 
+                        coresDisponiveis.add(corNova);
+                    }
+
+                    // Criando o DTO diretamente com os valores
+                    RequestCadeiraDTO dto = new RequestCadeiraDTO(
+                        (String) cadeira.get("nome"),
+                        (String) cadeira.get("descricao"),
+                        (String) cadeira.get("informacoes"),
+                        (Integer) cadeira.get("temp_garantia"),
+                        ((Number) cadeira.get("preco")).floatValue(),
+                        (String) cadeira.get("dimensoes"),
+                        (String) cadeira.get("foto_dimensoes"),
+                        (String) cadeira.get("foto_banner"),
+                        (String) cadeira.get("desc_encosto"),
+                        (String) cadeira.get("desc_apoio"),
+                        (String) cadeira.get("desc_rodinha"),
+                        (String) cadeira.get("desc_ajuste_altura"),
+                        (String) cadeira.get("desc_revestimento"),
+                        categorias,
+                        coresDisponiveis
+                    );
+
+                    System.out.println("------------------------");
+System.out.println(dto);
+                    System.out.println("------------------------");
+
+                    cadeiraService.criarCadeira(dto);
                 }
-
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
+    }
 }
