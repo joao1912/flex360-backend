@@ -175,6 +175,7 @@ public class CadeiraDataInitializer implements CommandLineRunner {
                     "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/led/cadeira-led-black-n-white.jpeg"));
             cadeiraLed.setCores(coresLed);
 
+
         }
 
     }
