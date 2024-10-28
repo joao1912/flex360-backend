@@ -18,12 +18,3 @@ public class ConverteParaDtoService {
         D toDTO(E entidade);
     }
 }
-
-/*
-Exemplo de uso
-
-public List<EntidadeDTO> obterEntidadesComoDTO(List<Entidade> entidades) {
-    return converteParaDtoService.converterParaDTO(entidades, entidade -> new EntidadeDTO(entidade.getId(), entidade.getNome()));
-}
-
-*/

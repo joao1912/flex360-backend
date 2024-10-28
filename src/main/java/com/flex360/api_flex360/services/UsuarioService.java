@@ -7,6 +7,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.flex360.api_flex360.enums.UserRole;
@@ -16,7 +17,6 @@ import com.flex360.api_flex360.repository.CarrinhoRepository;
 import com.flex360.api_flex360.repository.UsuarioRepository;
 
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +45,7 @@ public class UsuarioService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<Usuario> buscarTodosUsuarios() {
         List<Usuario> usuarios = usuarioRepository.findAll();
         if (usuarios.isEmpty()) {
@@ -53,6 +54,7 @@ public class UsuarioService {
         return usuarios;
     }
 
+    @Transactional(readOnly = true)
     public Usuario buscarUsuarioPorId(UUID id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID " + id));
@@ -79,6 +81,7 @@ public class UsuarioService {
     }
     }
 
+    @Transactional
     public Usuario editarUsuario(UUID id, Usuario usuarioAtualizado) {
         Usuario usuarioExistente = buscarUsuarioPorId(id);
 
@@ -106,6 +109,7 @@ public class UsuarioService {
         }
     }
 
+    @Transactional
     public void deletarUsuario(UUID id) {
         try {
             usuarioRepository.deleteById(id);

@@ -4,6 +4,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.flex360.api_flex360.models.Cor;
@@ -40,16 +41,19 @@ public class CorService {
         return cores;
     }
 
+    @Transactional(readOnly = true)
     public Cor buscarCorPorId(UUID id) {
         Optional<Cor> cor = corRepository.findById(id);
         return cor.orElseThrow(() -> new EntityNotFoundException("Cor com ID " + id + " não encontrada."));
     }
 
+    @Transactional
     public Cor criarCor(Cor novaCor) {
         validarCor(novaCor);
         return corRepository.save(novaCor);
     }
 
+    @Transactional
     public Cor editarCor(UUID id, Cor corAtualizada) {
         Cor corExistente = buscarCorPorId(id); 
         validarCor(corAtualizada);
@@ -61,6 +65,7 @@ public class CorService {
         return corRepository.save(corExistente);
     }
 
+    @Transactional
     public void deletarCor(UUID id) {
         Cor cor = corRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Cor não encontrada com o id: " + id));
