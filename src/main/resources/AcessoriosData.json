@@ -1,0 +1,32 @@
+[
+    {
+        "nome": "Carregador por indução",
+        "foto": "http://site.com/foto_acessorio.png",
+        "preco": 13.40
+    },
+    {
+        "nome": "Pistão á gás",
+        "foto": "http://site.com/foto_acessorio.png",
+        "preco": 12.40
+    },
+    {
+        "nome": "Rodizio em gel ",
+        "foto": "http://site.com/foto_acessorio.png",
+        "preco": 11.40
+    },
+    {
+        "nome": "Suporte para monitor",
+        "foto": "http://site.com/foto_acessorio.png",
+        "preco": 10.40
+    },
+    {
+        "nome": "Suporte para notebook",
+        "foto": "http://site.com/foto_acessorio.png",
+        "preco": 17.40
+    },
+    {
+        "nome": "Apoio de pé ajustável",
+        "foto": "http://site.com/foto_acessorio.png",
+        "preco": 18.40
+    }
+]
