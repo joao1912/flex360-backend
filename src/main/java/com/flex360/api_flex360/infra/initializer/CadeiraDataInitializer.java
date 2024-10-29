@@ -103,10 +103,6 @@ public class CadeiraDataInitializer implements CommandLineRunner {
                         coresDisponiveis
                     );
 
-                    System.out.println("------------------------");
-System.out.println(dto);
-                    System.out.println("------------------------");
-
                     cadeiraService.criarCadeira(dto);
                 }
             } catch (IOException e) {
