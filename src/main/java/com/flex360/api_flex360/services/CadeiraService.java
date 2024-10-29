@@ -49,8 +49,48 @@ public class CadeiraService {
         if (cadeira.preco() <= 0) {
             throw new ValidationException("O preço deve ser maior que zero.");
         }
+        if (!StringUtils.hasText(cadeira.informacoes()) || cadeira.informacoes().length() > 200) {
+            throw new ValidationException("As informações são obrigatórias e não podem exceder 200 caracteres.");
+        }
+    
+        if (cadeira.temp_garantia() <= 0 || cadeira.temp_garantia() > 60) {
+            throw new ValidationException("O tempo de garantia deve ser entre 1 e 60 meses.");
+        }
+    
+        if (!StringUtils.hasText(cadeira.dimencoes())) {
+            throw new ValidationException("As dimensões são obrigatórias.");
+        }
+    
+        if (!StringUtils.hasText(cadeira.foto_dimencoes())) {
+            throw new ValidationException("A foto das dimensões é obrigatória.");
+        }
+    
+        if (!StringUtils.hasText(cadeira.Foto_banner())) {
+            throw new ValidationException("A foto do banner é obrigatória.");
+        }
+    
+        if (!StringUtils.hasText(cadeira.desc_encosto())) {
+            throw new ValidationException("A descrição do encosto é obrigatória.");
+        }
+    
+        if (!StringUtils.hasText(cadeira.desc_apoio())) {
+            throw new ValidationException("A descrição do apoio é obrigatória.");
+        }
+    
+        if (!StringUtils.hasText(cadeira.desc_rodinha())) {
+            throw new ValidationException("A descrição das rodinhas é obrigatória.");
+        }
+    
+        if (!StringUtils.hasText(cadeira.desc_ajuste_altura())) {
+            throw new ValidationException("A descrição do ajuste de altura é obrigatória.");
+        }
+    
+        if (!StringUtils.hasText(cadeira.desc_revestimento())) {
+            throw new ValidationException("A descrição do revestimento é obrigatória.");
+        }
 
-        // validar as outras props aqui
+       
+       
         
     }
 

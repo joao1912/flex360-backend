@@ -102,7 +102,7 @@ class CadeiraServiceTest {
         novaCor.setName("Preto");
         RequestCadeiraDTO novaCadeiraDTO = new RequestCadeiraDTO("", "Uma cadeira muito confortáve", "Não sei o que colocar", 5, 10000, "200 x 200", "http://site.com/foto.png", "http://site.com/foto_banner.png", "uma cadeira", "cadeira também", "mais uma", "vich", "Revestimento", categorias, cores);
 
-        Cadeira novaCadeira = new Cadeira(UUID.randomUUID(), "Uma cadeira muito confortáve", "Não sei o que colocar", 5, "200 x 200", "http://site.com/foto.png", "http://site.com/foto_banner.png", "uma cadeira", "cadeira também", "mais uma", "vich", "Revestimento", "http://site.com/foto.jpeg", cores, categorias);
+        Cadeira novaCadeira = new Cadeira(UUID.randomUUID(), "Uma cadeira muito confortáve", "Não sei o que colocar", 5, "200 x 200", "http://site.com/foto.png", "http://site.com/foto_banner.png", "uma cadeira", "cadeira também", "mais uma", "vich", "Revestimento", cores, categorias);
         novaCadeira.setNome("");
         novaCadeira.setPreco(10000);
 
