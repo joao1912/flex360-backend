@@ -22,7 +22,7 @@ public class AcessorioService {
 
     private void validarAcessorio(Acessorio acessorio) {
         
-        if (!StringUtils.hasText(acessorio.getNome()) || acessorio.getNome().length() > 20) {
+        if (!StringUtils.hasText(acessorio.getNome()) || acessorio.getNome().length() > 25) {
             throw new ValidationException("O nome do acessório é obrigatório e não pode exceder 20 caracteres.");
         }
         if (acessorio.getPreco() <= 0) {

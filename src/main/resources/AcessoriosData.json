@@ -1,0 +1,32 @@
+[
+    {
+        "nome": "Carregador por indução",
+        "foto": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/acessorios/carregador-por-inducao.png",
+        "preco": 13.40
+    },
+    {
+        "nome": "Pistão á gás",
+        "foto": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/acessorios/pistao-gas.png",
+        "preco": 12.40
+    },
+    {
+        "nome": "Rodizio em gel ",
+        "foto": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/acessorios/rodinhas.png",
+        "preco": 11.40
+    },
+    {
+        "nome": "Suporte para monitor",
+        "foto": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/acessorios/suporte-para-monitor.png",
+        "preco": 10.40
+    },
+    {
+        "nome": "Suporte para notebook",
+        "foto": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/acessorios/suporte-para-notebook.png",
+        "preco": 17.40
+    },
+    {
+        "nome": "Apoio de pé ajustável",
+        "foto": "https://flex360-fotos-0w8djdm.s3.us-east-1.amazonaws.com/acessorios/apoio-de-pe.png",
+        "preco": 18.40
+    }
+]
