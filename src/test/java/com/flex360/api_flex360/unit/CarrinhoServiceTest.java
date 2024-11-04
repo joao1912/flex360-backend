@@ -196,7 +196,6 @@ public class CarrinhoServiceTest {
         cadeira.setId(UUID.randomUUID());
         cadeira.setNome("Cadeira 1");
         cadeira.setPreco(500);
-        cadeira.setFoto("foto_cadeira_1.jpg");
 
         ProdutoCarrinho pcAcessorio = new ProdutoCarrinho();
         pcAcessorio.setProduto(acessorio);

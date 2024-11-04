@@ -52,9 +52,6 @@ public class Cadeira extends Produto {
 
     private String desc_revestimento;
 
-    @JsonIgnore
-    private String foto;
-
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "cadeira_cor", joinColumns = @JoinColumn(name = "cadeira_id"), inverseJoinColumns = @JoinColumn(name = "cor_id"))
     private List<Cor> cores;
