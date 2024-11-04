@@ -1,5 +1,17 @@
 package com.flex360.api_flex360.controllers;
 
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flex360.api_flex360.dto.cadeira.CadeiraDTO;
@@ -13,19 +25,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-
-import java.util.List;
-import java.util.UUID;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/cadeira")
@@ -72,6 +71,42 @@ public class CadeiraController {
         return ResponseEntity.ok(cadeiraDTOs);
 
     }
+
+
+    @Operation(description = "Busca uma lista de cadeiras pelo nome informado.", responses = {
+        @ApiResponse(responseCode = "200"),
+
+        @ApiResponse(responseCode = "404", content = @Content())
+}
+
+)
+@GetMapping("/buscarPorNome/{nome}")
+        public ResponseEntity<List<CadeiraDTO>> buscarCadeiraPorNome(@PathVariable String nome) {
+                List<Cadeira> cadeiras = cadeiraService.buscarCadeirasPorNome(nome);
+
+                List<CadeiraDTO> cadeiraDTOs = converteParaDtoService.converterParaDTO(cadeiras,
+                        cadeira -> new CadeiraDTO(cadeira.getId(),
+                                cadeira.getNome(),
+                                cadeira.getDescricao(),
+                                cadeira.getInformacoes(),
+                                cadeira.getTemp_garantia(),
+                                cadeira.getPreco(),
+                                cadeira.getDimensoes(),
+                                cadeira.getFoto_dimensoes(),
+                                cadeira.getFoto_banner(),
+                                cadeira.getDesc_encosto(),
+                                cadeira.getDesc_apoio(),
+                                cadeira.getDesc_rodinha(),
+                                cadeira.getDesc_ajuste_altura(),
+                                cadeira.getDesc_revestimento(),
+                                cadeira.getCategorias(),
+                                cadeira.getCores()
+                        ));
+        
+                return ResponseEntity.ok(cadeiraDTOs);
+        
+        }
+
 
     @Operation(description = "Vai buscar uma cadeira por id.", responses = {
             @ApiResponse(responseCode = "200"),

@@ -63,6 +63,15 @@ public class CadeiraService {
         return cadeiras;
     }
 
+    public List<Cadeira> buscarCadeirasPorNome(String nome) {
+        List<Cadeira> cadeiras = cadeiraRepository.findByNomeContainingIgnoreCase(nome);
+        if (cadeiras.isEmpty()) {
+            throw new EntityNotFoundException("Nenhuma cadeira encontrada.");
+        }
+
+        return cadeiras;
+    }
+
     public Cadeira buscarCadeiraPorId(UUID id) {
         return cadeiraRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cadeira com ID " + id + " não encontrada."));
