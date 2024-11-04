@@ -37,13 +37,13 @@ public class CadeiraService {
     private CorRepository corRepository;
 
     private void validarCadeira(RequestCadeiraDTO cadeira) {
-        
+
         if (!StringUtils.hasText(cadeira.nome()) || cadeira.nome().length() > 20) {
             throw new ValidationException("O nome é obrigatório e não pode exceder 20 caracteres.");
         }
 
-        if (!StringUtils.hasText(cadeira.descricao()) || cadeira.descricao().length() > 100) {
-            throw new ValidationException("A descrição é obrigatória e não pode exceder 100 caracteres.");
+        if (!StringUtils.hasText(cadeira.descricao()) || cadeira.descricao().length() > 250) {
+            throw new ValidationException("A descrição é obrigatória e não pode exceder 200 caracteres.");
         }
 
         if (cadeira.preco() <= 0) {
@@ -89,9 +89,7 @@ public class CadeiraService {
             throw new ValidationException("A descrição do revestimento é obrigatória.");
         }
 
-       
-       
-        
+
     }
 
     public List<Cadeira> buscarTodasCadeiras() {
@@ -137,23 +135,31 @@ public class CadeiraService {
 
         for (Cor cor : cadeiraDTO.cores_disponiveis()) {
 
-            Optional<Cor> corExiste =  corRepository.findByName(cor.getName());
+            // Optional<Cor> corExiste = corRepository.findByName(cor.getName());
 
-            if (corExiste.isPresent()){
+            // if (corExiste.isPresent()){
 
-                corModels.add(corExiste.get());
+            // corModels.add(corExiste.get());
 
-            }else{
+            // }else{
 
-                Cor novaCor = new Cor();
-                novaCor.setName(cor.getName());
-                novaCor.setCodigo(cor.getCodigo());
-                novaCor.setFoto_cadeira(cor.getFoto_cadeira());
+            // Cor novaCor = new Cor();
+            // novaCor.setName(cor.getName());
+            // novaCor.setCodigo(cor.getCodigo());
+            // novaCor.setFoto_cadeira(cor.getFoto_cadeira());
 
-                Cor corCriada = corRepository.save(novaCor);
-                corModels.add(corCriada);
+            // Cor corCriada = corRepository.save(novaCor);
+            // corModels.add(corCriada);
 
-            }
+            // }
+
+            Cor novaCor = new Cor();
+            novaCor.setName(cor.getName());
+            novaCor.setCodigo(cor.getCodigo());
+            novaCor.setFoto_cadeira(cor.getFoto_cadeira());
+
+            Cor corCriada = corRepository.save(novaCor);
+            corModels.add(corCriada);
 
         }
 
