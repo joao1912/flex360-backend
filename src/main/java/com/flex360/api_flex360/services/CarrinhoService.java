@@ -177,6 +177,7 @@ public class CarrinhoService {
         return buscarProdutosDoCarrinho(carrinho.getId());
     }
 
+    @Transactional
     public void deletaProduto(UUID id) {
 
         produtoRepository.findById(id)
