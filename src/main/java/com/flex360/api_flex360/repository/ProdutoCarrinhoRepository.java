@@ -12,6 +12,6 @@ import com.flex360.api_flex360.models.ProdutoCarrinho;
 public interface ProdutoCarrinhoRepository extends JpaRepository<ProdutoCarrinho, UUID> {
 
     List<ProdutoCarrinho> findByCarrinhoId(UUID id);
-    boolean deleteByProdutoId(UUID id);
+    int deleteByProdutoId(UUID id);
 
 }
