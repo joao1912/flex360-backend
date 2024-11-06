@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -186,5 +187,21 @@ public class CarrinhoService {
         produtoCarrinhoRepository.deleteByProdutoId(id);
 
     }
+
+    @Transactional
+    public void limparCarrinho() {
+
+        if(produtoCarrinhoRepository.count() == 0) {
+            throw new EntityNotFoundException("Nenhum produto no carrinho.");
+        } else {
+
+        try {
+            produtoCarrinhoRepository.deleteAll();
+        } catch(Exception e) {
+            throw new RuntimeException("Erro ao limpar o carrinho", e);
+        }
+    }
+
+}
 
 }
