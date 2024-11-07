@@ -113,4 +113,22 @@ public class CarrinhoController {
 
     }
 
+
+    @Operation(description = "Limpa o carrinho do usuário.", responses = {
+        @ApiResponse(responseCode = "200"),
+
+        @ApiResponse(responseCode = "403", content = @Content()),
+
+        @ApiResponse(responseCode = "404", content = @Content())
+}
+
+)
+@DeleteMapping("/limparCarrinho")
+public ResponseEntity<?> limparCarrinho() {
+
+    carrinhoService.limparCarrinho();
+
+    return ResponseEntity.ok().build();
+
+}
 }
