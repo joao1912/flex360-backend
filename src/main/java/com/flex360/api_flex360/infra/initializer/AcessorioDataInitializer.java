@@ -32,7 +32,7 @@ public class AcessorioDataInitializer implements CommandLineRunner {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    @SuppressWarnings("unchecked")
+    //@SuppressWarnings("unchecked")
 @Override
     public void run(String... args) throws Exception {
 
@@ -45,7 +45,7 @@ public class AcessorioDataInitializer implements CommandLineRunner {
                 InputStream inputStream = resource.getInputStream();
                 json = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new IOException("Erro ao copiar JSON para string", e);
             }
 
             ObjectMapper mapper = new ObjectMapper();
@@ -66,7 +66,8 @@ public class AcessorioDataInitializer implements CommandLineRunner {
                     acessorioService.criarAcessorio(novoAcessorio);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                throw new IOException("Erro ao criar acessório", e);
+            
             }
         }
     }

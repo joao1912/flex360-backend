@@ -43,7 +43,7 @@ public class CadeiraService {
         }
 
         if (!StringUtils.hasText(cadeira.descricao()) || cadeira.descricao().length() > 250) {
-            throw new ValidationException("A descrição é obrigatória e não pode exceder 200 caracteres.");
+            throw new ValidationException("A descrição é obrigatória e não pode exceder 250 caracteres.");
         }
 
         if (cadeira.preco() <= 0) {
@@ -110,6 +110,7 @@ public class CadeiraService {
         return cadeiras;
     }
 
+    @Transactional(readOnly=true)
     public Cadeira buscarCadeiraPorId(UUID id) {
         return cadeiraRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Cadeira com ID " + id + " não encontrada."));
@@ -196,6 +197,7 @@ public class CadeiraService {
         }
     }
 
+    @Transactional
     public Cadeira editarCadeira(UUID id, RequestCadeiraDTO cadeiraAtualizada) {
         Cadeira cadeiraExistente = buscarCadeiraPorId(id);
         validarCadeira(cadeiraAtualizada);
@@ -222,6 +224,7 @@ public class CadeiraService {
         }
     }
 
+    @Transactional(readOnly=true)
     public Cadeira sugestaoErgonomica(SugestaoErgonomicaDTO dados) {
 
         List<Cadeira> cadeiras = cadeiraRepository.findAll();
@@ -252,6 +255,7 @@ public class CadeiraService {
 
     }
 
+    @Transactional
     public void deletarCadeira(UUID id) {
 
         try {
