@@ -3,6 +3,7 @@ package com.flex360.api_flex360.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,43 +53,42 @@ public class CadeiraService {
         if (!StringUtils.hasText(cadeira.informacoes()) || cadeira.informacoes().length() > 200) {
             throw new ValidationException("As informações são obrigatórias e não podem exceder 200 caracteres.");
         }
-    
+
         if (cadeira.temp_garantia() <= 0 || cadeira.temp_garantia() > 60) {
             throw new ValidationException("O tempo de garantia deve ser entre 1 e 60 meses.");
         }
-    
+
         if (!StringUtils.hasText(cadeira.dimencoes())) {
             throw new ValidationException("As dimensões são obrigatórias.");
         }
-    
+
         if (!StringUtils.hasText(cadeira.foto_dimencoes())) {
             throw new ValidationException("A foto das dimensões é obrigatória.");
         }
-    
+
         if (!StringUtils.hasText(cadeira.Foto_banner())) {
             throw new ValidationException("A foto do banner é obrigatória.");
         }
-    
+
         if (!StringUtils.hasText(cadeira.desc_encosto())) {
             throw new ValidationException("A descrição do encosto é obrigatória.");
         }
-    
+
         if (!StringUtils.hasText(cadeira.desc_apoio())) {
             throw new ValidationException("A descrição do apoio é obrigatória.");
         }
-    
+
         if (!StringUtils.hasText(cadeira.desc_rodinha())) {
             throw new ValidationException("A descrição das rodinhas é obrigatória.");
         }
-    
+
         if (!StringUtils.hasText(cadeira.desc_ajuste_altura())) {
             throw new ValidationException("A descrição do ajuste de altura é obrigatória.");
         }
-    
+
         if (!StringUtils.hasText(cadeira.desc_revestimento())) {
             throw new ValidationException("A descrição do revestimento é obrigatória.");
         }
-
 
     }
 
@@ -264,22 +264,35 @@ public class CadeiraService {
 
     }
 
-    @SuppressWarnings("unused")
     private Cadeira selecionarCadeiraPorPesoEAltura(List<Cadeira> cadeiras, float peso, float altura) {
 
-        // Regra especial para cadeira "Obeso BIG ONE"
-        if (peso >= 121 && peso <= 150) {
-            return cadeiras.stream()
-                    .filter(c -> c.getNome().equals("Obeso BIG ONE"))
-                    .findFirst()
-                    .orElse(null); // Retorna null se não encontrar
-        }
+        Optional<Cadeira> cadeiraEncontrada;
 
-        // Regra para peso até 120 kg e altura entre 1,40 e 1,90
-        return cadeiras.stream()
-                .filter(c -> peso <= 120 && altura >= 1.40 && altura <= 1.90)
-                .findFirst()
-                .orElse(null); // Retorna null se não encontrar
+        if (peso >= 120) {
+
+            cadeiraEncontrada = cadeiras.stream()
+                    .filter(c -> "Cadeira Big One".equals(c.getNome()))
+                    .findFirst();
+
+            if (!cadeiraEncontrada.isPresent()) {
+                throw new EntityNotFoundException("Não temos cadeira para esse peso.");
+            }
+
+            return cadeiraEncontrada.get();
+
+        } else {
+
+            if (altura < 1.39 && altura > 1.90)
+                throw new EntityNotFoundException("Não temos cadeira para essa altura.");
+
+            if (cadeiras.size() == 1)
+                return cadeiras.get(0);
+
+            Random random = new Random();
+            int indiceAleatorio = random.nextInt(cadeiras.size());
+            return cadeiras.get(indiceAleatorio);
+
+        }
     }
 
 }
