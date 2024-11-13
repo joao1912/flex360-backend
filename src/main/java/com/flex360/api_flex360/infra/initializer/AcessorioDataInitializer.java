@@ -32,8 +32,7 @@ public class AcessorioDataInitializer implements CommandLineRunner {
     @Autowired
     private ResourceLoader resourceLoader;
 
-    @SuppressWarnings("unchecked")
-@Override
+    @Override
     public void run(String... args) throws Exception {
 
         if (acessorioRepository.findAll().isEmpty()) {
@@ -53,15 +52,17 @@ public class AcessorioDataInitializer implements CommandLineRunner {
 
             try {
                 // Deserializando o JSON para uma lista de mapas
-                List<Map<String, Object>> acessorios = mapper.readValue(json, new TypeReference<List<Map<String, Object>>>() {});
+                List<Map<String, Object>> acessorios = mapper.readValue(json,
+                        new TypeReference<List<Map<String, Object>>>() {
+                        });
 
                 for (Map<String, Object> acessorio : acessorios) {
 
                     // Criando o acessório diretamente com os valores
                     Acessorio novoAcessorio = new Acessorio();
-                        novoAcessorio.setNome((String) acessorio.get("nome"));
-                        novoAcessorio.setPreco(((Number) acessorio.get("preco")).floatValue());
-                        novoAcessorio.setFoto((String) acessorio.get("foto"));
+                    novoAcessorio.setNome((String) acessorio.get("nome"));
+                    novoAcessorio.setPreco(((Number) acessorio.get("preco")).floatValue());
+                    novoAcessorio.setFoto((String) acessorio.get("foto"));
 
                     acessorioService.criarAcessorio(novoAcessorio);
                 }

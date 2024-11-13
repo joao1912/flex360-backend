@@ -276,6 +276,7 @@ public class CarrinhoServiceTest {
 
     // Teste para editarQuantidadeProduto quando remove quantidade e deleta o
     // ProdutoCarrinho
+    @SuppressWarnings("unused")
     @Test
     public void testEditarQuantidadeProduto_RemoveQuantidade_DeleteProdutoCarrinho() {
         // Arrange
@@ -326,6 +327,7 @@ public class CarrinhoServiceTest {
 
     // Teste para editarQuantidadeProduto quando remove quantidade e atualiza o
     // ProdutoCarrinho
+    @SuppressWarnings("unused")
     @Test
     public void testEditarQuantidadeProduto_RemoveQuantidade_SubtractQuantity() {
         // Arrange
@@ -388,6 +390,7 @@ public class CarrinhoServiceTest {
 
     // Teste para editarQuantidadeProduto quando adiciona quantidade ao
     // ProdutoCarrinho existente
+    @SuppressWarnings("unused")
     @Test
     public void testEditarQuantidadeProduto_AddQuantidade() {
         // Arrange

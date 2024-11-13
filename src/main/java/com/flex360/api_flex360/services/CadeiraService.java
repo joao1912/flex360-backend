@@ -264,6 +264,7 @@ public class CadeiraService {
 
     }
 
+    @SuppressWarnings("unused")
     private Cadeira selecionarCadeiraPorPesoEAltura(List<Cadeira> cadeiras, float peso, float altura) {
 
         // Regra especial para cadeira "Obeso BIG ONE"
