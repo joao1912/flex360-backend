@@ -7,7 +7,6 @@ import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -15,6 +14,7 @@ import org.springframework.util.StringUtils;
 import com.flex360.api_flex360.dto.cadeira.RequestCadeiraDTO;
 import com.flex360.api_flex360.dto.cadeira.SugestaoErgonomicaDTO;
 import com.flex360.api_flex360.exceptions.ErroAoSalvarException;
+import com.flex360.api_flex360.exceptions.ResourceNotFoundException;
 import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.models.Categoria;
 import com.flex360.api_flex360.models.Cor;
@@ -22,7 +22,6 @@ import com.flex360.api_flex360.repository.CadeiraRepository;
 import com.flex360.api_flex360.repository.CategoriaRepository;
 import com.flex360.api_flex360.repository.CorRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
 
 @Service
@@ -96,7 +95,7 @@ public class CadeiraService {
 
         List<Cadeira> cadeiras = cadeiraRepository.findAll();
         if (cadeiras.isEmpty()) {
-            throw new EntityNotFoundException("Nenhuma cadeira encontrada.");
+            throw new ResourceNotFoundException("Nenhuma cadeira encontrada.");
         }
         return cadeiras;
     }
@@ -104,7 +103,7 @@ public class CadeiraService {
     public List<Cadeira> buscarCadeirasPorNome(String nome) {
         List<Cadeira> cadeiras = cadeiraRepository.findByNomeContainingIgnoreCase(nome);
         if (cadeiras.isEmpty()) {
-            throw new EntityNotFoundException("Nenhuma cadeira encontrada.");
+            throw new ResourceNotFoundException("Nenhuma cadeira encontrada.");
         }
 
         return cadeiras;
@@ -112,7 +111,7 @@ public class CadeiraService {
 
     public Cadeira buscarCadeiraPorId(UUID id) {
         return cadeiraRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Cadeira com ID " + id + " não encontrada."));
+                .orElseThrow(() -> new ResourceNotFoundException("Cadeira com ID " + id + " não encontrada."));
     }
 
     @Transactional
@@ -256,8 +255,8 @@ public class CadeiraService {
 
         try {
             cadeiraRepository.deleteById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException("Cadeira com ID " + id + " já foi removida ou não existe.");
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Cadeira com ID " + id + " já foi removida ou não existe.");
         } catch (Exception e) {
             throw new RuntimeException("Erro ao deletar cadeira: " + e.getMessage(), e);
         }
@@ -275,7 +274,7 @@ public class CadeiraService {
                     .findFirst();
 
             if (!cadeiraEncontrada.isPresent()) {
-                throw new EntityNotFoundException("Não temos cadeira para esse peso.");
+                throw new ResourceNotFoundException("Não temos cadeira para esse peso.");
             }
 
             return cadeiraEncontrada.get();
@@ -283,7 +282,7 @@ public class CadeiraService {
         } else {
 
             if (altura < 1.39 && altura > 1.90)
-                throw new EntityNotFoundException("Não temos cadeira para essa altura.");
+                throw new ResourceNotFoundException("Não temos cadeira para essa altura.");
 
             if (cadeiras.size() == 1)
                 return cadeiras.get(0);

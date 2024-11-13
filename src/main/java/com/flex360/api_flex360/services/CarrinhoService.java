@@ -14,6 +14,7 @@ import com.flex360.api_flex360.dto.carrinho.CadeiraDTO;
 import com.flex360.api_flex360.dto.carrinho.ModificaCarrinhoDTO;
 import com.flex360.api_flex360.dto.carrinho.ProdutosDTO;
 import com.flex360.api_flex360.exceptions.ErroAoSalvarException;
+import com.flex360.api_flex360.exceptions.ResourceNotFoundException;
 import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.models.Carrinho;
@@ -25,7 +26,6 @@ import com.flex360.api_flex360.repository.CorRepository;
 import com.flex360.api_flex360.repository.ProdutoCarrinhoRepository;
 import com.flex360.api_flex360.repository.ProdutoRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -47,20 +47,20 @@ public class CarrinhoService {
     @Transactional(readOnly = true)
     public Carrinho buscarCarrinhoPorId(UUID id) {
         return carrinhoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Erro ao encontrar carrinho com esse id"));
+                .orElseThrow(() -> new ResourceNotFoundException("Erro ao encontrar carrinho com esse id"));
     }
 
     public void deletarCarrinho(UUID id) {
 
         Carrinho carrinho = carrinhoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Carrinho não encontrado para deleção."));
+                .orElseThrow(() -> new ResourceNotFoundException("Carrinho não encontrado para deleção."));
         carrinhoRepository.delete(carrinho);
     }
 
     @Transactional(readOnly = true)
     public ProdutosDTO buscarProdutosDoCarrinho(UUID id) {
         carrinhoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Carrinho não encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Carrinho não encontrado."));
 
         List<AcessorioDTO> acessoriosDTO = new ArrayList<>();
         List<CadeiraDTO> cadeirasDTO = new ArrayList<>();
@@ -103,10 +103,10 @@ public class CarrinhoService {
             boolean removerQuantidade) {
 
         Carrinho carrinho = carrinhoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Carrinho não encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Carrinho não encontrado."));
 
         Produto produto = produtoRepository.findById(modificaCarrinhoDTO.id())
-                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado."));
 
         List<ProdutoCarrinho> produtos = produtoCarrinhoRepository.findByCarrinhoId(id);
 
@@ -181,7 +181,7 @@ public class CarrinhoService {
     public void deletaProduto(UUID id) {
 
         produtoRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado."));
+                .orElseThrow(() -> new ResourceNotFoundException("Produto não encontrado."));
 
         produtoCarrinhoRepository.deleteByProdutoId(id);
 
@@ -191,7 +191,7 @@ public class CarrinhoService {
     public void limparCarrinho() {
 
         if(produtoCarrinhoRepository.count() == 0) {
-            throw new EntityNotFoundException("Nenhum produto no carrinho.");
+            throw new ResourceNotFoundException("Nenhum produto no carrinho.");
         } else {
 
         try {
