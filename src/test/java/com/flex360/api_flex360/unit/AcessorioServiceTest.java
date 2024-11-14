@@ -21,12 +21,10 @@ import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.EmptyResultDataAccessException;
 
+import com.flex360.api_flex360.exceptions.ResourceNotFoundException;
 import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.repository.AcessorioRepository;
 import com.flex360.api_flex360.services.AcessorioService;
-
-import jakarta.persistence.EntityNotFoundException;
-
 
 @ExtendWith(MockitoExtension.class)
 public class AcessorioServiceTest {
@@ -64,7 +62,7 @@ public class AcessorioServiceTest {
        
         when(acessorioRepository.findAll()).thenReturn(Arrays.asList());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             acessorioService.buscarTodosAcessorios();
         });
 
@@ -94,7 +92,7 @@ public class AcessorioServiceTest {
 
         when(acessorioRepository.findById(id)).thenReturn(Optional.empty());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             acessorioService.buscarAcessorioPorId(id);
         });
 
@@ -198,7 +196,7 @@ public class AcessorioServiceTest {
 
         when(acessorioRepository.findById(id)).thenReturn(Optional.empty());
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             acessorioService.deletarAcessorio(id);
         });
 
@@ -214,7 +212,7 @@ public class AcessorioServiceTest {
         when(acessorioRepository.findById(id)).thenReturn(Optional.of(acessorio));
         doThrow(new EmptyResultDataAccessException(1)).when(acessorioRepository).delete(acessorio);
 
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             acessorioService.deletarAcessorio(id);
         });
 

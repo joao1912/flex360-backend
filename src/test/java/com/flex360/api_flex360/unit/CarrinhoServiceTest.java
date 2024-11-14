@@ -30,6 +30,7 @@ import com.flex360.api_flex360.dto.carrinho.CadeiraDTO;
 import com.flex360.api_flex360.dto.carrinho.ModificaCarrinhoDTO;
 import com.flex360.api_flex360.dto.carrinho.ProdutosDTO;
 import com.flex360.api_flex360.exceptions.ErroAoSalvarException;
+import com.flex360.api_flex360.exceptions.ResourceNotFoundException;
 import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.models.Carrinho;
@@ -39,8 +40,6 @@ import com.flex360.api_flex360.repository.CarrinhoRepository;
 import com.flex360.api_flex360.repository.ProdutoCarrinhoRepository;
 import com.flex360.api_flex360.repository.ProdutoRepository;
 import com.flex360.api_flex360.services.CarrinhoService;
-
-import jakarta.persistence.EntityNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 public class CarrinhoServiceTest {
@@ -85,7 +84,7 @@ public class CarrinhoServiceTest {
         when(carrinhoRepository.findById(id)).thenReturn(Optional.empty());
 
         // Act & Assert
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             carrinhoService.buscarCarrinhoPorId(id);
         });
 
@@ -152,7 +151,7 @@ public class CarrinhoServiceTest {
         when(carrinhoRepository.findById(id)).thenReturn(Optional.empty());
 
         // Act & Assert
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             carrinhoService.deletarCarrinho(id);
         });
 
@@ -169,7 +168,7 @@ public class CarrinhoServiceTest {
         when(carrinhoRepository.findById(id)).thenReturn(Optional.empty());
 
         // Act & Assert
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             carrinhoService.buscarProdutosDoCarrinho(id);
         });
 
@@ -245,7 +244,7 @@ public class CarrinhoServiceTest {
         when(carrinhoRepository.findById(carrinhoId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             carrinhoService.editarQuantidadeProduto(carrinhoId, modificaCarrinhoDTO, false);
         });
 
@@ -265,7 +264,7 @@ public class CarrinhoServiceTest {
         when(produtoRepository.findById(produtoId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             carrinhoService.editarQuantidadeProduto(carrinhoId, modificaCarrinhoDTO, false);
         });
 
@@ -518,7 +517,7 @@ public class CarrinhoServiceTest {
         when(produtoRepository.findById(produtoId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> {
             carrinhoService.deletaProduto(produtoId);
         });
 
