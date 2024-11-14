@@ -7,10 +7,10 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import com.flex360.api_flex360.exceptions.ResourceNotFoundException;
 import com.flex360.api_flex360.models.Acessorio;
 import com.flex360.api_flex360.repository.AcessorioRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException; 
 import lombok.RequiredArgsConstructor;
 
@@ -37,7 +37,7 @@ public class AcessorioService {
     public List<Acessorio> buscarTodosAcessorios() {
         List<Acessorio> acessorios = acessorioRepository.findAll();
         if (acessorios.isEmpty()) {
-            throw new EntityNotFoundException("Nenhum acessório encontrado");
+            throw new ResourceNotFoundException("Nenhum acessório encontrado");
         }
         return acessorios;
     }
@@ -45,7 +45,7 @@ public class AcessorioService {
     public Acessorio buscarAcessorioPorId(UUID id) {
 
         return acessorioRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Acessório não encontrado com ID" + id));
+            .orElseThrow(() -> new ResourceNotFoundException("Acessório não encontrado com ID" + id));
 
     }
     
@@ -82,10 +82,10 @@ public class AcessorioService {
          try {
             Acessorio acessorio = buscarAcessorioPorId(id);
             acessorioRepository.delete(acessorio);
-        } catch (EntityNotFoundException e) {
-            throw new EntityNotFoundException("Não foi possível deletar. Acessório não encontrado com ID: " + id);
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Não foi possível deletar. Acessório não encontrado com ID: " + id);
         } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException("Acessório com ID " + id + " já foi removido ou não existe.");
+            throw new ResourceNotFoundException("Acessório com ID " + id + " já foi removido ou não existe.");
         } catch (Exception e) {
             throw new RuntimeException("Erro ao deletar o acessório: " + e.getMessage());
         }
