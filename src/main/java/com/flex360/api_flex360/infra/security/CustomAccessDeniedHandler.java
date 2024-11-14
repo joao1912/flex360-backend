@@ -16,10 +16,15 @@ public class CustomAccessDeniedHandler implements AccessDeniedHandler {
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException)
             throws IOException, ServletException {
 
-        // Defina o status de erro e a mensagem personalizada
         response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
         response.getWriter().write("{\"message\": \"Você não está autorizado a acessar este recurso.\"}");
     }
 }
