@@ -22,7 +22,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
             AuthenticationException authException)
             throws IOException, ServletException {
 
-        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
 
@@ -31,18 +31,20 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
-        String errorMessage = "Você não está autenticado ou não possui autorização para acessar este recurso.";
+        String errorMessage = "Você não está autenticado ou não possui autorização para acessar o recurso solicitado.";
 
-        if (authException instanceof BadCredentialsException) {
-            errorMessage = "Senha inválida.";
-        } else if (authException instanceof UsernameNotFoundException) {
-            errorMessage = "Usuário não encontrado.";
+        if (authException instanceof UsernameNotFoundException) {
+            errorMessage = "E-mail ou senha inválidos.";
+        } else if (authException instanceof BadCredentialsException) {
+            errorMessage = "E-mail ou senha inválidos.";
         } else {
             Throwable cause = authException.getCause();
             if (cause instanceof AccountExpiredException) {
                 errorMessage = "Conta expirada.";
-            }
-
+            } else {
+                String exceptionName = authException.getClass().getSimpleName();
+                errorMessage = "Erro de autenticação: " + exceptionName;
+        }
         }
 
         response.getWriter().write("{\"message\": \"" + errorMessage + "\"}");
