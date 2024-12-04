@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -281,16 +282,23 @@ public class CadeiraService {
 
         } else {
 
-            if (altura < 1.39 && altura > 1.90)
+            if (altura < 1.39 || altura > 1.90)
                 throw new ResourceNotFoundException("Não temos cadeira para essa altura.");
 
-            if (cadeiras.size() == 1)
-                return cadeiras.get(0);
+            List<Cadeira> cadeirasFiltradas = cadeiras.stream()
+                    .filter(c -> !"Cadeira Big One".equalsIgnoreCase(c.getNome()))
+                    .collect(Collectors.toList());
+
+            if (cadeirasFiltradas.isEmpty()) {
+                throw new ResourceNotFoundException("Nenhuma cadeira disponível para essa altura e peso.");
+            }
+
+            if (cadeirasFiltradas.size() == 1)
+                return cadeirasFiltradas.get(0);
 
             Random random = new Random();
-            int indiceAleatorio = random.nextInt(cadeiras.size());
-            return cadeiras.get(indiceAleatorio);
-
+            int indiceAleatorio = random.nextInt(cadeirasFiltradas.size());
+            return cadeirasFiltradas.get(indiceAleatorio);
         }
     }
 
