@@ -36,7 +36,8 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
-                String allowedOrigins = dotenv.get("HTTP_ORIGIN", "http://localhost:5173");
+                //String allowedOrigins = dotenv.get("HTTP_ORIGIN", "http://localhost:5173");
+                String allowedOrigins = "http://flex360-front-ae8fh.s3-website-us-east-1.amazonaws.com";
                 logger.info("Configuring CORS with allowed origins: {}", allowedOrigins);
 
                 registry.addMapping("/**")
