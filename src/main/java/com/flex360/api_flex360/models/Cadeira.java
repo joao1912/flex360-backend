@@ -3,8 +3,6 @@ package com.flex360.api_flex360.models;
 import java.util.List;
 import java.util.UUID;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -50,9 +48,6 @@ public class Cadeira extends Produto {
     private String desc_ajuste_altura;
 
     private String desc_revestimento;
-
-    @JsonIgnore
-    private String foto;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "cadeira_cor", joinColumns = @JoinColumn(name = "cadeira_id"), inverseJoinColumns = @JoinColumn(name = "cor_id"))

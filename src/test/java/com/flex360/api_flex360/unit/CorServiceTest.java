@@ -15,11 +15,11 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.flex360.api_flex360.exceptions.ResourceNotFoundException;
 import com.flex360.api_flex360.models.Cor;
 import com.flex360.api_flex360.repository.CorRepository;
 import com.flex360.api_flex360.services.CorService;
 
-import jakarta.persistence.EntityNotFoundException;
 
 @ExtendWith(MockitoExtension.class)
 public class CorServiceTest {
@@ -69,7 +69,7 @@ public class CorServiceTest {
         when(corRepository.findAll()).thenReturn(new ArrayList<>());
 
         // Verificando se a exceção correta é lançada
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> corService.buscarTodasCores());
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> corService.buscarTodasCores());
         assertEquals("Nenhuma cor encontrada.", exception.getMessage());
     }
 
@@ -100,7 +100,7 @@ public class CorServiceTest {
         when(corRepository.findById(id)).thenReturn(Optional.empty());
 
         // Verificando se a exceção correta é lançada
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> corService.buscarCorPorId(id));
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> corService.buscarCorPorId(id));
         assertEquals("Cor com ID " + id + " não encontrada.", exception.getMessage());
     }
 
@@ -168,7 +168,7 @@ public class CorServiceTest {
         when(corRepository.findById(id)).thenReturn(Optional.empty());
 
         // Verificando se a exceção correta é lançada
-        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> corService.editarCor(id, corAtualizada));
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> corService.editarCor(id, corAtualizada));
         assertEquals("Cor com ID " + id + " não encontrada.", exception.getMessage());
     }
 
@@ -203,8 +203,8 @@ public class CorServiceTest {
     // Configura o mock para retornar vazio (entidade não encontrada)
     Mockito.when(corRepository.findById(id)).thenReturn(Optional.empty());
 
-    // Verifica se a exceção EntityNotFoundException é lançada
-    assertThrows(EntityNotFoundException.class, () -> {
+    // Verifica se a exceção ResourceNotFoundException é lançada
+    assertThrows(ResourceNotFoundException.class, () -> {
         corService.deletarCor(id);
     });
 

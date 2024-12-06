@@ -3,11 +3,12 @@ package com.flex360.api_flex360.services;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -15,6 +16,7 @@ import org.springframework.util.StringUtils;
 import com.flex360.api_flex360.dto.cadeira.RequestCadeiraDTO;
 import com.flex360.api_flex360.dto.cadeira.SugestaoErgonomicaDTO;
 import com.flex360.api_flex360.exceptions.ErroAoSalvarException;
+import com.flex360.api_flex360.exceptions.ResourceNotFoundException;
 import com.flex360.api_flex360.models.Cadeira;
 import com.flex360.api_flex360.models.Categoria;
 import com.flex360.api_flex360.models.Cor;
@@ -22,7 +24,6 @@ import com.flex360.api_flex360.repository.CadeiraRepository;
 import com.flex360.api_flex360.repository.CategoriaRepository;
 import com.flex360.api_flex360.repository.CorRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.ValidationException;
 
 @Service
@@ -38,21 +39,58 @@ public class CadeiraService {
     private CorRepository corRepository;
 
     private void validarCadeira(RequestCadeiraDTO cadeira) {
-        
+
         if (!StringUtils.hasText(cadeira.nome()) || cadeira.nome().length() > 20) {
             throw new ValidationException("O nome é obrigatório e não pode exceder 20 caracteres.");
         }
 
-        if (!StringUtils.hasText(cadeira.descricao()) || cadeira.descricao().length() > 100) {
-            throw new ValidationException("A descrição é obrigatória e não pode exceder 100 caracteres.");
+        if (!StringUtils.hasText(cadeira.descricao()) || cadeira.descricao().length() > 250) {
+            throw new ValidationException("A descrição é obrigatória e não pode exceder 200 caracteres.");
         }
 
         if (cadeira.preco() <= 0) {
             throw new ValidationException("O preço deve ser maior que zero.");
         }
+        if (!StringUtils.hasText(cadeira.informacoes()) || cadeira.informacoes().length() > 200) {
+            throw new ValidationException("As informações são obrigatórias e não podem exceder 200 caracteres.");
+        }
 
-        // validar as outras props aqui
-        
+        if (cadeira.temp_garantia() <= 0 || cadeira.temp_garantia() > 60) {
+            throw new ValidationException("O tempo de garantia deve ser entre 1 e 60 meses.");
+        }
+
+        if (!StringUtils.hasText(cadeira.dimencoes())) {
+            throw new ValidationException("As dimensões são obrigatórias.");
+        }
+
+        if (!StringUtils.hasText(cadeira.foto_dimencoes())) {
+            throw new ValidationException("A foto das dimensões é obrigatória.");
+        }
+
+        if (!StringUtils.hasText(cadeira.Foto_banner())) {
+            throw new ValidationException("A foto do banner é obrigatória.");
+        }
+
+        if (!StringUtils.hasText(cadeira.desc_encosto())) {
+            throw new ValidationException("A descrição do encosto é obrigatória.");
+        }
+
+        if (!StringUtils.hasText(cadeira.desc_apoio())) {
+            throw new ValidationException("A descrição do apoio é obrigatória.");
+        }
+
+        if (!StringUtils.hasText(cadeira.desc_rodinha())) {
+            throw new ValidationException("A descrição das rodinhas é obrigatória.");
+        }
+
+        if (!StringUtils.hasText(cadeira.desc_ajuste_altura())) {
+            throw new ValidationException("A descrição do ajuste de altura é obrigatória.");
+        }
+
+        if (!StringUtils.hasText(cadeira.desc_revestimento())) {
+            throw new ValidationException("A descrição do revestimento é obrigatória.");
+        }
+
     }
 
     @Cacheable(value = "cadeirasCache", key = "'todasCadeiras'")
@@ -61,14 +99,23 @@ public class CadeiraService {
 
         List<Cadeira> cadeiras = cadeiraRepository.findAll();
         if (cadeiras.isEmpty()) {
-            throw new EntityNotFoundException("Nenhuma cadeira encontrada.");
+            throw new ResourceNotFoundException("Nenhuma cadeira encontrada.");
         }
+        return cadeiras;
+    }
+
+    public List<Cadeira> buscarCadeirasPorNome(String nome) {
+        List<Cadeira> cadeiras = cadeiraRepository.findByNomeContainingIgnoreCase(nome);
+        if (cadeiras.isEmpty()) {
+            throw new ResourceNotFoundException("Nenhuma cadeira encontrada.");
+        }
+
         return cadeiras;
     }
 
     public Cadeira buscarCadeiraPorId(UUID id) {
         return cadeiraRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Cadeira com ID " + id + " não encontrada."));
+                .orElseThrow(() -> new ResourceNotFoundException("Cadeira com ID " + id + " não encontrada."));
     }
 
     @Transactional
@@ -100,23 +147,31 @@ public class CadeiraService {
 
         for (Cor cor : cadeiraDTO.cores_disponiveis()) {
 
-            Optional<Cor> corExiste =  corRepository.findByName(cor.getName());
+            // Optional<Cor> corExiste = corRepository.findByName(cor.getName());
 
-            if (corExiste.isPresent()){
+            // if (corExiste.isPresent()){
 
-                corModels.add(corExiste.get());
+            // corModels.add(corExiste.get());
 
-            }else{
+            // }else{
 
-                Cor novaCor = new Cor();
-                novaCor.setName(cor.getName());
-                novaCor.setCodigo(cor.getCodigo());
-                novaCor.setFoto_cadeira(cor.getFoto_cadeira());
+            // Cor novaCor = new Cor();
+            // novaCor.setName(cor.getName());
+            // novaCor.setCodigo(cor.getCodigo());
+            // novaCor.setFoto_cadeira(cor.getFoto_cadeira());
 
-                Cor corCriada = corRepository.save(novaCor);
-                corModels.add(corCriada);
+            // Cor corCriada = corRepository.save(novaCor);
+            // corModels.add(corCriada);
 
-            }
+            // }
+
+            Cor novaCor = new Cor();
+            novaCor.setName(cor.getName());
+            novaCor.setCodigo(cor.getCodigo());
+            novaCor.setFoto_cadeira(cor.getFoto_cadeira());
+
+            Cor corCriada = corRepository.save(novaCor);
+            corModels.add(corCriada);
 
         }
 
@@ -207,8 +262,8 @@ public class CadeiraService {
 
         try {
             cadeiraRepository.deleteById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new EntityNotFoundException("Cadeira com ID " + id + " já foi removida ou não existe.");
+        } catch (ResourceNotFoundException e) {
+            throw new ResourceNotFoundException("Cadeira com ID " + id + " já foi removida ou não existe.");
         } catch (Exception e) {
             throw new RuntimeException("Erro ao deletar cadeira: " + e.getMessage(), e);
         }
@@ -217,19 +272,40 @@ public class CadeiraService {
 
     private Cadeira selecionarCadeiraPorPesoEAltura(List<Cadeira> cadeiras, float peso, float altura) {
 
-        // Regra especial para cadeira "Obeso BIG ONE"
-        if (peso >= 121 && peso <= 150) {
-            return cadeiras.stream()
-                    .filter(c -> c.getNome().equals("Obeso BIG ONE"))
-                    .findFirst()
-                    .orElse(null); // Retorna null se não encontrar
-        }
+        Optional<Cadeira> cadeiraEncontrada;
 
-        // Regra para peso até 120 kg e altura entre 1,40 e 1,90
-        return cadeiras.stream()
-                .filter(c -> peso <= 120 && altura >= 1.40 && altura <= 1.90)
-                .findFirst()
-                .orElse(null); // Retorna null se não encontrar
+        if (peso >= 120) {
+
+            cadeiraEncontrada = cadeiras.stream()
+                    .filter(c -> "Cadeira Big One".equals(c.getNome()))
+                    .findFirst();
+
+            if (!cadeiraEncontrada.isPresent()) {
+                throw new ResourceNotFoundException("Não temos cadeira para esse peso.");
+            }
+
+            return cadeiraEncontrada.get();
+
+        } else {
+
+            if (altura < 1.39 || altura > 1.90)
+                throw new ResourceNotFoundException("Não temos cadeira para essa altura.");
+
+            List<Cadeira> cadeirasFiltradas = cadeiras.stream()
+                    .filter(c -> !"Cadeira Big One".equalsIgnoreCase(c.getNome()))
+                    .collect(Collectors.toList());
+
+            if (cadeirasFiltradas.isEmpty()) {
+                throw new ResourceNotFoundException("Nenhuma cadeira disponível para essa altura e peso.");
+            }
+
+            if (cadeirasFiltradas.size() == 1)
+                return cadeirasFiltradas.get(0);
+
+            Random random = new Random();
+            int indiceAleatorio = random.nextInt(cadeirasFiltradas.size());
+            return cadeirasFiltradas.get(indiceAleatorio);
+        }
     }
 
 }

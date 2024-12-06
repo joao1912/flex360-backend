@@ -10,7 +10,6 @@ import org.springframework.util.StringUtils;
 import com.flex360.api_flex360.models.Cor;
 import com.flex360.api_flex360.repository.CorRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
@@ -36,7 +35,7 @@ public class CorService {
     public List<Cor> buscarTodasCores() {
         List<Cor> cores = corRepository.findAll();
         if (cores.isEmpty()) {
-            throw new EntityNotFoundException("Nenhuma cor encontrada.");
+            throw new com.flex360.api_flex360.exceptions.ResourceNotFoundException("Nenhuma cor encontrada.");
         }
         return cores;
     }
@@ -44,7 +43,7 @@ public class CorService {
     @Transactional(readOnly = true)
     public Cor buscarCorPorId(UUID id) {
         Optional<Cor> cor = corRepository.findById(id);
-        return cor.orElseThrow(() -> new EntityNotFoundException("Cor com ID " + id + " não encontrada."));
+        return cor.orElseThrow(() -> new com.flex360.api_flex360.exceptions.ResourceNotFoundException("Cor com ID " + id + " não encontrada."));
     }
 
     @Transactional
@@ -68,7 +67,7 @@ public class CorService {
     @Transactional
     public void deletarCor(UUID id) {
         Cor cor = corRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Cor não encontrada com o id: " + id));
+            .orElseThrow(() -> new com.flex360.api_flex360.exceptions.ResourceNotFoundException("Cor não encontrada com o id: " + id));
         corRepository.delete(cor);
     }
 

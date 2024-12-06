@@ -98,9 +98,9 @@ public class AcessorioController {
     }
 
     @Operation(description = "Vai editar os dados de um acessorio por id.", responses = {
-            @ApiResponse(responseCode = "200"),
+        @ApiResponse(responseCode = "200"),
 
-            @ApiResponse(responseCode = "403", content = @Content()),
+        @ApiResponse(responseCode = "403", content = @Content()),
 
     }
 
