@@ -36,16 +36,16 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
-               
-                String allowedOrigins = dotenv.get("HTTP_ORIGIN", "*");
-                
+
+                String allowedOrigins = dotenv.get("HTTP_ORIGIN", "http://tf-lb-*.elb.amazonaws.com");
+
                 logger.info("Configuring CORS with allowed origins: {}", allowedOrigins);
                 logger.info("Configuring CORS with allowed methods: {}", allowedMethods);
                 logger.info("Configuring CORS with allowed headers: {}", allowedHeaders);
                 logger.info("Allowing credentials: {}", allowCredentials);
 
                 registry.addMapping("/**")
-                        .allowedOrigins(allowedOrigins.split(","))
+                        .allowedOriginPatterns(allowedOrigins)
                         .allowedMethods(allowedMethods.split(","))
                         .allowedHeaders(allowedHeaders.split(","))
                         .allowCredentials(allowCredentials);
