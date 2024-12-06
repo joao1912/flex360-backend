@@ -18,27 +18,31 @@ public class CorsConfig {
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CorsConfig.class);
     private final Dotenv dotenv;
 
+    @Value("${cors.allowed-methods:*}")
+    private String allowedMethods;
+
+    @Value("${cors.allowed-headers:*}")
+    private String allowedHeaders;
+
+    @Value("${cors.allow-credentials:true}")
+    private boolean allowCredentials;
+
     public CorsConfig(DotenvConfig dotenvConfig) {
         this.dotenv = dotenvConfig.dotenv();
     }
-    
-    @Value("${cors.allowed-methods}")
-    private String allowedMethods;
-
-    @Value("${cors.allowed-headers}")
-    private String allowedHeaders;
-
-    @Value("${cors.allow-credentials}")
-    private boolean allowCredentials;
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
-                //String allowedOrigins = dotenv.get("HTTP_ORIGIN", "http://localhost:5173");
-                String allowedOrigins = "http://flex360-front-ae8fh.s3-website-us-east-1.amazonaws.com";
+               
+                String allowedOrigins = dotenv.get("HTTP_ORIGIN", "*");
+                
                 logger.info("Configuring CORS with allowed origins: {}", allowedOrigins);
+                logger.info("Configuring CORS with allowed methods: {}", allowedMethods);
+                logger.info("Configuring CORS with allowed headers: {}", allowedHeaders);
+                logger.info("Allowing credentials: {}", allowCredentials);
 
                 registry.addMapping("/**")
                         .allowedOrigins(allowedOrigins.split(","))
@@ -48,5 +52,4 @@ public class CorsConfig {
             }
         };
     }
-    
 }

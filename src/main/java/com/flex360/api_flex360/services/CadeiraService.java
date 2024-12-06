@@ -8,6 +8,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -92,6 +93,8 @@ public class CadeiraService {
 
     }
 
+    @Cacheable(value = "cadeirasCache", key = "'todasCadeiras'")
+    @Transactional(readOnly = true)
     public List<Cadeira> buscarTodasCadeiras() {
 
         List<Cadeira> cadeiras = cadeiraRepository.findAll();
@@ -196,6 +199,7 @@ public class CadeiraService {
         }
     }
 
+    @Transactional
     public Cadeira editarCadeira(UUID id, RequestCadeiraDTO cadeiraAtualizada) {
         Cadeira cadeiraExistente = buscarCadeiraPorId(id);
         validarCadeira(cadeiraAtualizada);
@@ -222,6 +226,7 @@ public class CadeiraService {
         }
     }
 
+    @Transactional(readOnly = true)
     public Cadeira sugestaoErgonomica(SugestaoErgonomicaDTO dados) {
 
         List<Cadeira> cadeiras = cadeiraRepository.findAll();
@@ -252,6 +257,7 @@ public class CadeiraService {
 
     }
 
+    @Transactional
     public void deletarCadeira(UUID id) {
 
         try {

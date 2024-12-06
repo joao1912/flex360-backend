@@ -50,6 +50,7 @@ public class CarrinhoService {
                 .orElseThrow(() -> new ResourceNotFoundException("Erro ao encontrar carrinho com esse id"));
     }
 
+    @Transactional
     public void deletarCarrinho(UUID id) {
 
         Carrinho carrinho = carrinhoRepository.findById(id)
@@ -99,6 +100,7 @@ public class CarrinhoService {
         return new ProdutosDTO(acessoriosDTO, cadeirasDTO);
     }
 
+    @Transactional
     public ProdutosDTO editarQuantidadeProduto(UUID id, ModificaCarrinhoDTO modificaCarrinhoDTO,
             boolean removerQuantidade) {
 

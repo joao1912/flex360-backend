@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import com.flex360.api_flex360.exceptions.ResourceNotFoundException;
@@ -34,6 +35,7 @@ public class AcessorioService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<Acessorio> buscarTodosAcessorios() {
         List<Acessorio> acessorios = acessorioRepository.findAll();
         if (acessorios.isEmpty()) {
@@ -42,6 +44,7 @@ public class AcessorioService {
         return acessorios;
     }
 
+    @Transactional(readOnly = true)
     public Acessorio buscarAcessorioPorId(UUID id) {
 
         return acessorioRepository.findById(id)
@@ -49,6 +52,7 @@ public class AcessorioService {
 
     }
     
+    @Transactional
     public Acessorio criarAcessorio(Acessorio acessorio) {
 
         validarAcessorio(acessorio);
@@ -61,6 +65,7 @@ public class AcessorioService {
 
     }
 
+    @Transactional
     public Acessorio editarAcessorio(UUID id, Acessorio acessorioAtualizado) {
 
         validarAcessorio(acessorioAtualizado);
@@ -78,6 +83,7 @@ public class AcessorioService {
 
     }
 
+    @Transactional
     public void deletarAcessorio(UUID id) {
          try {
             Acessorio acessorio = buscarAcessorioPorId(id);
