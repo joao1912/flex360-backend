@@ -17,7 +17,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 public class CorsConfig {
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(CorsConfig.class);
-    private final Dotenv dotenv;
+    // private final Dotenv dotenv;
 
     @Value("${cors.allowed-methods:*}")
     private String allowedMethods;
@@ -28,9 +28,9 @@ public class CorsConfig {
     @Value("${cors.allow-credentials:true}")
     private boolean allowCredentials;
 
-    public CorsConfig(DotenvConfig dotenvConfig) {
-        this.dotenv = dotenvConfig.dotenv();
-    }
+    // public CorsConfig(DotenvConfig dotenvConfig) {
+    //     this.dotenv = dotenvConfig.dotenv();
+    // }
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -44,9 +44,10 @@ public class CorsConfig {
                 logger.info("Configuring CORS with allowed methods: {}", allowedMethods);
                 logger.info("Configuring CORS with allowed headers: {}", allowedHeaders);
                 logger.info("Allowing credentials: {}", allowCredentials);
+                // .allowedOriginPatterns(CorsConfiguration.ALL)
 
                 registry.addMapping("/**")
-                        .allowedOriginPatterns(CorsConfiguration.ALL)
+                        .allowedOriginPatterns("http://*.us-east-1.elb.amazonaws.com")
                         .allowedMethods(allowedMethods.split(","))
                         .allowedHeaders(allowedHeaders.split(","))
                         .allowCredentials(allowCredentials);
