@@ -1,5 +1,6 @@
 package com.flex360.api_flex360.models;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import jakarta.persistence.Column;
@@ -17,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Inheritance(strategy=InheritanceType.JOINED)
 @Data
 @NoArgsConstructor
-public class Produto {
+public class Produto implements Serializable{
     @Id
     @GeneratedValue(strategy=GenerationType.UUID)
     private UUID id;

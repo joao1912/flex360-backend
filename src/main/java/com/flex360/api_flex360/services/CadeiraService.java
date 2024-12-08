@@ -104,6 +104,7 @@ public class CadeiraService {
         return cadeiras;
     }
 
+    @Cacheable(value = "cadeirasCache", key = "'cadeiraNome'")
     public List<Cadeira> buscarCadeirasPorNome(String nome) {
         List<Cadeira> cadeiras = cadeiraRepository.findByNomeContainingIgnoreCase(nome);
         if (cadeiras.isEmpty()) {
@@ -113,6 +114,7 @@ public class CadeiraService {
         return cadeiras;
     }
 
+    @Cacheable(value = "cadeirasCache", key = "'cadeiraId'")
     public Cadeira buscarCadeiraPorId(UUID id) {
         return cadeiraRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cadeira com ID " + id + " não encontrada."));
@@ -146,24 +148,6 @@ public class CadeiraService {
         }
 
         for (Cor cor : cadeiraDTO.cores_disponiveis()) {
-
-            // Optional<Cor> corExiste = corRepository.findByName(cor.getName());
-
-            // if (corExiste.isPresent()){
-
-            // corModels.add(corExiste.get());
-
-            // }else{
-
-            // Cor novaCor = new Cor();
-            // novaCor.setName(cor.getName());
-            // novaCor.setCodigo(cor.getCodigo());
-            // novaCor.setFoto_cadeira(cor.getFoto_cadeira());
-
-            // Cor corCriada = corRepository.save(novaCor);
-            // corModels.add(corCriada);
-
-            // }
 
             Cor novaCor = new Cor();
             novaCor.setName(cor.getName());
