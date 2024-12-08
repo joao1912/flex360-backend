@@ -3,6 +3,7 @@ package com.flex360.api_flex360.services;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +37,7 @@ public class AcessorioService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "acessoriosCache", key = "'todosAcessorios'")
     public List<Acessorio> buscarTodosAcessorios() {
         List<Acessorio> acessorios = acessorioRepository.findAll();
         if (acessorios.isEmpty()) {
@@ -45,6 +47,7 @@ public class AcessorioService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "acessoriosCache", key = "'acessorioId'")
     public Acessorio buscarAcessorioPorId(UUID id) {
 
         return acessorioRepository.findById(id)

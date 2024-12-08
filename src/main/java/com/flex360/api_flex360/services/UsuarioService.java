@@ -3,6 +3,7 @@ package com.flex360.api_flex360.services;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -46,6 +47,7 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "usuariosCache", key = "'todosUsuarios'")
     public List<Usuario> buscarTodosUsuarios() {
         List<Usuario> usuarios = usuarioRepository.findAll();
         if (usuarios.isEmpty()) {
@@ -55,6 +57,7 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
+    @Cacheable(value = "usuariosCache", key = "'usuariosId'")
     public Usuario buscarUsuarioPorId(UUID id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID " + id));

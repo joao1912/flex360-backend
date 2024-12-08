@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -37,15 +38,15 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(@NonNull CorsRegistry registry) {
 
-                String allowedOrigins = dotenv.get("HTTP_ORIGIN", "http://tf-lb-*.elb.amazonaws.com");
+                // String allowedOrigins = dotenv.get("HTTP_ORIGIN", "http://tf-lb-*.elb.amazonaws.com");
 
-                logger.info("Configuring CORS with allowed origins: {}", allowedOrigins);
+                logger.info("Configuring CORS with allowed origins: {}", "ALL");
                 logger.info("Configuring CORS with allowed methods: {}", allowedMethods);
                 logger.info("Configuring CORS with allowed headers: {}", allowedHeaders);
                 logger.info("Allowing credentials: {}", allowCredentials);
 
                 registry.addMapping("/**")
-                        .allowedOriginPatterns(allowedOrigins)
+                        .allowedOriginPatterns(CorsConfiguration.ALL)
                         .allowedMethods(allowedMethods.split(","))
                         .allowedHeaders(allowedHeaders.split(","))
                         .allowCredentials(allowCredentials);
