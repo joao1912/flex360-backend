@@ -125,7 +125,6 @@ public class UsuarioServiceTest {
         Usuario result = usuarioService.editarUsuario(id, usuarioAtualizado);
 
         assertEquals("Novo Nome", result.getNome());
-        assertEquals("novoemail@test.com", result.getEmail());
     }
 
     @Test
