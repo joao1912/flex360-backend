@@ -3,7 +3,6 @@ package com.flex360.api_flex360.services;
 import java.util.List;
 import java.util.UUID;
 
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
+import com.flex360.api_flex360.dto.usuario.UsuarioDTO;
 import com.flex360.api_flex360.enums.UserRole;
 import com.flex360.api_flex360.models.Carrinho;
 import com.flex360.api_flex360.models.Usuario;
@@ -47,7 +47,6 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "usuariosCache", key = "'todosUsuarios'")
     public List<Usuario> buscarTodosUsuarios() {
         List<Usuario> usuarios = usuarioRepository.findAll();
         if (usuarios.isEmpty()) {
@@ -57,7 +56,6 @@ public class UsuarioService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "usuariosCache", key = "'usuariosId'")
     public Usuario buscarUsuarioPorId(UUID id) {
         return usuarioRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com ID " + id));
@@ -85,26 +83,15 @@ public class UsuarioService {
     }
 
     @Transactional
-    public Usuario editarUsuario(UUID id, Usuario usuarioAtualizado) {
+    public Usuario editarUsuario(UUID id, UsuarioDTO usuarioAtualizado) {
         Usuario usuarioExistente = buscarUsuarioPorId(id);
 
-        if (StringUtils.hasText(usuarioAtualizado.getNome())) {
-            usuarioExistente.setNome(usuarioAtualizado.getNome());
-        }
-        if (StringUtils.hasText(usuarioAtualizado.getEmail())) {
-            if (!usuarioExistente.getEmail().equals(usuarioAtualizado.getEmail()) &&
-                    usuarioRepository.findByEmail(usuarioAtualizado.getEmail()) != null) {
-                throw new ValidationException("E-mail já cadastrado.");
-            }
-
-            validarUsuario(usuarioAtualizado, false);
-
-            usuarioExistente.setEmail(usuarioAtualizado.getEmail());
-        }
-        if (StringUtils.hasText(usuarioAtualizado.getSenha())) {
-            usuarioExistente.setSenha(passwordEncoder.encode(usuarioAtualizado.getSenha()));
+        if (!StringUtils.hasText(usuarioAtualizado.nome()) || usuarioAtualizado.nome().length() > 20) {
+            throw new ValidationException("O nome é obrigatório e deve ter no máximo 20 caracteres.");
         }
 
+        usuarioExistente.setNome(usuarioAtualizado.nome());
+        
         try {
             return usuarioRepository.save(usuarioExistente);
         } catch (Exception e) {

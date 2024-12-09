@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.flex360.api_flex360.dto.usuario.ResponseUsuarioDTO;
+import com.flex360.api_flex360.dto.usuario.UsuarioDTO;
 import com.flex360.api_flex360.models.Usuario;
 import com.flex360.api_flex360.services.UsuarioService;
 
@@ -96,13 +98,9 @@ public class UsuarioController {
 
     )
     @PutMapping("/editar")
-    public ResponseEntity<ResponseUsuarioDTO> editarUsuario(@AuthenticationPrincipal Usuario usuario) {
+    public ResponseEntity<ResponseUsuarioDTO> editarUsuario(@AuthenticationPrincipal Usuario usuario, @RequestBody UsuarioDTO usuarioDTO) {
 
-        Usuario usuarioAtualizado = new Usuario();
-        usuarioAtualizado.setNome(usuario.getNome());
-        usuarioAtualizado.setEmail(usuario.getEmail());
-
-        Usuario usuarioEditado = usuarioService.editarUsuario(usuario.getId(), usuarioAtualizado);
+        Usuario usuarioEditado = usuarioService.editarUsuario(usuario.getId(), usuarioDTO);
 
         ResponseUsuarioDTO usuarioEditadoDTO = new ResponseUsuarioDTO(usuarioEditado.getId(), usuarioEditado.getNome(),
                 usuarioEditado.getEmail());
