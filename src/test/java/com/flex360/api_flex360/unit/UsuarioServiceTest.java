@@ -20,6 +20,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import com.flex360.api_flex360.dto.usuario.UsuarioDTO;
 import com.flex360.api_flex360.enums.UserRole;
 import com.flex360.api_flex360.models.Carrinho;
 import com.flex360.api_flex360.models.Usuario;
@@ -116,8 +117,7 @@ public class UsuarioServiceTest {
         UUID id = UUID.randomUUID();
 
         Usuario usuarioExistente = new Usuario("Nome", "Senha123@@ss", "email@test.com", UserRole.USER, new Carrinho());
-        Usuario usuarioAtualizado = new Usuario("Novo Nome", "Senha123@@ss", "novoemail@test.com", UserRole.USER,
-                new Carrinho());
+        UsuarioDTO usuarioAtualizado = new UsuarioDTO("Novo Nome", "", "");
 
         when(usuarioRepository.findById(id)).thenReturn(Optional.of(usuarioExistente));
         when(usuarioRepository.save(usuarioExistente)).thenReturn(usuarioExistente);
