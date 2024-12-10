@@ -114,7 +114,7 @@ public class CadeiraService {
         return cadeiras;
     }
 
-    @Cacheable(value = "cadeirasCache", key = "'cadeiraId'")
+    @Cacheable(value = "cadeirasCache", key = "#id")
     public Cadeira buscarCadeiraPorId(UUID id) {
         return cadeiraRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Cadeira com ID " + id + " não encontrada."));

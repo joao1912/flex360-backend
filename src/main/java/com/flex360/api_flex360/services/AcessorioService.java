@@ -47,7 +47,7 @@ public class AcessorioService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "acessoriosCache", key = "'acessorioId'")
+    @Cacheable(value = "acessoriosCache", key = "#id")
     public Acessorio buscarAcessorioPorId(UUID id) {
 
         return acessorioRepository.findById(id)
