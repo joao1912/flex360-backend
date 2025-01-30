@@ -46,8 +46,8 @@ public class CorsConfig {
                 logger.info("Allowing credentials: {}", allowCredentials);
 
                 registry.addMapping("/**")
-                        .allowedOriginPatterns(allowedOrigins)
-                        //.allowedOriginPatterns(CorsConfiguration.ALL)
+                        //.allowedOriginPatterns(allowedOrigins)
+                        .allowedOriginPatterns(CorsConfiguration.ALL)
                         .allowedMethods(allowedMethods.split(","))
                         .allowedHeaders(allowedHeaders.split(","))
                         .allowCredentials(allowCredentials);
